@@ -1,0 +1,109 @@
+Curses Library Functions ecurs_slk
+
+
+
+NAME
+     ecurs_slk - curses soft label routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int slk_init(int layout_fmt);
+
+     int slk_set(int labnum, const char *label, int label_fmt);
+
+     int slk_set_code(int labnum, const char *label,
+         int label_fmt, int code);
+
+     int slk_refresh(void);
+
+     int slk_noutrefresh(void);
+
+     char *slk_label(int labnum);
+
+     int slk_clear(void);
+
+     int slk_restore(void);
+
+     int slk_touch(void);
+
+     int slk_attron(attr_t attrs);
+
+     int slk_attroff(attr_t attrs);
+
+     int slk_attrset(attr_t attrs);
+
+     int slk_attrbkgd(attr_t attrs);
+
+DESCRIPTION
+     ecurses manipulates the set of soft function-key labels that
+     exist on many terminals. For those terminals that do not
+     have soft labels, ecurses takes over the bottom line of
+     stdscr, reducing the size of stdscr. ecurses can display
+     either 8, 12, or 16 labels. All label names can be up to
+     eight characters.
+
+     To use soft labels, the slk_init() routine must be called
+     before initscr() or newterm() is called. If initscr()
+     eventually uses lines from stdscr to emulate the soft
+     labels, then layout_fmt determines how the labels are
+     arranged on the screen, as follows:
+
+     SLK_LAYOUT_FMT_1_323    0   1-line : 3-2-3 pattern ( 8 keys)
+     SLK_LAYOUT_FMT_1_44     1   1-line : 4-4   pattern ( 8 keys)
+     SLK_LAYOUT_FMT_2_323    2   2-lines: 3-2-3 pattern (16 keys)
+     SLK_LAYOUT_FMT_2_44     3   2-lines: 4-4   pattern (16 keys)
+     SLK_LAYOUT_FMT_2_33     4   2-lines: 3-3   pattern (12 keys)
+     SLK_LAYOUT_FMT_2_222    5   2-lines: 2-2-2 pattern (12 keys)
+
+     With the slk_set() routine, labnum is the label number, from
+     1 to 8. label is the string to be put on the label, up to
+     eight characters in length. A null string or a null pointer
+     sets up a blank label. label_fmt is either 0, 1, or 2,
+     (SLK_LABEL_FMT_LEFT, SLK_LABEL_FMT_CENTER, or
+     SLK_LABEL_FMT_RIGHT) indicating whether the label is to be
+     left-justified, centered, or right-justified, respectively,
+     within the label. slk_set_code() does the same thing, but
+     also specifies a character-code for the label.
+
+     The slk_refresh() and slk_noutrefresh() routines correspond
+     to the wrefresh() and wnoutrefresh() routines.
+
+     With the slk_label() routine, the current label for label
+     number labnum is returned with leading and trailing blanks
+     stripped.
+
+     With the slk_clear() routine, the soft labels are cleared
+     from the screen.
+
+     With the slk_restore() routine, the soft labels are restored
+     to the screen after a slk_clear() is performed.
+
+     With the slk_touch() routine, all the soft labels are forced
+     to be output the next time a slk_noutrefresh() is performed.
+
+     The slk_attron(), slk_attrset(), and slk_attroff() routines
+     correspond to attron(), attrset(), and attroff(). They have
+     an effect only if soft labels are simulated on the bottom
+     line of the screen.
+
+     The slk_attrbkgd() routine sets the attributes for the
+     background between labels. This can be used in a color
+     environment to distinguish the labels from the background.
+
+RETURN VALUES
+     Routines that return an integer return ERR upon failure and
+     an integer value other than ERR upon successful completion.
+
+     slk_label() returns NULL on error.
+
+SEE ALSO
+     ecurs_attr, ecurs_initscr, ecurs_refresh, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+
+     Most applications would use slk_noutrefresh() because a
+     wrefresh() is likely to follow soon.
+

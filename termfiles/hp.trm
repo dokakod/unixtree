@@ -1,0 +1,40 @@
+# trm file for hp
+
+# termcap data
+
+cols		= 80
+lines		= 25
+auto-margin	= 1
+move-cursor-ti	= "\e&a%p1%dy%p2%dC"
+move-cursor-tc	= "\e&a%dy%dC"
+add-line	= "\eL"
+delete-line	= "\eM"
+delete-char	= "\eP"
+clear-screen	= "\e&a0y0C\eJ"
+clear-to-eol	= "\eK"
+clear-to-eos	= "\eJ"
+reverse-on	= "\e&dB"
+reverse-off	= "\e&d@"
+underline-on	= "\e&dD"
+underline-off	= "\e&d@"
+bold-off	= "\e&d@"
+blink-off	= "\e&d@"
+
+# key definitions
+
+f1		= "\ep"
+f2		= "\eq"
+f3		= "\er"
+f4		= "\es"
+f5		= "\et"
+f6		= "\eu"
+f7		= "\ev"
+f8		= "\ew"
+f9		= "\ex"
+f10		= "\ey"
+up		= "\eA"
+down		= "\eB"
+left		= "\eD"
+right		= "\eC"
+home		= "\eh"
+end		= "\e&s0A"

@@ -1,0 +1,83 @@
+Curses Library Functions ecurs_printer
+
+
+
+NAME
+     ecurs_printer - Output data to a printer
+
+SYNOPSIS
+     #include <curses.h>
+
+     PRINTER *win_prt_open(SCREEN *s, int mode,
+         const char *str, char *msgbuf);
+
+     int win_prt_close(SCREEN *s, PRINTER *p,
+         char *msgbuf);
+
+     int win_prt_output_str(SCREEN *s, PRINTER *p,
+         const char *str);
+
+     int win_prt_output_fmt(SCREEN *s, PRINTER *p,
+         const char *fmt, ...);
+
+     int win_prt_output_var(SCREEN *s, PRINTER *p,
+         const char *str, va_list args);
+
+     int print_win(WINDOW *win, PRINTER *p);
+
+DESCRIPTION
+     These routines enable a user to direct output to an
+     arbitrary printer. Threr are three different types of
+     printer output:
+
+         P_SPOOL     0   send output to the system print spooler
+         P_PIPE      1   send output to a piped command
+         P_FILE      2   send output to a file
+
+     win_prt_open() will open a "conection" to the specified
+     printer type, as follows:
+
+         P_SPOOL     str is printer name (NULL for default)
+         P_PIPE      str is the command to pipe to
+         P_FILE      str is the filename to write to
+
+     win_prt_open() returns a pointer to a PRINTER, which is used
+     in all the other calls.
+
+     win_prt_close() closes the PRINTER specified.
+
+     win_prt_output_str() will send a string to the specified
+     PRINTER.  win_prt_output_fmt() will send a formatted string
+     to the specified PRINTER.  win_prt_output_var() also sends a
+     formatted string, but with a variadic argument list.  It is
+     the user's responsibility to provide any needed newlines.
+
+     print_win() will print the contents of a window to the
+     printer. Only the character data is printed, attributes are
+     ignored.
+
+     If the value of the SCREEN (s) is NULL, the current screen
+     will be used.  The print_win() routine uses the SCREEN that
+     is associated with the window being printed.
+
+RETURN VALUES
+     The routines print_win(), win_prt_close(), and
+     win_prt_output_*() will return ERR if unsuccessful and OK
+     if successful.
+
+     win_prt_open() will return NULL if unsuccessful.
+
+     If the open or close call fails, a message describing the
+     failure will be put in msgbuf.  Sometimes the open will
+     succeed, even though the actual print failed, in which case
+     the close will generate the error.  You must check the
+     return codes from both the open and the close to detect any
+     errors.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

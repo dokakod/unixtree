@@ -1,0 +1,47 @@
+Curses Library Functions ecurs_signal
+
+
+
+NAME
+     ecurs_signal - Signal processing routines
+
+SYNOPSIS
+     #include <curses.h>
+     #include <signal.h>
+
+     void win_signal(int sig, WIN_SIG_RTN *rtn, void *data);
+
+     WIN_SIG_RTN *win_signal_rtn(int sig);
+
+     void *win_signal_data(int sig);
+
+DESCRIPTION
+     These routines are similar to the standard signal()
+     routines, except that the user can specify a pointer to
+     user data which is passed to the specified signal
+     routine.
+
+     win_signal() specifies a routine to be called and user
+     data to be passed to it for the given signal value.
+     If the routine specified is 0, then signal handling for
+     that signal is set to the system default.  If the
+     signal number is negative, then all signals are
+     restored to the system default.
+
+     win_signal_rtn() and win_signal_data() fetch values for
+     a given signal.
+
+RETURN VALUES
+     win_signal_rtn() returns a pointer to the signal-routine
+     specified for a given signal or 0 if none was specified.
+
+     win_signal_data() returns a pointer to the data specified
+     to be passed to the routine for a given signal.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,321 @@
+Curses Library Functions ecurs_getch
+
+
+
+NAME
+     ecurs_getch - get (or push back) characters from curses terminal
+     keyboard
+
+SYNOPSIS
+     #include <curses.h>
+
+     int getch(void);
+
+     int wgetch(WINDOW *win);
+
+     int mvgetch(int y, int x);
+
+     int mvwgetch(WINDOW *win, int y, int x);
+
+     int ungetch(int ch);
+
+     int wungetch(WINDOW *win, int ch);
+
+     int chkkbd(void);
+
+     int wchkkbd(WINDOW *win);
+
+DESCRIPTION
+     With the getch(), wgetch(), mvgetch(), and mvwgetch()
+     routines a character is read from the terminal associated
+     with the window. In no-delay mode, if no input is waiting,
+     the value ERR is returned. In delay mode, the program waits
+     until the system passes text through to the program.
+     Depending on the setting of cbreak(), this is after one
+     character (cbreak mode), or after the first newline
+     (nocbreak mode). In half-delay mode, the program waits until
+     a character is typed or the specified timeout has been
+     reached. Unless noecho() has been set, the character will
+     also be echoed into the designated window.
+
+     If the window is not a pad, and it has been moved or
+     modified since the last call to wrefresh(), wrefresh() will
+     be called before another character is read.
+
+     If keypad() is TRUE, and a function key is pressed, the
+     token for that function key is returned instead of the raw
+     characters. Possible function keys are defined in <curses.h>
+     with integers beginning with 0401, whose names begin with
+     KEY_. If a character that could be the beginning of a
+     function key (such as escape) is received, curses sets a
+     timer. If the remainder of the sequence does not come in
+     within the designated time, the character is passed through;
+     otherwise, the function key value is returned. For this
+     reason, many terminals experience a delay between the time a
+     user presses the escape key and the escape is returned to
+     the program.  Since tokens returned by these routines are
+     outside the ASCII range, they are not printable.
+
+     The ungetch() and wungetch() routines places ch back onto the
+     input queue to be returned by the next call to wgetch().
+
+     The chkkbd() and wchkkbd() routines will check if a key has
+     been pressed (subject to keypad()). If no key is currently
+     pending, they return ERR, otherwise they return the key.
+
+  Function Keys
+     The following function keys, defined by <curses.h>, might be
+     returned  by getch() if keypad() has been enabled. Note that
+     not all of these may be supported on a particular terminal
+     if the terminal does not transmit a unique code when the key
+     is pressed or if the definition for the key is not defined.
+
+         key-name               code
+         -----------            ------
+         KEY_INSERT             0x0100
+         KEY_END                0x0101
+         KEY_DOWN               0x0102
+         KEY_PGDN               0x0103
+         KEY_LEFT               0x0104
+         KEY_MIDDLE             0x0105
+         KEY_RIGHT              0x0106
+         KEY_HOME               0x0107
+         KEY_UP                 0x0108
+         KEY_PGUP               0x0109
+         KEY_USER1              0x010b
+         KEY_USER2              0x010c
+         KEY_USER3              0x010d
+         KEY_USER4              0x010e
+         KEY_USER5              0x010f
+
+         KEY_KP0                0x0110
+         KEY_KP1                0x0111
+         KEY_KP2                0x0112
+         KEY_KP3                0x0113
+         KEY_KP4                0x0114
+         KEY_KP5                0x0115
+         KEY_KP6                0x0116
+         KEY_KP7                0x0117
+         KEY_KP8                0x0118
+         KEY_KP9                0x0119
+         KEY_KPPERIOD           0x011a
+
+         KEY_F1                 0x0120
+         KEY_F2                 0x0121
+         KEY_F3                 0x0122
+         KEY_F4                 0x0123
+         KEY_F5                 0x0124
+         KEY_F6                 0x0125
+         KEY_F7                 0x0126
+         KEY_F8                 0x0127
+         KEY_F9                 0x0128
+         KEY_F10                0x0129
+         KEY_F11                0x012a
+         KEY_F12                0x012b
+         KEY_F13                0x012c
+         KEY_F14                0x012d
+         KEY_F15                0x012e
+         KEY_F16                0x012f
+
+         KEY_SHIFT_END          0x0201
+         KEY_SHIFT_DOWN         0x0202
+         KEY_SHIFT_PGDN         0x0203
+         KEY_SHIFT_LEFT         0x0204
+         KEY_SHIFT_MIDDLE       0x0205
+         KEY_SHIFT_RIGHT        0x0206
+         KEY_SHIFT_HOME         0x0207
+         KEY_SHIFT_UP           0x0208
+         KEY_SHIFT_PGUP         0x0209
+         KEY_SHIFT_USER1        0x020b
+         KEY_SHIFT_USER2        0x020c
+         KEY_SHIFT_USER3        0x020d
+         KEY_SHIFT_USER4        0x020e
+         KEY_SHIFT_USER5        0x020f
+
+         KEY_SHIFT_KP0          0x0210
+         KEY_SHIFT_KP1          0x0211
+         KEY_SHIFT_KP2          0x0212
+         KEY_SHIFT_KP3          0x0213
+         KEY_SHIFT_KP4          0x0214
+         KEY_SHIFT_KP5          0x0215
+         KEY_SHIFT_KP6          0x0216
+         KEY_SHIFT_KP7          0x0217
+         KEY_SHIFT_KP8          0x0218
+         KEY_SHIFT_KP9          0x0219
+         KEY_SHIFT_TAB          0x021b
+         KEY_SHIFT_BS           0x021c
+         KEY_SHIFT_RETURN       0x021d
+
+         KEY_SHIFT_F1           0x0220
+         KEY_SHIFT_F2           0x0221
+         KEY_SHIFT_F3           0x0222
+         KEY_SHIFT_F4           0x0223
+         KEY_SHIFT_F5           0x0224
+         KEY_SHIFT_F6           0x0225
+         KEY_SHIFT_F7           0x0226
+         KEY_SHIFT_F8           0x0227
+         KEY_SHIFT_F9           0x0228
+         KEY_SHIFT_F10          0x0229
+         KEY_SHIFT_F11          0x022a
+         KEY_SHIFT_F12          0x022b
+         KEY_SHIFT_F13          0x022c
+         KEY_SHIFT_F14          0x022d
+         KEY_SHIFT_F15          0x022e
+         KEY_SHIFT_F16          0x022f
+
+         KEY_CTRL_END           0x0401
+         KEY_CTRL_DOWN          0x0402
+         KEY_CTRL_PGDN          0x0403
+         KEY_CTRL_LEFT          0x0404
+         KEY_CTRL_MIDDLE        0x0405
+         KEY_CTRL_RIGHT         0x0406
+         KEY_CTRL_HOME          0x0407
+         KEY_CTRL_UP            0x0408
+         KEY_CTRL_PGUP          0x0409
+         KEY_CTRL_USER1         0x040b
+         KEY_CTRL_USER2         0x040c
+         KEY_CTRL_USER3         0x040d
+         KEY_CTRL_USER4         0x040e
+         KEY_CTRL_USER5         0x040f
+
+         KEY_CTRL_KP0           0x0410
+         KEY_CTRL_KP1           0x0411
+         KEY_CTRL_KP2           0x0412
+         KEY_CTRL_KP3           0x0413
+         KEY_CTRL_KP4           0x0414
+         KEY_CTRL_KP5           0x0415
+         KEY_CTRL_KP6           0x0416
+         KEY_CTRL_KP7           0x0417
+         KEY_CTRL_KP8           0x0418
+         KEY_CTRL_KP9           0x0419
+         KEY_CTRL_TAB           0x041b
+         KEY_CTRL_BS            0x041c
+         KEY_CTRL_RETURN        0x041d
+
+         KEY_CTRL_F1            0x0420
+         KEY_CTRL_F2            0x0421
+         KEY_CTRL_F3            0x0422
+         KEY_CTRL_F4            0x0423
+         KEY_CTRL_F5            0x0424
+         KEY_CTRL_F6            0x0425
+         KEY_CTRL_F7            0x0426
+         KEY_CTRL_F8            0x0427
+         KEY_CTRL_F9            0x0428
+         KEY_CTRL_F10           0x0429
+         KEY_CTRL_F11           0x042a
+         KEY_CTRL_F12           0x042b
+         KEY_CTRL_F13           0x042c
+         KEY_CTRL_F14           0x042d
+         KEY_CTRL_F15           0x042e
+         KEY_CTRL_F16           0x042f
+
+         KEY_ALT_END            0x0801
+         KEY_ALT_DOWN           0x0802
+         KEY_ALT_PGDN           0x0803
+         KEY_ALT_LEFT           0x0804
+         KEY_ALT_MIDDLE         0x0805
+         KEY_ALT_RIGHT          0x0806
+         KEY_ALT_HOME           0x0807
+         KEY_ALT_UP             0x0808
+         KEY_ALT_PGUP           0x0809
+         KEY_ALT_USER1          0x080b
+         KEY_ALT_USER2          0x080c
+         KEY_ALT_USER3          0x080d
+         KEY_ALT_USER4          0x080e
+         KEY_ALT_USER5          0x080f
+
+         KEY_ALT_KP0            0x0810
+         KEY_ALT_KP1            0x0811
+         KEY_ALT_KP2            0x0812
+         KEY_ALT_KP3            0x0813
+         KEY_ALT_KP4            0x0814
+         KEY_ALT_KP5            0x0815
+         KEY_ALT_KP6            0x0816
+         KEY_ALT_KP7            0x0817
+         KEY_ALT_KP8            0x0818
+         KEY_ALT_KP9            0x0819
+         KEY_ALT_TAB            0x081b
+         KEY_ALT_BS             0x081c
+         KEY_ALT_RETURN         0x081d
+
+         KEY_ALT_F1             0x0820
+         KEY_ALT_F2             0x0821
+         KEY_ALT_F3             0x0822
+         KEY_ALT_F4             0x0823
+         KEY_ALT_F5             0x0824
+         KEY_ALT_F6             0x0825
+         KEY_ALT_F7             0x0826
+         KEY_ALT_F8             0x0827
+         KEY_ALT_F9             0x0828
+         KEY_ALT_F10            0x0829
+         KEY_ALT_F11            0x082a
+         KEY_ALT_F12            0x082b
+         KEY_ALT_F13            0x082c
+         KEY_ALT_F14            0x082d
+         KEY_ALT_F15            0x082e
+         KEY_ALT_F16            0x082f
+
+         KEY_ALT_0              0x0830
+         KEY_ALT_1              0x0831
+         KEY_ALT_2              0x0832
+         KEY_ALT_3              0x0833
+         KEY_ALT_4              0x0834
+         KEY_ALT_5              0x0835
+         KEY_ALT_6              0x0836
+         KEY_ALT_7              0x0837
+         KEY_ALT_8              0x0838
+         KEY_ALT_9              0x0839
+
+         KEY_ALT_A              0x0841
+         KEY_ALT_B              0x0842
+         KEY_ALT_C              0x0843
+         KEY_ALT_D              0x0844
+         KEY_ALT_E              0x0845
+         KEY_ALT_F              0x0846
+         KEY_ALT_G              0x0847
+         KEY_ALT_H              0x0848
+         KEY_ALT_I              0x0849
+         KEY_ALT_J              0x084a
+         KEY_ALT_K              0x084b
+         KEY_ALT_L              0x084c
+         KEY_ALT_M              0x084d
+         KEY_ALT_N              0x084e
+         KEY_ALT_O              0x084f
+         KEY_ALT_P              0x0850
+         KEY_ALT_Q              0x0851
+         KEY_ALT_R              0x0852
+         KEY_ALT_S              0x0853
+         KEY_ALT_T              0x0854
+         KEY_ALT_U              0x0855
+         KEY_ALT_V              0x0856
+         KEY_ALT_W              0x0857
+         KEY_ALT_X              0x0858
+         KEY_ALT_Y              0x0859
+         KEY_ALT_Z              0x085a
+
+         KEY_HELP               0x101e
+         KEY_MOUSE              0x101f
+
+RETURN VALUES
+     All routines return the integer ERR upon failure. The
+     ungetch() routine returns an integer value other than ERR
+     upon successful completion. The other routines return the
+     next input character or function key code upon successful
+     completion.
+
+SEE ALSO
+     ecurs_inopts, ecurs_move, ecurs_refresh, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+
+     Use of the escape key for a single character function is
+     discouraged.
+
+     When using getch(), wgetch(), mvgetch(), or mvwgetch(),
+     nocbreak mode (nocbreak()) and echo mode (echo()) should not
+     be used at the same time. Depending on the state of the tty
+     driver when each character is typed, the program may produce
+     undesirable results.
+

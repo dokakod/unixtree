@@ -1,0 +1,21 @@
+Installation notes for ${PKG}
+
+--------------------------------------------------------------------------
+The Windows package is distributed as a "zip" file.  To use, just
+pick a directory (or create one) and "unzip" the contents of the
+file into it, using any of the available zip programs.
+
+The program may be launched by "clicking" on its icon, but you will
+not be able to pass any command-line arguments to it (such as the
+directory you wish to log). The default directory to log is the
+directory specified by the environment variable %HOME%, or C:\
+if %HOME% is not present.
+
+Note that the ${PKG} program is still "under construction", and not
+all the Unix-type mechanisms map properly.  In particular, the "print"
+mechanism only works in "print-to-file" mode.
+
+--------------------------------------------------------------------------
+Email comments to: ${EMA}
+${PKG} home: ${WWW}
+${SLG}

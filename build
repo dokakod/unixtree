@@ -1,0 +1,1064 @@
+# ------------------------------------------------------------------------
+#	Script to setup the environment for a build.
+#
+#	This script MUST be SOURCED (not run) prior to doing a build.
+#
+#	usage:	. build [-r|-d|-p] [-q] <platform>
+#
+#	where:
+#			-r			specify "release" mode
+#			-d			specify "debug"   mode
+#			-p			specify "profile" mode
+#			-q			quiet (no output) (except for errors)
+#			platform	platform to build for
+#
+#	If no options and platform are specified, they will be loaded from
+#	"build.opt" if present.  Otherwise, the script "guess" will be run
+#	to try to determine the platform.  See "bin/guess.sh" for details.
+#
+#	This script will save the current options in "build.opt" if they changed.
+#
+# ------------------------------------------------------------------------
+#
+#	ENVIRONMENT VARIABLES (set by "build")
+#
+#	This script sets the following environment variables:
+#
+#		PLATFORM		Set to <platform> from the cmd line.
+#
+#		OS_TYPE			O/S type ("UNIX" or "WINDOWS").
+#
+#		SRC_DIR			Name of top-level of source tree.	(`pwd`)
+#						Note that in Windows, this will always contain
+#						the drive letter as well as the directory.
+#
+#		BIN_DIR			Name of bin directory.				($SRC_DIR/bin)
+#		LIB_DIR			Directory where libraries are put.	($SRC_DIR/lib)
+#
+#		LIB_TGT			Library directory.  This is the same as $LIB_DIR,
+#						but with any drive letter removed, so it can be
+#						used as a target in makefiles.
+#
+#						This is only needed in Windows, since in Windows a
+#						target cannot have a drive letter unless it is quoted,
+#						which breaks Unix makes, and library references
+#						in link cmds must have a drive letter or it is
+#						interpreted as an option (since we use "/"
+#						instead of "\").
+#
+#						Interestingly, GNU make deals just fine with drive
+#						letters in a target.
+#
+#		DST_DIR			Deliver directory.
+#						This directory is for delivered "program" files.
+#						This variable is not changed if already set.
+#						Default is "$SRC_DIR/dist".
+#
+#		UTL_DIR			Utilities directory.
+#						This directory is for delivered "utility" programs.
+#						This variable is not changed if already set.
+#						Default is "$SRC_DIR/util".
+#
+#		WIN_DIR			Windows directory.
+#						This directory is for delivered "ecurses" files.
+#						This variable is not changed if already set.
+#						Default is "$SRC_DIR/ecur".
+#
+#		INS_DIR			Directory to install into.
+#						This variable is not changed if already set.
+#						Default is:
+#							Unix	"/usr/local/$PROGRAM"
+#							Windows	"$SystemDrive/Program Files/$PACKAGE"
+#
+#		SKU_DIR			SKU deliver directory.
+#						This variable is not changed if already set.
+#						Default is "$HOME/sku".
+#
+#		DELIVER			Cmd to deliver files			("deliver.sh")
+#		INSTALL			Cmd to install files			("$DELIVER -i")
+#		HDRCOMP			Cmd to compare header files		("hdrcomp.sh")
+#		LISTSRC			Cmd to list source files		("listsrc.sh")
+#		MAKELIB			Cmd to create libraries			("makelib.sh")
+#		MAKESKU			Cmd to create SKU packages		("makesku.sh")
+#		TEXTSUB			Cmd to do text substitutions	("textsub.sh")
+#		XRFLIST			Cmd to create xref lists		("xrflist.sh")
+#
+#		OBJ_EXT			Object  file extension ("o" or "obj").
+#		LIB_EXT			Library file extension ("a" or "lib").
+#		EXE_EXT			Executable   extension ("" or ".exe").
+#
+#		OS_CLEAN		Platform-specific created files to be cleaned
+#						which are not specifically named in makefiles.
+#
+#		DEV_NULL		Name of bit-bucket ("/dev/null" or "NUL:").
+#
+#		CDEFS			Platform-specific compile flags.
+#						Note that the "env" file may set this and "build"
+#						adds any necessary debug/optimize flags.
+#
+#		LDDEFS			Platform-specific link flags.
+#						Note that the "env" file may set this and "build"
+#						adds any necessary debug/optimize flags.
+#
+#		MAKEFLAGS		Make flags to enforce environment-var overrides.
+#						This variable is not changed if already set.
+#
+#		PATH			Set to ".:$BIN_DIR:$PATH".
+#
+#		MANPATH			Set to "$SRC_DIR/libecurses:$MANPATH".
+#						This provides man pages for the extended-curses
+#						library as a convienence to the programmer.
+#
+#	Additional variables may be set by "env/$PLATFORM.env" as described below.
+#
+# ------------------------------------------------------------------------
+#
+#	ENVIRONMENT VARIABLES (set by $PLATFORM.env file)
+#
+#	This script "sources" the file "env/$PLATFORM.env" which sets all the
+#	other environment variables needed for building and packaging on
+#	a particular platform.
+#
+#		ARCH		Machine architecture type.  This value is
+#					used in producing O/S-specific install packages
+#					(such as pkgadd & rpm).
+#
+#					Currently used names are:
+#
+#						name		platform
+#						------		-----------------
+#						alpha		Digital alpha
+#						i386		Intel x86
+#						mips		SGI MIPS
+#						m88k		Motorola 88k
+#						parisc		HP PA/risc
+#						rs6000		IBM RS6000/PowerPC
+#						ppc			PowerPC
+#						sparc		Sun sparc
+#
+#					Currently, this variable is not used if no O/S-specific
+#					install package is created.  If it is not specified,
+#					it will be set to the output of "uname -p".
+#
+#					This entry is referenced in package/*/makefile.
+#
+#		SKU			The name the SKU is packaged with.
+#					All SKUs are named <name>-$SKU.<ext>
+#					The standard we use is "<architecture-name>-<OS-name>",
+#					for example, "x86-linux" for Linux on Intel boxes.
+#
+#					If this value is not specified, it will be set to
+#					"$ARCH-$PLATFORM".
+#
+#					This entry is referenced in package/makefile,
+#					package/*/makefile, & libecurses/makefile.
+#
+#		FS_TYPE		File-system type.
+#
+#					Valid entries (currently) are:
+#
+#						fs-type		O/S
+#						-------		------------------------
+#						aix			AIX
+#						bsd			FreeBSD, OpenBSD, SunOS, & OS/X
+#						cygwin		Windows (using cygwin-gcc)
+#						dg			DG/ux
+#						hp			HP/ux
+#						linux		Linux
+#						netbsd		NetBSD
+#						osf			OSF
+#						posix		POSIX (currently a no-op)
+#						sgi			IRIX
+#						svr3		generic SVR3
+#						svr4		generic SVR4
+#						win			Windows
+#
+#					A new file-system type may be added by adding a new
+#					source file "libos/osmnt-$FS_TYPE.c".
+#
+#					If you have no idea how to deal with the mount table
+#					and/or how to get free-space info for a file-system,
+#					then set your "FS_TYPE" to "posix".
+#					This will result in not being able to read the list
+#					of "mounted" file-systems or being able to query the
+#					amount of free-space in a file-system, but at least
+#					you will be able to build & run the program.
+#
+#					If this value is not specified, it will be set to "posix".
+#
+#					This entry is referenced in libos/makefile to specify
+#					the appropriate osmnt-*.c file to compile.
+#
+# ------------------------------------------------------------------------
+#
+#	ENVIRONMENT VARIABLES (optional)
+#
+#	The following variables are optional:
+#
+#		OS_LIBS		Additional libraries needed for general linking.
+#
+#		NET_LIBS	Additional libraries needed for networking.
+#
+#		X11_LIBS	Libraries needed to link X11 programs.
+#					Default is "-lX11"
+#
+#		CDEFS		Additional flags to be passed to the C compiler.
+#
+#		LDEFS		Additional flags to be passed to lint.
+#
+#		LDDEFS		Additional flags to be passed to the linker.
+#
+#		COPTS		Additional flags be passed to the C compiler.
+#					This is the same as CDEFS, but is intended to be used
+#					on the make cmd line.
+#
+#		LOPTS		Additional flags be passed to lint.
+#					This is the same as LDEFS, but is intended to be used
+#					on the make cmd line.
+#
+#		LDOPTS		Additional flags be passed to the linker.
+#					This is the same as LDDEFS, but is intended to be used
+#					on the make cmd line.
+#
+#		OPTS		Additional flags to be passed to both the C compiler
+#					and the linker.  It is intended to be used on the
+#					make cmd line.
+#
+#		SYS_OPTS	Additional defines/options to be passed to the C
+#					compiler for compiling basic system source files.
+#					(libsys/*.c)
+#					Used in "libsys/makefile".
+#
+#		OS_OPTS		Additional defines/options to be passed to the C
+#					compiler for compiling system-dependent source files.
+#					(libos/*.c)
+#					Used in "libos/makefile".
+#
+#		NET_OPTS	Additional defines/options to be passed to the C
+#					compiler for compiling networking source files.
+#					(libftp/*.c)
+#					Used in "libftp/makefile" & "libxvt/makefile".
+#
+#		TERM_OPTS	Additional defines/options to be passed to the C
+#					compiler for compiling the termio-dependent source files.
+#					(libterm/*.c)
+#					Used in "libterm/makefile".
+#
+#		XVT_OPTS	Compile options for X11 interface.
+#					Used in "libxvt/makefile".
+#
+#		X11_INCS	Includes for any X11 headers (with -I).
+#					Used in "libxvt/makefile".
+#
+#		ARFLAGS		Option flags passed to "ar" for creating the libraries.
+#					Default is "rc", which will create/replace entries quietly.
+#					Used in "bin/makelib.sh".
+#
+#		RANLIB		ranlib command if needed (currently only by SunOS & OS/X).
+#					Used in "bin/makelib.sh".
+#
+#		CC			The name of the C compiler.
+#					Default is "cc" in Unix and "cl" in Windows.
+#
+#					Note that $CC is also used to link the programs.
+#					Note that the C compiler used MUST be an ANSI-compliant
+#					compiler.
+#
+#		LINT		The name of the lint program for "linting" source files.
+#					This is used to do a very anal check of the source code.
+#					It is not needed for normal builds.
+#					Default is "lint".
+#
+#		MAKEFLAGS	Option flags to set for make.  The default is
+#					"" for non-GNU makes and "--no-print-directory"
+#					for GNU make.  The type of make being used is
+#					determined by running the cmd "make --version"
+#					(which succeeds for GNU make & fails for others).
+#
+#		PKZIP_PROG
+#		PKZIP_OPTS	The name of the program used in Windows to package
+#					up SKUs and the options for adding files.
+#					It will be invoked with the cmd:
+#						"$PKZIP_PROG $PKZIP_OPTS <package>-$SKU.zip *"
+#					(from within the directory being packaged up).
+#					If not defined, the Windows SKUs will not be created.
+#					Used in "bin/makesku.sh".
+#
+#		DEVTBL		The name of the device-table file to deliver.
+#					This file is found as "support/$DEVTBL.dev".
+#					If not specified, $PLATFORM is assumed.
+#					Used in "support/makefile".
+#
+#		INSTPKG		Name of special SKU package to be built.
+#					Used in "package/makefile".
+#					Currently, the only special packages supported are:
+#
+#						rpm		for Linux
+#						pkgadd	for SVR4
+#
+# ------------------------------------------------------------------------
+#
+#	PROGRAM VARIABLES (Set by "pgminfo")
+#
+#	The "build" script sources the file "pgminfo", which contains all
+#	program information strings.  See "pgminfo" for details.
+#
+# ------------------------------------------------------------------------
+#
+#	BUILD VARIABLES (Set by "bldinfo")
+#
+#	The "build" script sources the file "pgminfo", which contains all
+#	build information strings.  See "bldinfo" for details.
+#
+#	In particular, there are two entries in "bldinfo" which should be
+#	set by the person doing the build, so we can identify builds.
+#	These entries are:
+#
+#		BUILDER_NAM				Name of the person doing the build
+#		BUILDER_EMA				Email address of that person
+#
+#	If not set, they will default to the following:
+#
+#		BUILDER_NAM				"gcos" (real-name) field from passwd
+#								entry for $LOGNAME
+#
+#		BUILDER_EMA				$LOGNAME@`domainname`
+#
+#	This information is displayed via the "-ZV" cmd-line option.
+#
+# ------------------------------------------------------------------------
+#
+#	SUMMARY NOTES
+#
+#	1.	Be sure that you "source" this script (". build <platform>")
+#		rather than just running it, since it must set variables in
+#		the current shell.  (You should get a warning message if this
+#		script is "run" instead of "sourced".)
+#
+#	2.	This script will "source" the script "env/$PLATFORM.env"
+#		to setup platform-specific env variables.
+#
+#		It also "sources" the script "pgminfo", which contains all
+#		program-specific variables, & the script "bldinfo", which
+#		contains all build-specific variables.
+#
+#	3.	This script adds the directories "." and "$BIN_DIR" to the
+#		front of the PATH.
+#
+#	4.	All "delivered" files go into the directory $DST_DIR, which by
+#		default is "$SRC_DIR/dist".  If this variable is set prior to
+#		sourcing this script, that value will be used instead.
+#
+#		Utility programs are delivered to $UTL_DIR, which by default
+#		is "$SRC_DIR/util".
+#
+#		The libecurses package is delivered to $WIN_DIR, which by default
+#		is "$SRC_DIR/ecur".
+#
+#	5.	All "SKU packages" are placed in the directory $SKU_DIR, which
+#		by default is "$HOME/sku".  This allows for multiple build directories
+#		to share a common SKU directory.  If this variable is set prior to
+#		sourcing this script, that value will be used instead.
+#
+# ------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------
+# display usage msg
+#
+usage ()
+{
+	echo "usage: . build [-r|-d|-p] [-q] <platform>"
+	echo "options:"
+	echo "  -r        Specify \"release\" mode"
+	echo "  -d        Specify \"debug\"   mode"
+	echo "  -p        Specify \"profile\" mode"
+	echo "  -q        Quiet (no output)"
+	echo "<platform>  Platform to build for"
+
+	if [ "$1" = "-p" ]
+	then
+		echo ""
+		list_platforms
+	fi
+}
+
+# ------------------------------------------------------------------------
+# list valid platforms
+#
+list_platforms ()
+{
+	echo "Valid platforms are:"
+	for i in `cd env; ls *.env`
+	do
+		platform=`basename $i .env`
+		description=`grep -i 'platform:' env/$i | sed -e 's/.*:[ 	]*//'`
+		platform=`echo "$platform                 " | cut -c1-16`
+		echo "  $platform $description"
+	done
+
+	unset i
+}
+
+# ------------------------------------------------------------------------
+# list valid file-system types
+#
+list_fstypes ()
+{
+	echo "Valid file-system types are:"
+	for i in `cd libos; ls osmnt-*.c`
+	do
+		f=`basename $i .c`
+		fstype=`echo $f | sed -e 's/osmnt-//'`
+		description=`grep -i 'platform:' libos/$i | sed -e 's/.*:[ 	]*//'`
+		fstype=`echo "$fstype                 " | cut -c1-16`
+		echo "  $fstype $description"
+	done
+
+	unset i
+}
+
+#------------------------------------------------------------------------
+# Fix PATH env variable (Windows only)
+#
+# Under Windows, the $PATH is initially set with all backslashes, but MKS
+# is kind enough to double them for us so they work properly upon entry.
+# However, we do a fair amount of editing on this $PATH via echo and
+# sed, and this breaks things badly.
+#
+# We see this if the path upon entry is \\bin, because the double \\ is
+# converted to a single one by echo, and the next one converts \b to a
+# backspace -- this is not at all helpful.
+#
+# So, if there is any kind of backslash in the path we convert any number
+# of them to a single forward slash. Note that we do not do an echo on
+# the initial path -- we instead use "set" which won't do any backslash
+# expansion of any kind. We just pick out the one line that starts with
+# "PATH="
+#
+# NOTE: This will break Windows network paths such as \\MACHINE\SHARE\dir.
+# We probably don't care about this.
+#
+fix_win_path ()
+{
+	case "$PATH" in
+	*\\*)
+		# ----------------------------------------------------------------
+		# Because of the multiple levels of execution and such, we
+		# have to include *eight* backslashes when we really intend
+		# to obtain just two. Amazing.
+		#
+		# ===NOTE: The SCO 3.2v4.2 version of sed doesn't permit
+		# comments, so we may have to remove them. Bummer.
+		# But since this function is only used in Windows, it
+		# probably is not an issue.
+		#
+		NEWPATH="`set | sed -n -e '		#
+					/^PATH=/{			# only on PATH lines
+					s/^PATH=//;			# no PATH= part
+					s/\"//g;			# drop quotes
+					s/\\\\\\\\*/\//gp;	# \ -> /
+					q;					# done!
+				}'`"
+
+		echo "$NEWPATH"
+		unset NEWPATH
+		;;
+
+	*)
+		echo "$PATH"
+		;;
+	esac
+}
+
+# ------------------------------------------------------------------------
+# validate platform
+#
+validate_platform ()
+{
+	# --------------------------------------------------------------------
+	# PLATFORM is valid if file "env/$PLATFORM.env" exists.
+	#
+	[ -f env/$PLATFORM.env ] && return 0
+
+	# --------------------------------------------------------------------
+	# platform not found: complain & list available platforms
+	#
+	{
+		echo "No env file found for platform \"$PLATFORM\"."
+		list_platforms
+	} >&2
+
+	return 1
+}
+
+# ------------------------------------------------------------------------
+# validate file-system type
+#
+validate_fstype ()
+{
+	# --------------------------------------------------------------------
+	# FS_TYPE is valid if the file "libos/osmnt-$FS_TYPE.c" exists.
+	#
+	[ -f libos/osmnt-$FS_TYPE.c ] && return 0
+
+	# --------------------------------------------------------------------
+	# FS_TYPE not found: complain & list fs-types
+	#
+	{
+		echo "*** Invalid file-system type \"$FS_TYPE\"."
+		list_fstypes
+	} >&2
+
+	return 1
+}
+
+# ------------------------------------------------------------------------
+# get domain-name
+#
+get_domain_name ()
+{
+	name=`domainname 2>$DEV_NULL`
+	[ "$name" = "" ] &&
+		name=`egrep '^(domain|search)' /etc/resolv.conf 2>$DEV_NULL |
+			head -1 | sed -e 's/.*[ 	]//'`
+	[ "$name" = "" ] && name="noname.foo"
+
+	echo "$name"
+}
+
+# ------------------------------------------------------------------------
+# get full name for user
+#
+get_user_name ()
+{
+	full_name=`grep "^$LOGNAME:" /etc/passwd 2>$DEV_NULL | cut -d: -f5`
+	[ "$full_name" = "" ] && full_name="$LOGNAME"
+	echo "$full_name"
+
+	unset full_name
+}
+
+# ------------------------------------------------------------------------
+# get mail address for user
+#
+get_user_email ()
+{
+	email="$LOGNAME@`get_domain_name`"
+	echo "$email"
+
+	unset email
+}
+
+# ------------------------------------------------------------------------
+# determine if in Windows
+#
+in_windows ()
+{
+	[ "$PROCESSOR_REVISION" != "" -o -d "c:/" ]
+}
+
+# ========================================================================
+# start of actual build script
+# ========================================================================
+
+# ------------------------------------------------------------------------
+# get old options if any exist
+#
+old_opts=""
+[ -f build.opt ] && old_opts=`cat build.opt`
+
+# ------------------------------------------------------------------------
+# if no options are specified on cmd line & old options exist, use them
+#
+[ "$1" = "" -a "$old_opts" != "" ] && set -- $old_opts
+
+# ------------------------------------------------------------------------
+# collect options
+#
+MODE=none
+OPTS=
+QUIET=no
+
+while [ "$1" != "" ]
+do
+	case "$1" in
+	-r | -f)			# release mode
+		MODE=release
+		OPTS="-r"
+		shift
+		;;
+
+	-d)					# debug mode
+		MODE=debug
+		OPTS="-d"
+		shift
+		;;
+
+	-p)					# profile mode
+		MODE=profile
+		OPTS="-p"
+		shift
+		;;
+
+	-q)					# quiet mode
+		QUIET=yes
+		shift
+		;;
+
+	'-?' | -help)		# help
+		usage -p
+		return 0
+		;;
+
+	--)					# end of options
+		shift
+		break
+		;;
+
+	-*)					# invalid option
+		echo "Invalid option \"$1\"." >&2
+		usage >&2
+		return 1
+		;;
+
+	*)					# start of actual arguments
+		break
+		;;
+
+	esac
+done
+
+# ------------------------------------------------------------------------
+# get platform name
+#
+if [ "$1" = "" ]
+then
+	fields=`./bin/guess.sh -e` ||
+	{
+		echo "No platform specified & cannot determine one. Bailing." >&2
+		return 1
+	}
+
+	eval "$fields"
+	PLATFORM="$plat_name"
+
+	echo "*** Guessing platform as \"$plat_name\" [$plat_desc]"
+else
+	PLATFORM=$1
+	shift
+fi
+
+# ------------------------------------------------------------------------
+# check if anything left on the cmd-line
+#
+if [ "$1" != "" ]
+then
+	{
+		echo "Extra args encountered. Bailing."
+		usage
+	} >&2
+	return 1
+fi
+
+# ------------------------------------------------------------------------
+# validate platform name
+#
+validate_platform || return 1
+export PLATFORM
+
+# ------------------------------------------------------------------------
+# If "build.opt" exists, check if options have changed.
+#
+# This is important in Windows, since you can't mix debug & release code
+# (the libraries are different & you will get conflicting external refs).
+#
+# Note that we only issue a warning message, since you may know what you
+# are doing.
+#
+if [ "$OPTS" = "" ]
+then
+	new_opts="$PLATFORM"
+else
+	new_opts="$OPTS $PLATFORM"
+fi
+
+if [ "$old_opts" != "" ]
+then
+	if [ "$new_opts" != "$old_opts" ]
+	then
+		{
+			echo "*** WARNING: build options not same as last time!"
+			echo "    Last time: \"$old_opts\""
+			echo "    This time: \"$new_opts\""
+		} >&2
+	fi
+fi
+
+# ------------------------------------------------------------------------
+# save options in build.opt if they changed
+#
+[ "$new_opts" != "$old_opts" ] && echo "$new_opts" >build.opt
+
+# ------------------------------------------------------------------------
+# set auto-export on
+#
+oflags=$-			# save old shell flags
+set -a				# set auto-export flag
+
+# ------------------------------------------------------------------------
+# determine if we are in Unix or Windows
+#
+if [ "$PLATFORM" = "cygwin-gcc" ]
+then
+	OS_TYPE=UNIX
+	PATH_SEP_CHAR=":"
+
+elif [ "$PLATFORM" = "cygwin" ]
+then
+	OS_TYPE=WINDOWS
+	PATH_SEP_CHAR=":"
+
+elif in_windows
+then
+	OS_TYPE=WINDOWS
+	PATH_SEP_CHAR=";"
+	PATH=`fix_win_path`
+
+else
+	OS_TYPE=UNIX
+	PATH_SEP_CHAR=":"
+fi
+
+# ------------------------------------------------------------------------
+# setup directory names
+#
+SRC_DIR=`pwd`
+BIN_DIR=$SRC_DIR/bin
+LIB_DIR=$SRC_DIR/lib
+
+# ------------------------------------------------------------------------
+# get name of lib dir without any drive letter (for use in make targets)
+#
+# Note that this is a no-op in Unix.
+#
+LIB_TGT=`echo $LIB_DIR | sed -e 's,.*:,,'`
+
+# ------------------------------------------------------------------------
+# get delivery directories
+#
+# If these were set prior to here, we will just use whatever value was set.
+#
+[ "$DST_DIR" = "" ] && DST_DIR=$SRC_DIR/dist	export DST_DIR
+[ "$UTL_DIR" = "" ] && UTL_DIR=$SRC_DIR/util	export UTL_DIR
+[ "$WIN_DIR" = "" ] && WIN_DIR=$SRC_DIR/ecur	export WIN_DIR
+
+# ------------------------------------------------------------------------
+# get SKU package directory
+#
+# If this was set prior to here, we will just use whatever value was set.
+#
+# The extra "sed" cmd here is to eliminate multiple slashes in Windows
+# when your $HOME is something like "c:/" (the MKS default).
+# (In Windows, a "//" is treated as a network path in a UNC name.)
+#
+[ "$SKU_DIR" = "" ] && SKU_DIR=`echo $HOME/sku | sed -e 's,//,/,'`
+export SKU_DIR
+
+# ------------------------------------------------------------------------
+# helper scripts used in makefiles
+#
+if [ "$OS_TYPE" = "WINDOWS" ]
+then
+	DELIVER="sh deliver.sh"
+	INSTALL="$DELIVER -i"
+	HDRCOMP="sh hdrcomp.sh"
+	LISTSRC="sh listsrc.sh"
+	MAKELIB="sh makelib.sh"
+	MAKESKU="sh makesku.sh"
+	TEXTSUB="sh textsub.sh"
+	XRFLIST="sh xrflist.sh"
+else
+	DELIVER="deliver.sh"
+	INSTALL="$DELIVER -i"
+	HDRCOMP="hdrcomp.sh"
+	LISTSRC="listsrc.sh"
+	MAKELIB="makelib.sh"
+	MAKESKU="makesku.sh"
+	TEXTSUB="textsub.sh"
+	XRFLIST="xrflist.sh"
+fi
+
+# ------------------------------------------------------------------------
+# setup MANPATH for accessing the extended curses man pages (UNIX only)
+#
+# This is strictly for the programmer's convience.
+#
+[ "$OS_TYPE" = "UNIX" ] && MANPATH="$SRC_DIR/libecurses:$MANPATH"
+
+# ------------------------------------------------------------------------
+# Look for a build.pre file & source it if found
+#
+[ -r ./build.pre ] && . ./build.pre
+
+# ------------------------------------------------------------------------
+# Source the appropriate env file (we know we have one at this point).
+#
+. env/$PLATFORM.env
+
+# ------------------------------------------------------------------------
+# Turn off X11 processing if requested
+#
+if [ "$USE_X11" = "no" ]
+then
+	X11_INCS=
+	X11_LIBS=
+	LIBXVT=libxvt-dummy
+	XPMDIR=
+else
+	[ "$X11_LIBS" = "" ] && X11_LIBS=-lX11
+	LIBXVT=libxvt
+	XPMDIR=libxpm
+fi
+
+# ------------------------------------------------------------------------
+# set defaults for required variables that weren't specified
+#
+[ "$ARCH"    = "" ] && ARCH=`uname -p`
+[ "$SKU"     = "" ] && SKU="$ARCH-$PLATFORM"
+[ "$FS_TYPE" = "" ] && FS_TYPE=posix
+[ "$DEVTBL"  = "" ] && DEVTBL=$PLATFORM
+
+# ------------------------------------------------------------------------
+# validate those entries which we can verify
+#
+validate_fstype ||
+{
+	echo "*** Using \"posix\" for file-system type."
+	FS_TYPE=posix
+}
+
+# ------------------------------------------------------------------------
+# prepend the CWD & our bin directory to the path
+#
+# Note that quotes are needed here, since in Windows the path separation
+# character is a ";", which is significant to the shell and there may
+# be directories with spaces in their names.
+#
+PATH=".${PATH_SEP_CHAR}$BIN_DIR${PATH_SEP_CHAR}$PATH"
+
+# ------------------------------------------------------------------------
+# setup build environment
+#
+case "$OS_TYPE" in
+
+UNIX)
+	# --------------------------------------------------------------------
+	# UNIX setup
+	#
+	OBJ_EXT=o		# object     file extension
+	LIB_EXT=a		# library    file extension
+	EXE_EXT=		# executable file extension (none)
+
+	# --------------------------------------------------------------------
+	# special case of cygwin-gcc
+	#
+	if [ "$PLATFORM" = "cygwin-gcc" ]
+	then
+		LIB_EXT=lib			# library    file extension
+		EXE_EXT=.exe		# executable file extension
+	fi
+
+	# --------------------------------------------------------------------
+	# Additional files to clean
+	#
+	OS_CLEAN="core core.*"
+
+	# --------------------------------------------------------------------
+	# Bit-bucket name
+	#
+	DEV_NULL=/dev/null
+
+	# --------------------------------------------------------------------
+	# Add debug/optimize/profile flags if needed
+	#
+	#	-O		Default optimization
+	#	-g		Add debugging information
+	#	-p		Add profiling information & calls
+	#
+	case "$MODE" in
+	release)
+			CDEFS="$CDEFS -O"
+			LDDEFS="$LDDEFS"
+			;;
+
+	debug)
+			CDEFS="$CDEFS -g"
+			LDDEFS="$LDDEFS -g"
+			;;
+
+	profile)
+			CDEFS="$CDEFS -p"
+			LDDEFS="$LDDEFS -p"
+			;;
+	esac
+	;;
+
+WINDOWS)
+	# --------------------------------------------------------------------
+	# NT setup
+	#
+	OBJ_EXT=obj		# object     file extension
+	LIB_EXT=lib		# library    file extension
+	EXE_EXT=.exe	# executable file extension
+
+	# --------------------------------------------------------------------
+	# Additional files to clean
+	#
+	#	.pdb	program database for debugging
+	#	.ilk	incremental linker file
+	#	.pch	precompiled header file
+	#	.sbr	individual source browser file
+	#	.bsc	combined browser file
+	#	.map	linker map file
+	#
+	OS_CLEAN="*.pdb *.ilk *.pch *.sbr *.bsc *.map"
+
+	# --------------------------------------------------------------------
+	# Bit-bucket name
+	#
+	DEV_NULL=NUL:
+
+	# --------------------------------------------------------------------
+	# library type
+	#
+	#	-MT{d}	static  link,   multi  threaded,	libcmt{d}.lib
+	#	-MD{d}	dynamic linked, multi  threaded,	msvcrt{d}.lib
+	#	-ML{d}	static  linked, single threaded,	libc{d}.lib
+	#
+	# Note that we need to build multi-threaded in order to get the
+	# asyncronous alarms to work (libterm/termalarm.c).
+	#
+	# We default to using "MD", but you can set LIB_TYPE to "MT" if
+	# you prefer.
+	#
+	[ "$LIB_TYPE" = "" ] && LIB_TYPE=MD
+
+	# --------------------------------------------------------------------
+	# Add debug/optimize flags if needed
+	#
+	#	-Os		Optimize for size
+	#	-Ot		Optimize for speed (our choice)
+	#	-Z7		Enable old-style debug (symbols in object file)
+	#
+	case "$MODE" in
+	release)
+			CDEFS="$CDEFS -${LIB_TYPE} -Ot"
+			LDDEFS="$LDDEFS -${LIB_TYPE}"
+			;;
+
+	debug)
+			CDEFS="$CDEFS -${LIB_TYPE}d -Z7"
+			LDDEFS="$LDDEFS -${LIB_TYPE}d -Z7"
+			;;
+
+	profile)
+			echo "*** \"profile\" mode not supported in windows. Ignoring."
+			MODE=none
+			CDEFS="$CDEFS -${LIB_TYPE}"
+			LDDEFS="$LDDEFS -${LIB_TYPE}"
+			;;
+
+	*)
+			CDEFS="$CDEFS -${LIB_TYPE}"
+			LDDEFS="$LDDEFS -${LIB_TYPE}"
+			;;
+	esac
+	;;
+esac
+
+# ------------------------------------------------------------------------
+# make options
+#
+make --version >$DEV_NULL 2>&1
+if [ $? -eq 0 ]
+then
+	# --------------------------------------------------------------------
+	# GNU make found
+	#
+	# Note: In Windows, GNU make only works in NT/Win2K, NOT in Win98.
+	#
+	[ "$MAKEFLAGS" = "" ] && MAKEFLAGS="--no-print-directory"
+	MAKE_TYPE="GNU"
+else
+	# --------------------------------------------------------------------
+	# non-GNU make found
+	#
+	MAKE_TYPE="non-GNU"
+fi
+
+# ------------------------------------------------------------------------
+# set all program parameters
+#
+. pgminfo		# program info
+
+# ------------------------------------------------------------------------
+# set & validate all build parameters
+#
+. bldinfo		# version & builder info
+
+[ "$BUILDER_NAM" = "" ] && BUILDER_NAM=`get_user_name`
+[ "$BUILDER_EMA" = "" ] && BUILDER_EMA=`get_user_email`
+[ "$BUILDER_ENV" = "" ] && BUILDER_ENV=`uname -a`
+
+# ------------------------------------------------------------------------
+# get install directory
+#
+# If this was set prior to here, we will just use whatever value was set.
+#
+if [ "$INS_DIR" = "" ]
+then
+	case "$OS_TYPE" in
+
+	UNIX)		INS_DIR="/usr/local/$PROGRAM" ;;
+	WINDOWS)	INS_DIR="${SystemDrive:-c:}/Program Files/$PACKAGE" ;;
+
+	esac
+fi
+
+# ------------------------------------------------------------------------
+# done
+#
+if [ "$QUIET" = "no" ]
+then
+	echo "*** Build env : \"$PLATFORM\" at \"$SRC_DIR\""
+
+	[ "$new_opts" != "$old_opts" ] &&
+	echo "*** Build opts: \"$new_opts\" saved in \"build.opt\""
+
+	echo "*** Build make: $MAKE_TYPE"
+	echo "*** Build mode: $MODE"
+	echo "*** Build src : $BUILDER_NAM ($BUILDER_EMA)"
+	echo "*** Build info: \"$PACKAGE\"" \
+		"version \"$VERSION.$RELEASE\" build \"$BUILD\""
+fi
+
+# ------------------------------------------------------------------------
+# Now look for a build.post file & source it if found
+#
+[ -r ./build.post ] && . ./build.post
+
+# ------------------------------------------------------------------------
+# turn off auto-export if it was off previously
+#
+case "$oflags" in
+*a*)	;;
+*)		set +a ;;
+esac
+
+# ------------------------------------------------------------------------
+# Unset variables we don't need anymore, since this script is "sourced",
+# and variables set here will continue to exist.
+#
+unset MAKE_TYPE oflags new_opts old_opts PATH_SEP_CHAR MODE OPTS QUIET
+
+return 0

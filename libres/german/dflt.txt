@@ -1,0 +1,1218 @@
+# ------------------------------------------------------------------------
+# strings for	"default" processing
+#
+# These entries are in the same order they appear in the config menu.
+#
+# Each option has 4 entries:
+#
+#	m_default_f_*	option name in config file
+#	m_default_m_*	option name in config menu
+#	m_default_p_*	prompt line for config menu
+#	m_default_v_*	default value
+#
+# Note that the m_default_f_* entries should NOT be translated, so that
+# the config files are language-independent.
+#
+
+# ------------------------------------------------------------------------
+# never use entry 0 (indicates end-of-tables)
+#
+m_default_zero_entry	""
+
+# ------------------------------------------------------------------------
+# config menu setting headings
+#
+m_default_hdg_disp		"Anzeige"
+m_default_hdg_win		"Fenster"
+m_default_hdg_dir		"Verzeichnis Fenster"
+m_default_hdg_file		"Datei Fenster"
+m_default_hdg_comp		"Komprimierung"
+m_default_hdg_log		"Knotenpunkt Einlesen"
+m_default_hdg_sec		"Sicherheit"
+m_default_hdg_msc1		"Diverses 1"
+m_default_hdg_msc2		"Diverses 2"
+m_default_hdg_arch		"Archiv"
+m_default_hdg_view		"Dateibetrachter"
+m_default_hdg_intl		"International"
+m_default_hdg_diff		"Dateivergleich (Jfc)"
+m_default_hdg_prt		"Drucker"
+
+# ------------------------------------------------------------------------
+# config menu color headings
+#
+m_default_hdg_c1		"Standard Fenster Farben"
+m_default_hdg_c2		"Uebersichts Fenster Farben"
+m_default_hdg_c3		"Inhalts Fenster Farben"
+m_default_hdg_c4		"Vergleich Farben"
+m_default_hdg_c5		"Hilfeprogramm Farben"
+m_default_hdg_c6		"Menü Farben"
+m_default_hdg_c7		"Verschiedene Farben"
+
+# ------------------------------------------------------------------------
+# config menu attribute headings
+#
+m_default_hdg_m1		"Normales Fenster Eigenschaften"
+m_default_hdg_m2		"Übersichtsfenster Eigenschaften"
+m_default_hdg_m3		"Inhaltsfenster Eigenschaften"
+m_default_hdg_m4		"Dateivergleichsfenster Eigenschaften"
+m_default_hdg_m5		"Hilfesystem Eigenschaften"
+m_default_hdg_m6		"Menü Eigenschaften"
+m_default_hdg_m7		"Verschiedene Eigenschaften"
+
+# ------------------------------------------------------------------------
+#	"yes" words list
+#
+m_default_f_on			"on"
+m_default_m_on			"JA"
+
+m_default_f_yes			"yes"
+m_default_m_yes			"JA"
+
+m_default_f_true		"true"
+m_default_m_true		"JA"
+
+# ------------------------------------------------------------------------
+#	"no" words list
+#
+m_default_f_off			"off"
+m_default_m_off			"NEIN"
+
+m_default_f_no			"no"
+m_default_m_no			"NEIN"
+
+m_default_f_false		"false"
+m_default_m_false		"false"
+
+# ------------------------------------------------------------------------
+# autolog options list
+#
+m_default_auto_f_d		"disabled"
+m_default_auto_m_d		"Aus"
+
+m_default_auto_f_c		"check"
+m_default_auto_m_c		"Prüfen"
+
+m_default_auto_f_l		"log"
+m_default_auto_m_l		"Autom."
+
+# ------------------------------------------------------------------------
+# sort order list
+#
+m_default_f_asc			"ascending"
+m_default_m_asc			"aufsteigend"
+
+m_default_f_desc		"descending"
+m_default_m_desc		"absteigend"
+
+# ------------------------------------------------------------------------
+# sort type list
+#
+m_default_f_name		"name"
+m_default_m_name		"Name"
+
+m_default_f_ext			"extension"
+m_default_m_ext			"Endung"
+
+m_default_f_date		"date"
+m_default_m_date		"Datum"
+
+m_default_f_inode		"inode"
+m_default_m_inode		"Inode"
+
+m_default_f_links		"links"
+m_default_m_links		"Linkzahl"
+
+m_default_f_size		"size"
+m_default_m_size		"Größe"
+
+m_default_f_uns			"unsorted"
+m_default_m_uns			"Unsortiert"
+
+# ------------------------------------------------------------------------
+# screen type list
+#
+m_default_f_auto		"auto"
+m_default_m_auto		"Automatisch"
+
+m_default_f_color		"color"
+m_default_m_color		"Farbe"
+
+m_default_f_mono		"mono"
+m_default_m_mono		"S/W"
+
+# ------------------------------------------------------------------------
+# file display format list
+#
+m_default_f_fname1		"name-1col"
+m_default_m_fname1		"Name-1fach"
+
+m_default_f_fname3		"name-3col"
+m_default_m_fname3		"Name-3fach"
+
+m_default_f_fsize		"size"
+m_default_m_fsize		"Größe"
+
+m_default_f_fdate		"date"
+m_default_m_fdate		"Datum"
+
+m_default_f_fperms		"perms"
+m_default_m_fperms		"Rechte"
+
+# ------------------------------------------------------------------------
+# directory display format list
+#
+m_default_f_dname		"name"
+m_default_m_dname		"Name"
+
+m_default_f_dsize		"size"
+m_default_m_dsize		"Größe"
+
+m_default_f_ddate		"date"
+m_default_m_ddate		"Datum"
+
+m_default_f_dperms		"perms"
+m_default_m_dperms		"Rechte"
+
+# ------------------------------------------------------------------------
+# logging method list
+#
+m_default_f_loga		"auto"
+m_default_m_loga		"Automatisch"
+
+m_default_f_logm		"manual"
+m_default_m_logm		"Manuell"
+
+# ------------------------------------------------------------------------
+# time display format list
+#
+m_default_f_time12		"12"
+m_default_m_time12		"12"
+
+m_default_f_time24		"24"
+m_default_m_time24		"24"
+
+# ------------------------------------------------------------------------
+# date display format list
+#
+m_default_f_datemdy		"mdy"
+m_default_m_datemdy		"MTJ"
+
+m_default_f_datedmy		"dmy"
+m_default_m_datedmy		"TMJ"
+
+m_default_f_dateymd		"ymd"
+m_default_m_dateymd		"JMT"
+
+# ------------------------------------------------------------------------
+# compression type list
+#
+m_default_f_complzw		"compress"
+m_default_m_complzw		"compress"
+
+m_default_f_compgzip	"gzip"
+m_default_m_compgzip	"gzip"
+
+m_default_f_comppack	"pack"
+m_default_m_comppack	"pack"
+
+# ------------------------------------------------------------------------
+# cpio header format list
+#
+m_default_f_cpiobin		"bin"
+m_default_m_cpiobin		"bin"
+
+m_default_f_cpiobbs		"bbs"
+m_default_m_cpiobbs		"bbs"
+
+m_default_f_cpiochr		"chr"
+m_default_m_cpiochr		"chr"
+
+m_default_f_cpioasc		"asc"
+m_default_m_cpioasc		"asc"
+
+m_default_f_cpiocrc		"crc"
+m_default_m_cpiocrc		"crc"
+
+# ------------------------------------------------------------------------
+# tar header format list
+#
+m_default_f_tarold		"tar"
+m_default_m_tarold		"tar"
+
+m_default_f_tarus		"ustar"
+m_default_m_tarus		"ustar"
+
+# ------------------------------------------------------------------------
+# viewer format list
+#
+m_default_f_vwrauto		"auto"
+m_default_m_vwrauto		"Automatisch"
+
+m_default_f_vwrasc		"ascii"
+m_default_m_vwrasc		"Ascii"
+
+m_default_f_vwrwrap		"wrap"
+m_default_m_vwrwrap		"Umbruch"
+
+m_default_f_vwrhex		"hex"
+m_default_m_vwrhex		"Hexa"
+
+m_default_f_vwrdump		"dump"
+m_default_m_vwrdump		"Direkt"
+
+# ------------------------------------------------------------------------
+# date display type list
+#
+m_default_date_f_m		"modified"
+m_default_date_m_m		"geändert"
+
+m_default_date_f_r		"accessed"
+m_default_date_m_r		"gelesen"
+
+m_default_date_f_c		"created"
+m_default_date_m_c		"erstellt"
+
+# ------------------------------------------------------------------------
+# color fg names
+#
+m_default_fg_f_00		"black"
+m_default_fg_m_00		"Schwarz"
+
+m_default_fg_f_01		"red"
+m_default_fg_m_01		"Rot"
+
+m_default_fg_f_02		"green"
+m_default_fg_m_02		"Grün"
+
+m_default_fg_f_03		"yellow"
+m_default_fg_m_03		"Gelb"
+
+m_default_fg_f_04		"blue"
+m_default_fg_m_04		"Blau"
+
+m_default_fg_f_05		"magenta"
+m_default_fg_m_05		"Magenta"
+
+m_default_fg_f_06		"cyan"
+m_default_fg_m_06		"Cyan"
+
+m_default_fg_f_07		"white"
+m_default_fg_m_07		"Weiß"
+
+m_default_fg_f_08		"grey"
+m_default_fg_m_08		"Grau"
+
+m_default_fg_f_09		"lt-red"
+m_default_fg_m_09		"Hellrot"
+
+m_default_fg_f_10		"lt-green"
+m_default_fg_m_10		"Hellgrün"
+
+m_default_fg_f_11		"lt-yellow"
+m_default_fg_m_11		"Hellgelb"
+
+m_default_fg_f_12		"lt-blue"
+m_default_fg_m_12		"Hellblau"
+
+m_default_fg_f_13		"lt-magenta"
+m_default_fg_m_13		"Hellmagenta"
+
+m_default_fg_f_14		"lt-cyan"
+m_default_fg_m_14		"Hellcyan"
+
+m_default_fg_f_15		"lt-white"
+m_default_fg_m_15		"Hellweiß"
+
+# ------------------------------------------------------------------------
+# color bg names
+#
+m_default_bg_f_00		"black-bgnd"
+m_default_bg_m_00		"Schwarz-Hgrd"
+
+m_default_bg_f_01		"red-bgnd"
+m_default_bg_m_01		"Rot-Hgrd"
+
+m_default_bg_f_02		"green-bgnd"
+m_default_bg_m_02		"Grün-Hgrd"
+
+m_default_bg_f_03		"yellow-bgnd"
+m_default_bg_m_03		"Gelb-Hgrd"
+
+m_default_bg_f_04		"blue-bgnd"
+m_default_bg_m_04		"Blau-Hgrd"
+
+m_default_bg_f_05		"magenta-bgnd"
+m_default_bg_m_05		"Magenta-Hgrd"
+
+m_default_bg_f_06		"cyan-bgd"
+m_default_bg_m_06		"Cyan-Hgrd"
+
+m_default_bg_f_07		"white-bgnd"
+m_default_bg_m_07		"Weiß-Hgrd"
+
+m_default_bg_f_08		"grey-bgnd"
+m_default_bg_m_08		"Grau-Hgrd"
+
+m_default_bg_f_09		"lt-red-bgnd"
+m_default_bg_m_09		"Hellrot-Hgrd"
+
+m_default_bg_f_10		"lt-green-bgnd"
+m_default_bg_m_10		"Hellgrün-Hgrd"
+
+m_default_bg_f_11		"lt-yellow-bgnd"
+m_default_bg_m_11		"Hellgelb-Hgrd"
+
+m_default_bg_f_12		"lt-blue-bgnd"
+m_default_bg_m_12		"Hellblau-Hgrd"
+
+m_default_bg_f_13		"lt-magenta-bgnd"
+m_default_bg_m_13		"Hellmagenta-Hgrd"
+
+m_default_bg_f_14		"lt-cyan-bgnd"
+m_default_bg_m_14		"Hellcyan-Hgrd"
+
+m_default_bg_f_15		"lt-white-bgnd"
+m_default_bg_m_15		"Hellweiß-Hgrd"
+
+# ------------------------------------------------------------------------
+# attribute names
+#
+m_default_attr_f_0		"normal"
+m_default_attr_m_0		"Normal"
+
+m_default_attr_f_1		"reverse"
+m_default_attr_m_1		"Invers"
+
+m_default_attr_f_2		"underline"
+m_default_attr_m_2		"Unterstrichen"
+
+m_default_attr_f_3		"bold"
+m_default_attr_m_3		"Fett"
+
+m_default_attr_f_4		"blink"
+m_default_attr_m_4		"Blinkend"
+
+m_default_attr_f_5		"dim"
+m_default_attr_m_5		"Dunkel"
+
+m_default_attr_f_6		"invisible"
+m_default_attr_m_6		"Unsichtbar"
+
+m_default_attr_f_7		"protected"
+m_default_attr_m_7		"Geschützt"
+
+# ------------------------------------------------------------------------
+# display options
+#
+m_default_f_sm			"screen type"
+m_default_m_sm			"Bildschirm"
+m_default_p_sm			"Bildschirm-Art"
+m_default_v_sm			"Automatisch"
+
+m_default_f_sbi			"screen blank interval"
+m_default_m_sbi			"Bildschirm Intervall"
+m_default_p_sbi			"Bildschirm-Austast-Intervall in Sek. (0 für ohne)"
+m_default_v_sbi			"300"
+
+m_default_f_uac			"use alternate char sets"
+m_default_m_uac			"Alternativer Zeichensatz"
+m_default_p_uac			"JA für alternativen Zeichensatz zur Liniendarstellung"
+m_default_v_uac			"JA"
+
+# ------------------------------------------------------------------------
+# window options
+#
+m_default_f_win			"run in window"
+m_default_m_win			"Start im Fenster"
+m_default_p_win			"JA zum starten in einem Fenster"
+m_default_v_win			"JA"
+
+m_default_f_ptr			"use mouse"
+m_default_m_ptr			"Mausbenutzung"
+m_default_p_ptr			"Ein- und Ausschalten der Mausfunktionen"
+m_default_v_ptr			"JA"
+
+m_default_f_col		"columns"
+m_default_m_col		"columns"
+m_default_p_col		"Columns"
+m_default_v_col		"80"
+
+m_default_f_row		"rows"
+m_default_m_row		"rows"
+m_default_p_row		"Rows"
+m_default_v_row		"25"
+
+m_default_f_rgf			"norm font"
+m_default_m_rgf			"Standardschriftart"
+m_default_p_rgf			"Festlegen der Standardschriftart"
+m_default_v_rgf			"7x14"
+
+m_default_f_bdf			"bold font"
+m_default_m_bdf			"Fettschriftart"
+m_default_p_bdf			"Festlegen der Fettschriftart"
+m_default_v_bdf			"7x14bold"
+
+m_default_f_xvt			"X toolkit options"
+m_default_m_xvt			"X toolkit options"
+m_default_p_xvt			"X toolkit options"
+m_default_v_xvt			""
+
+# ------------------------------------------------------------------------
+# directory window
+#
+m_default_f_df			"directory format"
+m_default_m_df			"Verzeichnis Modus"
+m_default_p_df			"Verzeichnis Anzeige Modus"
+m_default_v_df			"Name"
+
+m_default_f_ds			"scroll directory display"
+m_default_m_ds			"Verzeichnis Scroll Modus"
+m_default_p_ds			"Verzeichnis Scroll Modus setzen"
+m_default_v_ds			"NEIN"
+
+# ------------------------------------------------------------------------
+# file window
+#
+m_default_f_ff			"file format"
+m_default_m_ff			"Datei Modus"
+m_default_p_ff			"Datei Anzeige Modus"
+m_default_v_ff			"Name-1fach"
+
+m_default_f_st			"sort type"
+m_default_m_st			"Sortierkriterium"
+m_default_p_st			"Datei-Sortierkriterium"
+m_default_v_st			"Name"
+
+m_default_f_so			"sort order"
+m_default_m_so			"Reihenfolge"
+m_default_p_so			"Datei-Sortier-Reihenfolge"
+m_default_v_so			"aufsteigend"
+
+m_default_f_sbp			"sort by path"
+m_default_m_sbp			"Sortierung nach Pfad"
+m_default_p_sbp			"Sortierung nach Pfad im Übersichts-Modus"
+m_default_v_sbp			"NEIN"
+
+m_default_f_esw			"enter small window"
+m_default_m_esw			"Kleines Dateifenster"
+m_default_p_esw			"Kleines Dateifenster verwenden (JA) oder umgehen (NEIN)"
+m_default_v_esw			"JA"
+
+m_default_f_alo			"autolog mode"
+m_default_m_alo			"Autom.Einlesen"
+m_default_p_alo			"Wähle Aus, (nur) Prüfen oder Automatisch"
+m_default_v_alo			"Aus"
+
+m_default_f_dfc			"color file types"
+m_default_m_dfc			"Datei-Farbkodierung"
+m_default_p_dfc			"Datei-Farbkodierung (nach Typ)"
+m_default_v_dfc			"NEIN"
+
+# ------------------------------------------------------------------------
+# compression
+#
+m_default_f_cpt			"compression type"
+m_default_m_cpt			"Komprierungsmethode"
+m_default_p_cpt			"(De-)Komprimierungsmethode"
+m_default_v_cpt			"compress"
+
+# ------------------------------------------------------------------------
+# node logging
+#
+m_default_f_lm			"logging method"
+m_default_m_lm			"Einlesemethode"
+m_default_p_lm			"Einlesemethode Automatisch oder Manuell"
+m_default_v_lm			"Manuell"
+
+m_default_f_dn			"default node"
+m_default_m_dn			"Standardknoten"
+m_default_p_dn			"Standardknotenpunkt, wenn nicht spezifiziert"
+m_default_v_dn			"~"
+
+m_default_f_htn			"home to node"
+m_default_m_htn			"Zum Knotenanfang"
+m_default_p_htn			"Cursor auf Beginn des Knotens setzen ?"
+m_default_v_htn			"JA"
+
+m_default_f_lfo			"log network files"
+m_default_m_lfo			"Netzwerk einlesen"
+m_default_p_lfo			"Dateien von Netzwerkdateisystemen einlesen ?"
+m_default_v_lfo			"JA"
+
+m_default_f_sdl			"scroll during logging"
+m_default_m_sdl			"Einleseanzeige"
+m_default_p_sdl			"Verzeichnisbaum während des Einlesens anzeigen ?"
+m_default_v_sdl			"JA"
+
+m_default_f_cmp			"continue at mount points"
+m_default_m_cmp			"Weiter bei Einhängepunkt"
+m_default_p_cmp			"Einlesen an Einhängepunkten fortsetzen ?"
+m_default_v_cmp			"JA"
+
+m_default_f_rsl			"resolve symbolic links"
+m_default_m_rsl			"Auflösen von Sym'links"
+m_default_p_rsl			"Symbolische Links auflösen ?"
+m_default_v_rsl			"NEIN"
+
+m_default_f_ali			"archive log interval"
+m_default_m_ali			"Archiv-Einlese-Intervall"
+m_default_p_ali			"Anzahl eingelesener Dateien vor Aktualisierung der Anzeige"
+m_default_v_ali			"10"
+
+m_default_f_flg			"ftp logging"
+m_default_m_flg			"FTP-Protokoll-Anzeige"
+m_default_p_flg			"FTP Meldungen am Bildschirm anzeigen ?"
+m_default_v_flg			"off"
+
+m_default_f_ftd			"ftp debug"
+m_default_m_ftd			"FTP protokollieren"
+m_default_p_ftd			"FTP Meldungen in Datei protokollieren ?"
+m_default_v_ftd			"NEIN"
+
+m_default_f_fti			"ftp timeout"
+m_default_m_fti			"FTP Auszeit"
+m_default_p_fti			"FTP Auszeit in Sekunden vor Verbindungsunterbrechung"
+m_default_v_fti			"10"
+
+# ------------------------------------------------------------------------
+# security
+#
+m_default_f_ro			"read only"
+m_default_m_ro			"Nur lesen"
+m_default_p_ro			"Im Nur-Lese Modus arbeiten ?"
+m_default_v_ro			"NEIN"
+
+# ------------------------------------------------------------------------
+# miscellaneous 1
+#
+m_default_f_boe			"beep on error"
+m_default_m_boe			"Fehlerwarnton"
+m_default_p_boe			"Warnton bei Fehlern ?"
+m_default_v_boe			"NEIN"
+
+m_default_f_kd			"keep date in copy"
+m_default_m_kd			"Datum beibehalten"
+m_default_p_kd			"Ausgangsdatum beim Kopieren beibehalten ?"
+m_default_v_kd			"JA"
+
+m_default_f_dc			"display clock"
+m_default_m_dc			"Uhreinblendung"
+m_default_p_dc			"Einblenden der Uhr ?"
+m_default_v_dc			"JA"
+
+m_default_f_kfs			"keep file spec"
+m_default_m_kfs			"Dateispezif. behalten"
+m_default_p_kfs			"Dateispezifikation beim Einlesen neuer Knoten beibehalten ?"
+m_default_v_kfs			"JA"
+
+m_default_f_pfq			"prompt for quit"
+m_default_m_pfq			"Quit bestätigen"
+m_default_p_pfq			"Quit (Verlassen) bestätigen ?"
+m_default_v_pfq			"NEIN"
+
+m_default_f_bep			"prompt for edit"
+m_default_m_bep			"Edit. bestätigen"
+m_default_p_bep			"Editieren bestätigen ?"
+m_default_v_bep			"NEIN"
+
+m_default_f_pro			"prompt for delete"
+m_default_m_pro			"Löschen bestätigen"
+m_default_p_pro			"Löschen Bestätigen ? (JA empfohlen!)"
+m_default_v_pro			"JA"
+
+m_default_f_hl			"display headline"
+m_default_m_hl			"Logoanzeige"
+m_default_p_hl			"Anzeige des Logos beim Starten ?"
+m_default_v_hl			"JA"
+
+m_default_f_ws			"wide screen"
+m_default_m_ws			"Breite Anzeige"
+m_default_p_ws			"Breite Anzeige (ohne Infobox) ?"
+m_default_v_ws			"NEIN"
+
+m_default_f_stb			"show tag blocks"
+m_default_m_stb			"Mark.Blockanzeige"
+m_default_p_stb			"Größe markierter Dateien in Speicherblocks anzeigen ?"
+m_default_v_stb			"NEIN"
+
+m_default_f_eam			"enter application menu"
+m_default_m_eam			"Applik.menüstart"
+m_default_p_eam			"Applikationsmenü beim Start aufrufen ?"
+m_default_v_eam			"NEIN"
+
+m_default_f_sft			"shift for tag"
+m_default_m_sft			"Umschaltt.f.Mark."
+m_default_p_sft			"Umschalttaste zum Markieren benutzen ?"
+m_default_v_sft			"JA"
+
+m_default_f_sal			"show app menu lines"
+m_default_m_sal			"Applik.menü-Linien"
+m_default_p_sal			"Linien im Applikationsmenü anzeigen ?"
+m_default_v_sal			"NEIN"
+
+# ------------------------------------------------------------------------
+# miscellaneous 2
+#
+m_default_f_dtp			"date display type"
+m_default_m_dtp			"Datumsanzeigeart"
+m_default_p_dtp			"Datumsanzeige nach zuletzt geändert, zuletzt gelesen, oder erstellt"
+m_default_v_dtp			"geändert"
+
+m_default_f_edi			"edit program"
+m_default_m_edi			"Editor"
+m_default_p_edi			"Name des gewünschten Editor-Programmes"
+m_default_v_edi_u		"vi"
+m_default_v_edi_w		"notepad"
+
+m_default_f_vwr			"view program"
+m_default_m_vwr			"(An-)Zeigeprog."
+m_default_p_vwr			"Gewünschtes (An-)Zeigeprogramm oder leer für internes"
+m_default_v_vwr			""
+
+m_default_f_hex			"hexedit program"
+m_default_m_hex			"Hexaeditor"
+m_default_p_hex			"Gewünschtes Hexaeditorprogramm oder leer für internes"
+m_default_v_hex			""
+
+m_default_f_mse			"max saved entries"
+m_default_m_mse			"Maximal gespeicherte Einträge"
+m_default_p_mse			"Höchstzahl der Einträge im Eingabespeicher"
+m_default_v_mse			"10"
+
+m_default_f_ins			"insert mode"
+m_default_m_ins			"Einfügemodus"
+m_default_p_ins			"Im Einfügemodus starten ?"
+m_default_v_ins			"NEIN"
+
+m_default_f_ign			"ignore filename case"
+m_default_m_ign			"Ignor.Datei-Groß-/Kleinschr."
+m_default_p_ign			"Groß-/Kleinschr.f.Datei-/Verz.-Vergleiche ignorieren ?"
+m_default_v_ign			"NEIN"
+
+m_default_f_isn			"ignore search case"
+m_default_m_isn			"Ignor.Suche-Groß-/Kleinschr."
+m_default_p_isn			"Groß-/Kleinschreibung bei Textsuche ignorieren ?"
+m_default_v_isn			"NEIN"
+
+m_default_f_smd			"show mount device"
+m_default_m_smd			"Geräteanzeige"
+m_default_p_smd			"Name des eingehängten Gerätes (statt Verzeichnis) anzeigen ?"
+m_default_v_smd			"NEIN"
+
+# ------------------------------------------------------------------------
+# archive
+#
+m_default_f_ch			"cpio header format"
+m_default_m_ch			"cpio Kopfzeilenformat"
+m_default_p_ch			"Standard cpio Kopfzeilenformat"
+m_default_v_ch			"bin"
+
+m_default_f_th			"tar header format"
+m_default_m_th			"tar Kopfzeilenformat"
+m_default_p_th			"Standard tar Kopfzeilenformat"
+m_default_v_th			"tar"
+
+m_default_f_ibt			"ignore illegal file types"
+m_default_m_ibt			"Ignoriere ungültige Dateitypen"
+m_default_p_ibt			"Ungültige Dateitypen ignorieren ?"
+m_default_v_ibt			"on"
+
+# ------------------------------------------------------------------------
+# viewer
+#
+m_default_f_vwm			"default view mode"
+m_default_m_vwm			"Standard (An-)Zeigemodus"
+m_default_p_vwm			"Standard (An-)Zeigemodus"
+m_default_v_vwm			"Automatisch"
+
+m_default_f_tw			"tab width"
+m_default_m_tw			"Tabulatorbreite"
+m_default_p_tw			"Anzahl der Leerzeichen für einen Tabulatorschritt"
+m_default_v_tw			"8"
+
+m_default_f_msk			"mask display"
+m_default_m_msk			"Maskierte Anzeige"
+m_default_p_msk			"Erweiterte ASCII Zeichen maskieren (unterdrücken) ?"
+m_default_v_msk			"NEIN"
+
+m_default_f_ecf			"expand compressed files"
+m_default_m_ecf			"Automatisches Entpacken"
+m_default_p_ecf			"Komprimierte Dateien automatisch entpacken ?"
+m_default_v_ecf			"JA"
+
+# ------------------------------------------------------------------------
+# international
+#
+m_default_f_tmf			"time format"
+m_default_m_tmf			"Zeitformat"
+m_default_p_tmf			"Format der Zeitanzeige"
+m_default_v_tmf			"12"
+
+m_default_f_dtf			"date format"
+m_default_m_dtf			"Datumsformat"
+m_default_p_dtf			"Format der Datumsanzeige ('T'ag, 'M'onat, 'J'ahr)"
+m_default_v_dtf			"MTJ"
+
+m_default_f_tsc			"time separator char"
+m_default_m_tsc			"Zeit-Trennzeichen"
+m_default_p_tsc			"Trennzeichen zwischen Stunde und Minute"
+m_default_v_tsc			":"
+
+m_default_f_dtc			"date separator char"
+m_default_m_dtc			"Datums-Trennzeichen"
+m_default_p_dtc			"Trennzeichen zwischen Tag, Monat und Jahr"
+m_default_v_dtc			"/"
+
+m_default_f_nsc			"numeric separator char"
+m_default_m_nsc			"Tausenderzeichen"
+m_default_p_nsc			"Tausender Trennzeichen"
+m_default_v_nsc			","
+
+m_default_f_lang		"language"
+m_default_m_lang		"Sprache"
+m_default_p_lang		"Benutzte Sprache"
+m_default_v_lang		"0"
+
+# ------------------------------------------------------------------------
+# file compare
+#
+m_default_f_dfr			"diff program"
+m_default_m_dfr			"Dateivergleich-Programm"
+m_default_p_dfr			"Benutztes Programm (oder leer für internes) zum Dateivergleich"
+m_default_v_dfr			""
+
+m_default_f_dgn			"diff ignore case"
+m_default_m_dgn			"Groß-/Kleinschreibung"
+m_default_p_dgn			"Groß-/Kleinschreibung beim Dateivergleich ignorieren ?"
+m_default_v_dgn			"NEIN"
+
+m_default_f_dws			"diff ignore white space"
+m_default_m_dws			"Leerzeichen ignorieren"
+m_default_p_dws			"Leerzeichen beim Dateivergleich ignorieren ?"
+m_default_v_dws			"NEIN"
+
+m_default_f_dsn			"diff show line numbers"
+m_default_m_dsn			"Zeilennummern"
+m_default_p_dsn			"Anzeige von Zeilennummern beim Dateivergleich ?"
+m_default_v_dsn			"NEIN"
+
+m_default_f_dod			"diff show only diffs"
+m_default_m_dod			"Nur Unterschiede zeigen"
+m_default_p_dod			"Nur die Unterschiede zwischen den Dateien anzeigen ?"
+m_default_v_dod			"NEIN"
+
+m_default_f_dpw			"diff page width"
+m_default_m_dpw			"Seitenbreite"
+m_default_p_dpw			"Breite der Seiten für seitenweise Differenzberichte"
+m_default_v_dpw			"80"
+
+m_default_f_dpt			"diff target pattern"
+m_default_m_dpt			"Vergleichsdateimuster"
+m_default_p_dpt			"Standard-Dateimuster für Vergleichsdatei"
+m_default_v_dpt_u		"*~"
+m_default_v_dpt_w		"*.bak"
+
+# ------------------------------------------------------------------------
+# printer options
+#
+m_default_f_pri			"printer"
+m_default_m_pri			"Drucker"
+m_default_p_pri			"Druckerbefehl oder -name"
+m_default_v_pri			""
+
+m_default_f_prf			"print file"
+m_default_m_prf			"Druckdatei"
+m_default_p_prf			"Name der Datei zum Speichern der Druckausgabe"
+m_default_v_prf			""
+
+m_default_f_ps			"page length"
+m_default_m_ps			"Seitenlänge"
+m_default_p_ps			"Länge der Seite in Zeilen (0 für endlos)"
+m_default_v_ps			"60"
+
+m_default_f_pl			"page width"
+m_default_m_pl			"Seitenbreite"
+m_default_p_pl			"Breite der Seite in Spalten"
+m_default_v_pl			"80"
+
+m_default_f_pm			"page margin"
+m_default_m_pm			"Seitenabstand"
+m_default_p_pm			"Anzahl der Leerzeilen zwischen den Seiten"
+m_default_v_pm			"0"
+
+m_default_f_cpe			"close printer at exit"
+m_default_m_cpe			"Drucker schließen"
+m_default_p_cpe			"Drucker nur beim Beenden schließen ?"
+m_default_v_cpe			"NEIN"
+
+# ------------------------------------------------------------------------
+# regular window colors
+#
+m_default_f_rlc			"regular lolite color"
+m_default_m_rlc			"Standard Normale Farbe"
+m_default_p_rlc			"Standard Normale Farbe"
+m_default_v_rlc			"Hellgelb/Blau-Hgrd"
+
+m_default_f_rhc			"regular hilite color"
+m_default_m_rhc			"Standard Hervorgehobene Farbe"
+m_default_p_rhc			"Standard Hervorgehobene Farbe"
+m_default_v_rhc			"Hellweiß/Blau-Hgrd"
+
+m_default_f_rcc			"regular cursor color"
+m_default_m_rcc			"Standard Cursor Farbe"
+m_default_p_rcc			"Standard Cursor Farbe"
+m_default_v_rcc			"Blau/Weiß-Hgrd"
+
+m_default_f_rmc			"regular menu color"
+m_default_m_rmc			"Standard Menü Farbe"
+m_default_p_rmc			"Standard Menü Farbe"
+m_default_v_rmc			"Hellweiß/Blau-Hgrd"
+
+# ------------------------------------------------------------------------
+# showall window colors
+#
+m_default_f_slc			"showall lolite color"
+m_default_m_slc			"Übersicht Normale Farbe"
+m_default_p_slc			"Übersicht Normale Farbe"
+m_default_v_slc			"Hellweiß/Blau-Hgrd"
+
+m_default_f_shc			"showall hilite color"
+m_default_m_shc			"Übersicht Hervorgehobene Farbe"
+m_default_p_shc			"Übersicht Hervorgehobene Farbe"
+m_default_v_shc			"Hellgelb/Blau-Hgrd"
+
+m_default_f_scc			"showall cursor color"
+m_default_m_scc			"Übersicht Cursor Farbe"
+m_default_p_scc			"Übersicht Cursor Farbe"
+m_default_v_scc			"Blau/Weiß-Hgrd"
+
+m_default_f_smc			"showall menu color"
+m_default_m_smc			"Übersicht Menü Farbe"
+m_default_p_smc			"Übersicht Menü Farbe"
+m_default_v_smc			"Hellgelb/Blau-Hgrd"
+
+# ------------------------------------------------------------------------
+# autoview window colors
+#
+m_default_f_alc			"autoview lolite color"
+m_default_m_alc			"Inhalt Normale Farbe"
+m_default_p_alc			"Inhalt Normale Farbe"
+m_default_v_alc			"Hellweiß/Blau-Hgrd"
+
+m_default_f_ahc			"autoview hilite color"
+m_default_m_ahc			"Inhalt Hervorgehobene Farbe"
+m_default_p_ahc			"Inhalt Hervorgehobene Farbe"
+m_default_v_ahc			"Hellgrün/Blau-Hgrd"
+
+m_default_f_acc			"autoview cursor color"
+m_default_m_acc			"Inhalt Cursor Farbe"
+m_default_p_acc			"Inhalt Cursor Farbe"
+m_default_v_acc			"Blau/Weiß-Hgrd"
+
+m_default_f_amc			"autoview menu color"
+m_default_m_amc			"Inhalt Menü Farbe"
+m_default_p_amc			"Inhalt Menü Farbe"
+m_default_v_amc			"Hellgrün/Blau-Hgrd"
+
+# ------------------------------------------------------------------------
+# diff colors
+#
+m_default_f_dsc			"diff same color"
+m_default_m_dsc			"Vergleich Gleiche Farbe"
+m_default_p_dsc			"Vergleich gleiche Zeilen Farbe"
+m_default_v_dsc			"Hellweiß/Blau-Hgrd"
+
+m_default_f_ddc			"diff changed color"
+m_default_m_ddc			"Vergleich Unterschiede Farbe"
+m_default_p_ddc			"Vergleich unterschiedliche Zeilen Farbe"
+m_default_v_ddc			"Hellweiß/Rot-Hgrd"
+
+m_default_f_dlc			"diff left right color"
+m_default_m_dlc			"Vergleich Links Rechts Farbe"
+m_default_p_dlc			"Vergleich Links-Rechts Farbe"
+m_default_v_dlc			"Hellweiß/Schwarz-Hgrd"
+
+m_default_f_dnc			"diff number color"
+m_default_m_dnc			"Vergleich Nummer Farbe"
+m_default_p_dnc			"Vergleich Nummer Farbe"
+m_default_v_dnc			"Schwarz/Blau-Hgrd"
+
+# ------------------------------------------------------------------------
+# help colors
+#
+m_default_f_hblc		"help lolite color"
+m_default_m_hblc		"Hilfe Normale Farbe"
+m_default_p_hblc		"Hilfe Normale Farbe"
+m_default_v_hblc		"Schwarz/Cyan-Hgrd"
+
+m_default_f_hbhc		"help hilite color"
+m_default_m_hbhc		"Hilfe Hervorgehobene Farbe"
+m_default_p_hbhc		"Hilfe Hervorgehobene Farbe"
+m_default_v_hbhc		"Hellrot/Cyan-Hgrd"
+
+m_default_f_hbbc		"help bold color"
+m_default_m_hbbc		"Hilfe Fett Farbe"
+m_default_p_hbbc		"Hilfe Fett Farbe"
+m_default_v_hbbc		"Blau/Cyan-Hgrd"
+
+m_default_f_hhlc		"help link color"
+m_default_m_hhlc		"Hilfe Link Farbe"
+m_default_p_hhlc		"Hilfe Link Farbe"
+m_default_v_hhlc		"Hellblau/Cyan-Hgrd"
+
+m_default_f_gbc			"help glossary color"
+m_default_m_gbc			"Hilfe Glossar Farbe"
+m_default_p_gbc			"Hilfe Glossar Farbe"
+m_default_v_gbc			"Schwarz/Grün-Hgrd"
+
+m_default_f_hglc		"help glossary link color"
+m_default_m_hglc		"Hilfe Glossar Link Farbe"
+m_default_p_hglc		"Hilfe Glossar Link Farbe"
+m_default_v_hglc		"Gelb/Cyan-Hgrd"
+
+# ------------------------------------------------------------------------
+# menu colors
+#
+m_default_f_mlc			"menu lolite color"
+m_default_m_mlc			"Menü Normale Farbe"
+m_default_p_mlc			"Menü Normale Farbe"
+m_default_v_mlc			"Blau/Cyan-Hgrd"
+
+m_default_f_mhc			"menu hilite color"
+m_default_m_mhc			"Menü Hervorgehobene Farbe"
+m_default_p_mhc			"Menü Hervorgehobene Farbe"
+m_default_v_mhc			"Schwarz/Cyan-Hgrd"
+
+m_default_f_mcc			"menu cursor color"
+m_default_m_mcc			"Menü Cursor Farbe"
+m_default_p_mcc			"Menü Cursor Farbe"
+m_default_v_mcc			"Schwarz/Weiß-Hgrd"
+
+m_default_f_mbc			"menu border color"
+m_default_m_mbc			"Menü Rand Farbe"
+m_default_p_mbc			"Menü Rand Farbe"
+m_default_v_mbc			"Rot/Cyan-Hgrd"
+
+# ------------------------------------------------------------------------
+# miscellaneous colors
+#
+m_default_f_bc			"border color"
+m_default_m_bc			"Rand Farbe"
+m_default_p_bc			"Rand Farbe"
+m_default_v_bc			"Hellcyan/Blau-Hgrd"
+
+m_default_f_cc			"clock color"
+m_default_m_cc			"Uhr Farbe"
+m_default_p_cc			"Uhr Farbe"
+m_default_v_cc			"Grün/Blau-Hgrd"
+
+m_default_f_ec			"error color"
+m_default_m_ec			"Fehler Farbe"
+m_default_p_ec			"Fehler Farbe"
+m_default_v_ec			"Weiß/Rot-Hgrd"
+
+m_default_f_msc			"mouse color"
+m_default_m_msc			"Maus Farbe"
+m_default_p_msc			"Maus Farbe"
+m_default_v_msc			"Schwarz/Hellmagenta-Hgrd"
+
+m_default_f_mmc			"mouse command color"
+m_default_m_mmc			"Maus Befehl Farbe"
+m_default_p_mmc			"Maus Befehl Farbe"
+m_default_v_mmc			"Schwarz/Cyan-Hgrd"
+
+m_default_f_escc		"escape color"
+m_default_m_escc		"Escape Farbe"
+m_default_p_escc		"Escape Farbe"
+m_default_v_escc		"Hellwweiß/Schwarz-Hgrd"
+
+m_default_f_xc			"exit color"
+m_default_m_xc			"Exit Farbe"
+m_default_p_xc			"Exit Farbe"
+m_default_v_xc			"Hellweiß/Schwarz-Hgrd"
+
+# ------------------------------------------------------------------------
+# regular window attributes
+#
+m_default_f_rlm			"regular lolite attribute"
+m_default_m_rlm			"Standard Normale Attribut"
+m_default_p_rlm			"Standard Normale Attribut"
+m_default_v_rlm			"Normal"
+
+m_default_f_rhm			"regular hilite attribute"
+m_default_m_rhm			"Standard Hervorgehobene Attribut"
+m_default_p_rhm			"Standard Hervorgehobene Attribut"
+m_default_v_rhm			"Normal"
+
+m_default_f_rcm			"regular cursor attribute"
+m_default_m_rcm			"Standard Cursor Attribut"
+m_default_p_rcm			"Standard Cursor Attribut"
+m_default_v_rcm			"Invers"
+
+m_default_f_rmm			"regular menu attribute"
+m_default_m_rmm			"Standard Menü Attribut"
+m_default_p_rmm			"Standard Menü Attribut"
+m_default_v_rmm			"Fett"
+
+# ------------------------------------------------------------------------
+# showall window attributes
+#
+m_default_f_slm			"showall lolite attribute"
+m_default_m_slm			"Übersicht Normale Attribut"
+m_default_p_slm			"Übersicht Normale Attribut"
+m_default_v_slm			"Normal"
+
+m_default_f_shm			"showall hilite attribute"
+m_default_m_shm			"Übersicht Hervorgehobene Attribut"
+m_default_p_shm			"Übersicht Hervorgehobene Attribut"
+m_default_v_shm			"Normal"
+
+m_default_f_scm			"showall cursor attribute"
+m_default_m_scm			"Übersicht Cursor Attribut"
+m_default_p_scm			"Übersicht Cursor Attribut"
+m_default_v_scm			"Invers"
+
+m_default_f_smm			"showall menu attribute"
+m_default_m_smm			"Übersicht Menü Attribut"
+m_default_p_smm			"Übersicht Menü Attribut"
+m_default_v_smm			"Fett"
+
+# ------------------------------------------------------------------------
+# autoview window attributes
+#
+m_default_f_alm			"autoview lolite attribute"
+m_default_m_alm			"Inhalt Normale Attribut"
+m_default_p_alm			"Inhalt Normale Attribut"
+m_default_v_alm			"Normal"
+
+m_default_f_ahm			"autoview hilite attribute"
+m_default_m_ahm			"Inhalt Hervorgehobene Attribut"
+m_default_p_ahm			"Inhalt Hervorgehobene Attribut"
+m_default_v_ahm			"Normal"
+
+m_default_f_acm			"autoview cursor attribute"
+m_default_m_acm			"Inhalt Cursor Attribut"
+m_default_p_acm			"Inhalt Cursor Attribut"
+m_default_v_acm			"Invers"
+
+m_default_f_amm			"autoview menu attribute"
+m_default_m_amm			"Inhalt Menü Attribut"
+m_default_p_amm			"Inhalt Menü Attribut"
+m_default_v_amm			"Fett"
+
+# ------------------------------------------------------------------------
+# diff attributes
+#
+m_default_f_dsm			"diff same attribute"
+m_default_m_dsm			"Vergleich same Attribut"
+m_default_p_dsm			"Vergleich gleiche Zeilen Attribut"
+m_default_v_dsm			"Normal"
+
+m_default_f_ddm			"diff changed attribute"
+m_default_m_ddm			"Vergleich Unterschiedliche Attribut"
+m_default_p_ddm			"Vergleich unterschiedliche Zeilen Attribut"
+m_default_v_ddm			"Fett"
+
+m_default_f_dlm			"diff left right attribute"
+m_default_m_dlm			"Vergleich Links Rechts Attribut"
+m_default_p_dlm			"Vergleich Links-Rechts Attribut"
+m_default_v_dlm			"Fett"
+
+m_default_f_dnm			"diff number attribute"
+m_default_m_dnm			"Vergleich Nummer Attribut"
+m_default_p_dnm			"Vergleich Nummer Attribut"
+m_default_v_dnm			"Normal"
+
+# ------------------------------------------------------------------------
+# help attributes
+#
+m_default_f_hblm		"help lolite attribute"
+m_default_m_hblm		"Hilfe Normale Attribut"
+m_default_p_hblm		"Hilfe Normale Attribut"
+m_default_v_hblm		"Normal"
+
+m_default_f_hbhm		"help hilite attribute"
+m_default_m_hbhm		"Hilfe Hervorgehobene Attribut"
+m_default_p_hbhm		"Hilfe Hervorgehobene Attribut"
+m_default_v_hbhm		"Invers"
+
+m_default_f_hbbm		"help bold attribute"
+m_default_m_hbbm		"Hilfe Fett Attribut"
+m_default_p_hbbm		"Hilfe Fett Attribut"
+m_default_v_hbbm		"Fett"
+
+m_default_f_hhlm		"help link attribute"
+m_default_m_hhlm		"Hilfe Link Attribut"
+m_default_p_hhlm		"Hilfe Link Attribut"
+m_default_v_hhlm		"Unterstrichen"
+
+m_default_f_gbm			"help glossary attribute"
+m_default_m_gbm			"Hilfe Glossar Attribut"
+m_default_p_gbm			"Hilfe Glossar Attribut"
+m_default_v_gbm			"Normal"
+
+m_default_f_hglm		"help glossary link attribute"
+m_default_m_hglm		"Hilfe Glossar-Link Attribut"
+m_default_p_hglm		"Hilfe Glossar-Link Attribut"
+m_default_v_hglm		"Fett"
+
+# ------------------------------------------------------------------------
+# menu attributes
+#
+m_default_f_mlm			"menu lolite attribute"
+m_default_m_mlm			"Menü Normale Attribut"
+m_default_p_mlm			"Menü Normale Attribut"
+m_default_v_mlm			"Normal"
+
+m_default_f_mhm			"menu hilite attribute"
+m_default_m_mhm			"Menü Hervorgehobene Attribut"
+m_default_p_mhm			"Menü Hervorgehobene Attribut"
+m_default_v_mhm			"Fett"
+
+m_default_f_mcm			"menu cursor attribute"
+m_default_m_mcm			"Menü Cursor Attribut"
+m_default_p_mcm			"Menü Cursor Attribut"
+m_default_v_mcm			"Invers"
+
+m_default_f_mbm			"menu border attribute"
+m_default_m_mbm			"Menü Rand Attribut"
+m_default_p_mbm			"Menü Rand Attribut"
+m_default_v_mbm			"Normal"
+
+# ------------------------------------------------------------------------
+# miscellaneous attributes
+#
+m_default_f_bm			"border attribute"
+m_default_m_bm			"Rand Attribut"
+m_default_p_bm			"Rand Attribut"
+m_default_v_bm			"Normal"
+
+m_default_f_cm			"clock attribute"
+m_default_m_cm			"Uhr Attribut"
+m_default_p_cm			"Uhr Attribut"
+m_default_v_cm			"Normal"
+
+m_default_f_em			"error attribute"
+m_default_m_em			"Fehler Attribut"
+m_default_p_em			"Fehler Attribut"
+m_default_v_em			"Invers"
+
+m_default_f_msm			"mouse attribute"
+m_default_m_msm			"Maus Attribut"
+m_default_p_msm			"Maus Attribut"
+m_default_v_msm			"Invers"
+
+m_default_f_mmm			"mouse command attribute"
+m_default_m_mmm			"Maus Befehl Attribut"
+m_default_p_mmm			"Maus Befehl Attribut"
+m_default_v_mmm			"Invers"
+
+m_default_f_escm		"escape attribute"
+m_default_m_escm		"Escape Attribut"
+m_default_p_escm		"Escape Attribut"
+m_default_v_escm		"Normal"
+
+m_default_f_xm			"exit attribute"
+m_default_m_xm			"Exit Attribut"
+m_default_p_xm			"Exit Attribut"
+m_default_v_xm			"Normal"

@@ -1,0 +1,42 @@
+Curses Library Functions ecurs_printw
+
+
+
+NAME
+     ecurs_printw - print formatted output in curses windows
+
+SYNOPSIS
+     #include <curses.h>
+
+     int printw(char *fmt, ...);
+
+     int wprintw(WINDOW *win, char *fmt, ...);
+
+     int mvprintw(int y, int x, char *fmt, ...);
+
+     int mvwprintw(WINDOW *win, int y, int x, char *fmt, ...);
+
+     int vwprintw(WINDOW *win, char *fmt, va_list args);
+
+DESCRIPTION
+     The printw(), wprintw(), mvprintw(), and mvwprintw()
+     routines are analogous to printf(). In effect, the
+     string that would be output by printf() is output
+     instead as though waddstr() were used on the given window.
+
+     The vwprintw() routine is analogous to vprintf() and
+     performs a wprintw() using a variable argument
+     list. The third argument is a va_list, a pointer to a
+     list of arguments, as defined in <stdarg.h>.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

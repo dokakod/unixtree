@@ -1,0 +1,32 @@
+# trm file for IBM's HFT color terminal
+
+term		= "hft-m"
+
+# color definitions
+
+black		= "\e[30m"
+red		= "\e[31m"
+green		= "\e[32m"
+yellow		= "\e[33m"
+blue		= "\e[34m"
+magenta		= "\e[35m"
+cyan		= "\e[36m"
+white		= "\e[37m"
+
+grey		= "\e[30m\e[1m"
+lt-red		= "\e[31m\e[1m"
+lt-green	= "\e[32m\e[1m"
+lt-yellow	= "\e[33m\e[1m"
+lt-blue		= "\e[34m\e[1m"
+lt-magenta	= "\e[35m\e[1m"
+lt-cyan		= "\e[36m\e[1m"
+lt-white	= "\e[37m\e[1m"
+
+black-bgnd	= "\e[40m"
+red-bgnd	= "\e[41m"
+green-bgnd	= "\e[42m"
+yellow-bgnd	= "\e[43m"
+blue-bgnd	= "\e[44m"
+magenta-bgnd	= "\e[45m"
+cyan-bgnd	= "\e[46m"
+white-bgnd	= "\e[47m"

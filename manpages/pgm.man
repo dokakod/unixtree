@@ -1,0 +1,869 @@
+.\"
+.\" man pages
+.\"
+.\" The following are the package macros which are substituted at build time:
+.\"
+.\" UnixTree		program package name
+.\" xt		name used to invoke the program
+.\" XT		env var prefix (in caps)
+.\" Nanosoft		program vendor
+.\"
+.TH XT 1 "2002 Jan 03" Nanosoft
+'
+.SH Name
+'
+.\" The next line is the define-string for the program name
+.\" See the top of this file for info ...
+xt \- The UnixTree file management utility.
+'
+.SH Syntax
+'
+.I xt
+[
+.BR + / -
+options] [node]
+'
+.SH Description
+'
+.\" The next line is the define-string for the program name
+.\" See the top of this file for info ...
+.B "UnixTree"
+is a full-screen, interactive file management
+program.
+With \fBUnixTree\fP,
+you can view directories in a tree-like
+display, and change the way that
+files and directories are displayed.
+\fBUnixTree\fP also provides extensive file
+and directory management commands, as well
+as context-sensitive, online help.
+.PP
+To run \fBUnixTree\fP, enter:
+.PP
+.RS
+xt
+.RE
+.PP
+When you start \fBxt\fP, the program
+searches the filesystem, beginning at a specific
+point, and logs
+information about the files and directories
+below that point.
+This collection of information is called a
+.I node.
+.PP
+If you do not specify a node on the command line
+when you start
+.I xt,
+the program logs the default node, which is
+your home directory unless otherwise changed.
+You can override this default by setting the
+.SM XTNODE
+environment variable.
+See the section "Environment Variables" for more information about
+available \fBUnixTree\fP environment variables.
+.PP
+On-line, context-sensitive help is available at
+any time within \fBUnixTree\fP by pressing
+.B F1.
+See the section "Help" for a description of the help system.
+'
+.SH Options
+'
+There are several options available on the command
+line, which you can either turn on or turn off.
+To turn an option on, specify it with a plus sign (+),
+for example:
+.PP
+.RS
+xt\0+n
+.RE
+.PP
+To turn it off, specify it with a minus sign (\(mi),
+for example:
+.PP
+.RS
+xt\0-n
+.RE
+.PP
+Available options are:
+.TP
+.B a
+This option causes
+.B UnixTree
+to start up with the Applications Menu.
+(See the upcoming section, "Applications Menu").
+.TP
+.B c
+This option controls whether alternate character sets
+are to be used to display the line-drawing characters.
+.TP
+.B k
+If you turn on the
+.B k
+option, \fBUnixTree\fP automatically resolves
+symbolic links at logging time.
+If it is off, symbolic links are are logged as such.
+By default, this option is turned off.
+.TP
+.B m
+When you turn on the
+.B m
+option,
+.B UnixTree
+continues logging a node even when it crosses
+a mount point for a mounted filesystem.
+By default, this option is turned on and
+mounted sub-directories are logged.
+.TP
+.B n
+This option controls whether or not
+\fBUnixTree\fP logs remote (network) filesystems.
+If
+.B n
+is on, \fBUnixTree\fP logs only local filesystems
+and does not log network filesystems.
+By default, this option is turned on.
+.TP
+.B r
+This runs \fBUnixTree\fP in read-only mode.
+In this mode, you cannot change or delete
+any files in any of the nodes you log.
+By default, this option is turned off.
+.TP
+.B v
+This option tells \fBUnixTree\fP to just display the current
+version & release and exit.
+.TP
+.B w
+This option controls whether \fBUnixTree\fP should run in a
+separate window. If you are not running in an X11 environment,
+this option cannot be honored. The separate window allows full
+use of color and the mouse.
+.TP
+.B x
+If this option is turned on, then any current checkpoint file
+will be loaded instead of logging the default node. This option
+is ignored if a node is specified on the command line or if no
+checkpoint file is found.
+.TP
+.B "e" "<dir>"
+This option names a directory which is to be "skipped" when logging
+a node in automatic mode. All directories encountered with this
+name are not logged. This is useful, for example, when logging a
+source tree which has SCCS sub-directories, but you are not interested
+in seeing them. The "-e SCCS" option will skip all such directories.
+This option may appear more than once to skip multiple directories.
+.TP
+.B "l" "[" "a" "|" "m" "]"
+The
+.B l
+option sets the logging mode.
+It takes one other argument, either
+.B a
+for automatic logging, or
+.B m
+for manual logging.
+By default, manual logging is on, so that
+when you log a node only the first-level sub-directory
+is logged.
+In automatic mode, all sub-directories are logged when
+you start
+.B UnixTree.
+.TP
+.B "t" "<term>"
+This option specifies the terminal type of the display. By default,
+this value is taken from the $TERM environment variable (or the
+$XTTERM environment variable if present).
+.PP
+You can turn any option on or off.
+To turn on an option, use a plus sign (+) along
+with the option.
+To turn it off, use a minus sign (\(mi).
+.PP
+Note that options which take an argument can be specified with
+either a "\(mi" or a "+".
+.PP
+See the sections "Configuration" and "Environment Variables"
+for more information about configuring \fBUnixTree\fP.
+'
+.SH "Help"
+'
+.B UnixTree
+provides a context-sensitive, online help system.
+Help is available at any time by pressing
+.B F1.
+.PP
+The help system is a series of linked topics, one
+topic per screen.  On the higher-level screens
+there are highlighted keywords.  You select
+highlighted keywords with the Tab key.
+If you press Enter, you see a help screen
+that provides further information about the topic.
+.PP
+At the top-level of the help system
+is an index of the three general areas of
+the help system:
+.TP
+.B "Using Context Sensitive Help"
+This provides a general description of the help
+system, including how to select topics and how to scroll through
+the topic screens.
+.TP
+.B "Keyboard Functions"
+A description of the basic keyboard functions, including how to
+move around
+.B "UnixTree" "."
+.TP
+.B "Commands"
+Descriptions of all
+.B UnixTree
+commands and how to use them.
+.PP
+To go to the index at any time within the help
+system, press
+.B i.
+'
+.SH "Configuration"
+'
+\fBUnixTree\fP has a built-in, menu-driven Configuration Tool,
+available from the Directory Window by pressing
+.B Alt-F10.
+With the Configuration Tool, you can
+change any of the options described above, and many
+other aspects of the program, including screen colors
+and the behavior of various prompts.
+You can also use the Configuration Tool to change
+such defaults as the start-up node, printer, editor, viewer,
+and certain aspects of printing.
+.PP
+By default, changes you make to the \fBUnixTree\fP configuration are
+stored in the file
+.B xt\&.rc
+in your UnixTree home directory.
+You can also save changes to another filename for testing
+purposes.
+System-wide changes can be placed in the file
+.B xt\&.rc
+in the UnixTree system directory.
+.PP
+'
+.SH "Terminal Definitions"
+'
+In order to make full use of
+.B UnixTree
+with a specific character-based terminal,
+you may have to supplement the standard
+terminal definition, or create an
+.B UnixTree
+terminal definition file.
+An
+.B UnixTree
+terminal definition file describes keyboard
+and screen capabilities, and its name is composed
+of the terminal name and a
+.I \&.trm
+suffix.
+The terminal name must be whatever is assigned in
+the TERM or XTTERM variables.
+For example, this terminal definition file
+is for an ANSI terminal, "ansi":
+.PP
+.RS
+ansi.trm
+.RE
+.PP
+When
+.B UnixTree
+starts, it
+uses the following rules to process a terminal
+definition:
+.TP
+.B 1.
+Load any internal, \fBUnixTree\fP default definitions.
+.TP
+.B 2.
+If $TERM or $XTTERM are defined, look up the terminal
+type in the \fBtermcap\fP or \fBterminfo\fP database
+and load the appropriate entry.
+.TP
+.B 3.
+Look for a file called \fB$TERM.trm\fP or \fB$XTTERM.trm\fP.  Search
+the path specified by the $XTPATH variable.  For each directory in
+this path, both that directory and a \fBtrm\fP sub-directory is searched.
+.TP
+.B 4.
+If either \fB$TERM.trm\fP or \fB$XTTERM.trm\fP
+exist, use the information in those files to augment previous definitions.
+.TP
+.B 5.
+Look for a \fBuser.trm\fP file, and, if found, load it to augment
+previous definitions.
+.PP
+Note that the XTTERM variable takes precedence over the standard TERM
+variable.
+.PP
+There are two parts to a \fB\&.trm\fP file, although the lines may
+be in any order in the file.  The first part defines the keyboard
+and the second part defines the screen.
+.PP
+A \fB\&.trm\fP file is a plain-text file that contains only printable
+characters.  The syntax for keyboard definitions is:
+.PP
+.RS
+key-name\0\0=\0\0"encoded sequence"
+.br
+key-name\0\0=\0\0name
+.RE
+.PP
+For screen definitions:
+.PP
+.RS
+ability-name\0\0=\0\0"encoded sequence"
+.RE
+.PP
+If your terminal does not have a complete
+set of function keys or other important
+keys, you can define alternate keystrokes
+in the \fB\&.trm\fP file.
+This is done with the following variables:
+.TP
+.B Kfunc
+Alternate function key
+.TP
+.B Kalt\0\0
+Alternate Alt key
+.TP
+.B Kctrl
+Alternate Ctrl key
+.TP
+.B Kshift
+Alternate Shift key
+.PP
+By default, the Kfunc variable is defined as Ctl-].
+.B UnixTree
+does not define Kalt, Kctrl, and Kshift by default.
+.PP
+To change one of the alternate key mappings, redefine
+it in the \fB\&.trm\fP file.  For example:
+.PP
+.RS
+Kfunc\0\0=\0\0"^v"
+.RE
+.PP
+This defines the alternate function key as Ctl-v.
+Note that in the file you do not place a Ctl-v, but rather
+a carat (^) and the letter "v".
+.PP
+Along with the Kfunc, Kalt, Kshift, and Kctrl keys,
+you use one of the following keys:
+.TP
+.B u
+Up-arrow
+.TP
+.B d
+Down-arrow
+.TP
+.B l
+Left-arrow
+.TP
+.B r
+Right-arrow
+.TP
+.B h
+Home
+.TP
+.B e
+End
+.TP
+.B p
+Page Up
+.TP
+.B n
+Page Down
+.TP
+.B x
+Escape (Esc)
+.TP
+.B w
+Refresh screen
+.TP
+.B q
+Print Screen (print current screen to printer)
+.TP
+.B a
+Alt (Kalt)
+.TP
+.B c
+Ctrl (Kctrl)
+.TP
+.B s
+Shift (Kshift)
+.TP
+.B k
+Caps Lock
+.TP
+.B m
+Num Lock
+.TP
+.B ^x
+<control-x>
+.PP
+For example, to obtain a ^M (control-m):
+.PP
+.RS
+^M or ^m
+.RE
+.PP
+.TP
+.B 1-0 \(mi +
+Function keys F1 through F12.
+.PP
+For example, to obtain the function key ALT F10:
+.PP
+.RS
+Ctl-] a Ctl-] 0
+.RE
+.PP
+For more information about terminal configuration
+and terminal definitions, see the file TERMFILES in the
+UnixTree system directory.
+'
+.SH "Environment Variables"
+'
+.B UnixTree
+uses the following environment variables:
+.TP
+.B XTHOME
+This is the default user's home UnixTree directory.  If not specified,
+the default is "~/\&.xt".
+.TP
+.B XTPATH
+This is a list of directories that \fBUnixTree\fP searches
+for configuration files.
+The default path is
+.B "\&.:<UnixTree home directory>:<UnixTree system directory>".
+.TP
+.B XTNODE
+This is the default node to log when the
+user runs
+.I xt
+and no node is specified on the command line.
+If
+.SM XTNODE
+is not set to a specific value, the
+default node is the user's home directory.
+You can override this by specifying
+a node to log on the command line when
+you run
+.I xt.
+.TP
+.B XTTERM
+This variable contains the terminal type to use.
+If it is not explicitly set, the value of the
+standard
+.SM TERM
+variable is used.
+If
+.SM XTTERM
+is explicitly set, that value overrides
+.SM TERM.
+Note that the "-t <term>" option will override this.
+.TP
+.B XTPRINTER
+Either a printer name or a system command to use when
+sending output to the printer.  If not set, the default
+printer will be used.  If it starts with a "|", it is
+assumed to be a command to be executed.  If it starts
+with a ">", it is assumed to be a filename to write to.
+For example:
+.PP
+.RS
+"laser"
+.RE
+.RS
+"| lp\0-dlaser"
+.RE
+.RS
+"> printer.txt"
+.RE
+.PP
+.TP
+.B XTEDITOR
+System command to execute when you choose the
+.B UnixTree
+edit command.
+For example:
+.PP
+.RS
+/bin/vi
+.RE
+.PP
+.TP
+.B XTHEXEDITOR
+System command to execute when you choose the
+.B UnixTree
+hex-edit command.
+For example:
+.PP
+.RS
+/usr/bin/hexedit
+.RE
+.PP
+If this variable is not explicitly set, \fBUnixTree\fP uses
+its own, internal hex-edit engine.
+.TP
+.B XTVIEWER
+The viewer command to use when examining
+files.
+If this variable is not explicitly set, \fBUnixTree\fP uses
+its own, internal viewer.
+.PP
+.TP
+.B XTDIFF
+The diff command to use when comparing files.
+If this variable is not explicitly set, \fBUnixTree\fP uses
+its own, internal diff engine.
+.PP
+.TP
+.B XTINIT
+The initialization file to use instead of the standard
+xt.rc file.  This may be a full pathname, or just
+a filename (in which case it will be looked for in the
+XTPATH).  This option can be used to test a new configuration file.
+.TP
+.B XTMAGIC
+The list of magic files to use in querying file contents.
+The default magic path is
+.B <UnixTree home dir>/magic:<UnixTree system dir>/magic:/etc/magic.
+.PP
+These configuration variables (with the exception of $XTINIT)
+can be modified by changing the configuration settings with the
+Configuration Tool.
+'
+.SH "Applications Menu"
+'
+.B UnixTree
+provides a mechanism by which you can build
+a custom menu of commands, called the
+Applications Menu.
+The Applications Menu is set up in the file
+.B xt.mnu,
+which contains extensive comments that
+describe its format and how to configure the
+file.
+.PP
+The Applications menu is useful for keeping
+frequently-run system programs, such as mail,
+news readers, network commands, and so forth.
+There can only be one system
+.B xt.mnu
+file on the system, but each user may have his own
+xt.mnu file in his UnixTree home or current directory.
+'
+.SH "UnixTree Commands"
+'
+This section provides a brief description of basic
+.B UnixTree
+commands.
+.sp 2
+.I "Moving Around the Windows"
+.PP
+The following keys move the cursor:
+.TP
+.B "Arrow keys"
+Pressing the cursor (arrow) keys moves you from item to item within a
+window.
+.TP
+.B "PgDn"
+Moves the cursor down to the last item in a window
+display.  Subsequent use of Page Down scrolls the
+display to show the next section of elements.
+.TP
+.B "PgUp"
+Moves the cursor up to the first element in a window
+display.  Subsequent use of Page Up scrolls the
+display to show the previous section of elements.
+.TP
+.B "Home"
+Moves the cursor directly to the first item of the
+entire list.
+.TP
+.B "End"
+Moves the cursor directly to the last item of the
+entire list.
+.TP
+.B "Space Bar"
+Acts like a Down Arrow when scrolling within a
+window.
+.PP
+Additional cursor controls in the directory window are:
+.TP
+.B "Up Arrow"
+Scrolls sequentially up the directory list tree
+display.
+.TP
+.B "Down Arrow"
+Scrolls sequentially down the directory list tree
+display.
+.TP
+.B "Right Arrow"
+Moves the cursor down the current path to the last
+sub-directory.
+.TP
+.B "Left Arrow"
+Moves the cursor to the parent of the current
+directory.
+.TP
+.B "Tab"
+Moves the cursor down to the next directory on the
+same level as the current directory, within the same
+branch.  (This key performs a different operation in
+a split window display.)
+.TP
+.B "Backspace"
+Moves the cursor up to the next directory on the
+same level as the current directory, within the same
+branch.
+.PP
+An additional cursor control in a split display is:
+.TP
+.B Tab
+Activates the next window in a split display.
+.PP
+Additional cursor controls in file windows are:
+.TP
+.B "Right Arrow"
+Moves the cursor one column to the right.
+.TP
+.B "Left Arrow"
+Moves the cursor one column to the left.
+.PP
+.I "Node Selection Keys"
+.PP
+These keys select different nodes that you log:
+.TP
+.BR ">" " and " "\&."
+In Directory windows, press greater than (>)
+or a period (\&.) to select the next node in
+the sequence of previously logged nodes.
+.TP
+.BR "<" " and " ","
+In Directory windows, press less than (<) or comma (,)
+to select the prior node in
+the sequence of logged nodes.
+.sp 2
+.I "Function Key Commands"
+.PP
+.TP
+.B "F1"
+Brings up the help system.
+.TP
+.B "F2"
+Displays the Destination Directory Window and
+prompts you for the destination path.  F2 is
+available only with the Copy, Move, and Graft
+commands.
+.TP
+.B "F3"
+Selects the Tag command menu.
+.TP
+.B "F4"
+Selects the Alt command menu.
+.TP
+.B "F5"
+Hides a sub-directory tree.
+A period (.) in the margin of the
+Directory window indicates a hidden directory.
+.TP
+.B "F6"
+Shows a hidden sub-directory.
+.TP
+.B "F7"
+Runs the Autoview command, with which you can browse
+the contents of files in the current directory.
+.TP
+.B "F8
+Splits the display into two separate areas.
+.TP
+.B F10
+From the Alt menu, this starts the Configuration Tool.
+.TP
+.B "?"
+Displays a statistics window for a split window.
+.TP
+.B "Esc"
+Cancels an operation in progress.
+.sp 2
+.I "Destination Directory Window Keys"
+.PP
+.TP
+.B "Cursor keys"
+Selects a path.
+.TP
+.BR "<" " and " ">"
+Select a different node that has been previously
+logged.
+.TP
+.B "Enter"
+Selects a destination path and uses
+it as input to the
+destination prompt.
+.TP
+.B "Esc"
+Returns to the destination prompt without choosing a
+directory path.
+.sp 2
+.I "Keys for Editing Input Lines"
+.PP
+.TP
+.B "Home"
+Moves the cursor to the beginning of the line.
+.TP
+.B "End"
+Moves the cursor to the end of the line.
+.TP
+.B "Left Arrow"
+Moves the cursor one position to the left.
+.TP
+.B "Right Arrow"
+Moves the cursor one position to the right.
+.TP
+.B "Backspace"
+Deletes one character to the left of the cursor.
+.TP
+.B "Delete"
+Deletes the character under the cursor.
+.TP
+.B "Insert"
+Toggles insert mode on and off.
+.TP
+.B "Down Arrow"
+Erases the entire line and moves the cursor to the
+first position.
+.TP
+.B "Up Arrow"
+Retrieves the previous entry for that value.
+.PP
+.I "Miscellaneous commands"
+.PP
+.TP
+.B "F1"
+Brings up the help window at any time.
+.TP
+.B "!"
+Executes a shell escape.
+.TP
+.B "@"
+Refreshes the screen.
+.TP
+.B "#"
+Displays the current version.
+.TP
+.B "$"
+Displays memory usage.
+.TP
+.B "%"
+Prints the contents of the screen (print-screen).
+.TP
+.B "&"
+Creates a "clone" of the current program if it is running
+in a separate window. The result will be two identical processes,
+each displaying in its own window.
+'
+.SH Examples
+'
+This example starts
+.I xt
+and logs the node
+.B "/tmp/work" :
+.PP
+.RS
+xt\0/tmp/work
+.RE
+.PP
+This example logs the node
+.B /tmp/work,
+and automatically resolves any symbolic-links:
+.PP
+.RS
+xt\0+k\0/tmp/work
+.RE
+.PP
+This example logs the default node (your home directory)
+in manual mode:
+.PP
+.RS
+xt\0-lm
+.RE
+.PP
+This example logs the node
+.I /work
+and logs only local and not network directories:
+.PP
+.RS
+xt\0-n\0/work
+.RE
+.PP
+Note that by default the
+.B n
+option is on.
+'
+.SH Files
+'
+The following files are located in the UnixTree system directory:
+.PP
+.br
+xt			\fBUnixTree\fP program.
+.br
+<language>.hlp	Language-specific help files.
+.br
+<language>.res	Language-specific resource files.
+.br
+xt.dev		Archive device table file.
+.br
+xt.mnu		System applications menu file.
+.br
+xt.rc		System configuration file.
+.br
+xt.fc		System file-color file.
+.br
+magic		System magic file for determining file type.
+.br
+restool		Program for manipulating resource files.
+.br
+sample.rc		Sample configuration file with all defaults.
+.br
+trm/*.trm		System terminal configuration files.
+.br
+man			Man pages directory in "man" format.
+.br
+catman		Man pages directory in "cat" format.
+.PP
+.br
+The following files are specific to each user and are located in
+the user's UnixTree home directory:
+.PP
+.br
+xt.rc		User configuration file.
+.br
+xt.fc		User file-color file.
+.br
+xt.mnu		User applications menu file.
+.br
+xt.hst		User history file.
+.br
+xt.ckp		User checkpoint file.
+.br
+magic		User magic file for determining file type.
+.br
+trm/*.trm		User terminal configuration files.
+'
+.SH Notes
+'
+Don't leave $HOME without it!
+'
+.\" .SH "See Also"
+.\" '
+.\" .I "UnixTree User's Guide"
+.\" '

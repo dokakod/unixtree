@@ -1,0 +1,6 @@
+# SUN cmd window
+
+term		= "sun"
+
+session-beg	= "\e[>4l"
+session-end	= "\e[>4h"

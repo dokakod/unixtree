@@ -1,0 +1,123 @@
+Curses Library Functions ecurs_attrvals
+
+
+
+NAME
+     ecurs_attrvals - mono & color attribute values
+
+SYNOPSIS
+     #include <curses.h>
+
+     int get_key_value(const char *name);
+
+     const char *get_key_name(int code, char *buf);
+
+     const char *get_char_name(int code, char *buf);
+
+     const char *get_attr_name_by_code(attr_t code, char *buf);
+
+     const char *get_color_name_by_code(attr_t code, char *buf);
+
+     const char *get_fg_name_by_code(attr_t code);
+
+     const char *get_bg_name_by_code(attr_t code);
+
+     const char *get_attr_name_by_num(int n);
+
+     const char *get_fg_name_by_num(int n);
+
+     const char *get_bg_name_by_num(int n);
+
+     attr_t get_attr_value_by_num(int n);
+
+     attr_t get_fg_value_by_num(int n);
+
+     attr_t get_bg_value_by_num(int n);
+
+     int get_attr_num_by_code(attr_t code);
+
+     int get_attr_num_by_name(const char *name);
+
+     int get_fg_num_by_code(attr_t code);
+
+     int get_fg_num_by_name(const char *name);
+
+     int get_bg_num_by_code(attr_t code);
+
+     int get_bg_num_by_name(const char *name);
+
+     int get_default_attributes(attr_t *pr, attr_t *ps,
+         int use_color, int use_win);
+
+DESCRIPTION
+     These routines all get values based on the defined
+     attributes, not on attributes defined for a particular
+     display.
+
+     Foreground and background color numbers range between 0
+     and NUM_COLORS-1. Mono attribute numbers range between 0
+     and NUM_MONO_ATTRS-1.
+
+     get_key_value() returns the value of the key associated
+     with a name.
+
+     get_key_name() the name associated with a key value. If
+     the value specified is not recognized, a printable hex
+     string representing that value is returned. The string
+     is stored in buf, and buf is returned.
+
+     get_char_name() stores a printable version of the given
+     character in buf and returns buf.
+
+     get_attr_name_by_code() will return the names of all
+     attributes specified into buf. More than one attribute
+     may be present.
+
+     get_color_name_by_code() will return in buf the <fg>/<bg>
+     names of the specified attribute.
+
+     get_fg_name_by_code() and get_bg_name_by_code() return the
+     name of the attribute specified.
+
+     get_attr_name_by_num(), get_fg_name_by_num(), and
+     get_bg_name_by_num() return the appropriate name referenced
+     by number.
+
+     get_attr_value_by_num(), get_fg_value_by_num(), and
+     get_bg_value_by_num() return the attr_t value of the
+     attribute referenced by number.
+
+     get_attr_num_by_code(), get_fg_num_by_code(), and
+     get_bg_num_by_code() return the number of the
+     attribute code specified.
+
+     get_attr_num_by_name(), get_fg_num_by_name(), and
+     get_bg_num_by_name() return the number of the named
+     attribute.
+
+     get_default_attrs() will return in pr & ps the default
+     regular and standout attributes to use. If use_color is
+     specified, the default attributes returned will be color
+     attributes, otherwise they will be mono attributes. use_win
+     specifies whether to consider whether we are in a window or
+     not. The default color attributes are lt-white/black and
+     black/lt-white if not in a window, and black/lt-white and
+     lt-white/black if in a window.
+
+RETURN VALUES
+     All integer routines return the integer ERR upon failure and
+     an integer value other than ERR upon successful completion.
+
+     All attr_t routines return A_UNSET upon failure and an
+     attr_t value if succesful.
+
+     All pointer routines return NULL upon failure and a valid
+     pointer if successful.
+
+SEE ALSO
+     ecurs_attrs, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,17 @@
+%define _rpmdir			${CWD}
+%define _rpmfilename	%%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
+
+Summary:	${PKG} File Management Utility
+Name:		${PKG}
+Group:		Applications/Productivity
+Copyright:	${CPY}
+URL:		${WWW}
+Vendor:		${VND}
+Version:	${VER}
+Release:	${REL}
+AutoReqProv:	no
+
+%description
+${PKG} is a full-screen file management utility.
+
+%files

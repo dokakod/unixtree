@@ -1,0 +1,37 @@
+Curses Library Functions ecurs_inch
+
+
+
+NAME
+     ecurs_inch - get a character and its attributes from a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     chtype chat(int y, int x);
+
+     chtype wchat(WINDOW *win, int y, int x);
+
+     chtype inch(void);
+
+     chtype winch(WINDOW *win);
+
+     chtype mvinch(int y, int x);
+
+     chtype mvwinch(WINDOW *win, int y, int x);
+
+DESCRIPTION
+     With these routines, the character, of type chtype, at the
+     current or named position in the named window is returned.
+     If any attributes are set for that position, their values
+     are OR-ed into the value returned. Macros defined by
+     <curses.h> can be used to extract the character or
+     attributes alone.
+
+SEE ALSO
+     ecurs_attr, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

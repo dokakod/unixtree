@@ -1,0 +1,125 @@
+Curses Library Functions ecurs_misc
+
+
+
+NAME
+     ecurs_misc - Miscellaneous utility routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int win_resize(void);
+
+     int win_snap (const char *path);
+
+     int win_title(const char *s);
+
+     int win_async_key(int key, WIN_ASYNC_KEY_RTN *rtn,
+         void *data);
+
+     int win_blnkscr(const char **logo);
+
+     int win_debug_scr(int bf, int text);
+
+     int win_debug_kbd(int bf, int text);
+
+     int win_set_icon(int width, int height,
+         unsigned char *bits);
+
+     int win_event_rtn(int (*rtn)(void *data, int ms),
+         void *data);
+
+     int win_input_rtn(int (*rtn)(void *data, int ms),
+         void *data);
+
+     int win_output_rtn(int (*rtn)(void *data,
+         const unsigned char *buf, int n),
+         void *data);
+
+DESCRIPTION
+     These are miscellaneous utility routines.
+
+     win_resize() will delete all "standard" windows and
+     re-create them with the new size of the screen. It is to
+     be called after a program receives a KEY_WIN_RESIZE key,
+     indicating that the screen has been resized by the user.
+     If stdscr has any sub-windows, it will not be resized.
+
+     win_snap() will take a snapshot of the current screen and
+     append it to the specified file.  If a filename is not
+     specified, the file "screen.snp" in the current directory
+     will be used.
+
+     win_title() will set the window title to the string
+     specified. If the capabilities "title-beg" and "title-end"
+     are not defined, the window title will not be set.
+
+     win_async_key() specifies a call-back routine to be called
+     asyncronously whenever the specified key is read in. It is
+     given a void pointer to arbitrary user data which is passed
+     to the call-back routine with the key read in. If the
+     call-back routine returns 0, the key is "consumed" and not
+     passed back to the routine which called wgetch(). If it
+     returns a non-zero value, the key is passed back.
+
+     win_blnkscrn() performs a "screen-saver" function. It will
+     blank the screen, then display the lines of text given at
+     random positions on the screen, updating the display every 5
+     seconds.  If the screen has color capabilities, the text
+     will be in a random color each time. logo is a
+     NULL-terminated array of text lines to be displayed. The
+     routine returns when any key is pressed or a mouse-event is
+     received. The key pressed is "consumed".
+
+     win_debug_scr() will start or stop logging of screen output
+     to a log file, depending on whether bf is TRUE or FALSE.
+     If text is TRUE, then a text-version of the screen output
+     is written to "scrn.txt" in the current directory.
+     If text is FALSE, then raw screen output is written to
+     "scrn.log" in the current directory.
+
+     win_debug_kbd() will start or stop logging of keyboard input
+     to a log file, depending on whether bf is TRUE or FALSE.
+     If text is TRUE, then a text-version of the keyboard input
+     is written to "keys.txt" in the current directory. If text
+     is FALSE, then raw key strokes are written to "keys.log" in
+     the current directory.
+
+     win_set_icon() will send an icon-bitmap to the terminal
+     emulator which will be used as the icon for the window.
+     The icon is width bits wide and height lines high.  Both
+     width and height must be a multiple of 8 and have a max
+     size of 64.  bits is a pointer to an array of bit values
+     to be used.
+
+     win_event_rtn() is used to specify an event routine which
+     is to be called to process events.  If called with a non-
+     zero routine pointer, it will cause the specified routine
+     to be called prior to every keyboard input call and every
+     screen output call and periodically during execution of a
+     sub-task.  This call is used when the display is under the
+     control of an event-routine which needs to be updated.
+
+     win_input_rtn() is used to specify a routine which will be
+     called before each read. A return value of -1 indicates to
+     abort the read, a zero indicates to do the read, and a value
+     greater than zero indicates a value to be returned instead
+     of doing the read.
+
+     win_output_rtn() is used to specify a routine which will be
+     called before each write of data.  A return value of -1
+     indicates to abort the write and return with -1, a value of
+     0 indicates to do the write, and a value greater than 0
+     indicates to abort the read and return with a value of 0.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and
+     an integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

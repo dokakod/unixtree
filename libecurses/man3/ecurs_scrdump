@@ -1,0 +1,56 @@
+Curses Library Functions ecurs_scrdump
+
+
+
+NAME
+     ecurs_scrdump - read (write) a curses screen from (to) a file
+
+SYNOPSIS
+     #include <curses.h>
+
+     int scr_dump(char *filename);
+
+     int scr_restore(char *filename);
+
+     int scr_init(char *filename);
+
+     int scr_set(char *filename);
+
+DESCRIPTION
+     With the scr_dump() routine, the current contents of the
+     virtual screen are written to the file filename.
+
+     With the scr_restore() routine, the virtual screen is set to
+     the contents of filename, which must have been written using
+     scr_dump(). The next call to doupdate() restores the screen
+     to the way it looked in the dump file.
+
+     With the scr_init() routine, the contents of filename are
+     read in and used to initialize the curses data structures
+     about what the terminal currently has on its screen. If the
+     data is determined to be valid, curses bases its next update
+     of the screen on this information rather than clearing the
+     screen and starting from scratch. scr_init() is used after
+     initscr() or a system call to share the screen with another
+     process which has done a scr_dump() after its endwin() call.
+
+     The scr_set() routine is a combination of scr_restore() and
+     scr_init(). It tells the program that the information in
+     filename is what is currently on the screen, and also what
+     the program wants on the screen. This can be thought of as a
+     screen inheritance function.
+
+     To read (write) a window from (to) a file, use the getwin()
+     and putwin() routines (see ecurs_util).
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and OK upon
+     success.
+
+SEE ALSO
+     ecurs_initscr, ecurs_refresh, ecurs_util, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

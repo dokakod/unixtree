@@ -1,0 +1,56 @@
+Curses Library Functions ecurs_addchstr
+
+
+
+NAME
+     ecurs_addchstr - add string of characters and attributes to a
+     curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int addchstr(chtype *chstr);
+
+     int addchnstr(chtype *chstr, int n);
+
+     int waddchstr(WINDOW *win, chtype *chstr);
+
+     int waddchnstr(WINDOW *win, chtype *chstr, int n);
+
+     int mvaddchstr(int y, int x, chtype *chstr);
+
+     int mvaddchnstr(int y, int x, chtype *chstr, int n);
+
+     int mvwaddchstr(WINDOW *win, int y, int x, chtype *chstr);
+
+     int mvwaddchnstr(WINDOW *win, int y, int x, chtype *chstr,
+         int n);
+
+DESCRIPTION
+     All of these routines copy chstr directly into the window
+     image structure starting at the current cursor position. The
+     routines with n as the last argument copy at most n
+     elements, but no more than will fit on the line. If n = -1,
+     then the whole string is copied, to the maximum number that
+     fit on the line.
+
+     The position of the window cursor is not advanced. These
+     routines works faster than waddnstr() (see ecurs_addstr)
+     because they merely copy chstr into the window image
+     structure. On the other hand, care must be taken when using
+     these functions, because they do not perform any kind of
+     checking (such as for the newline character), they do not
+     advance the current cursor position, and they truncate the
+     string, rather then wrapping it around to the next line.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_addstr, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

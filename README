@@ -1,0 +1,1002 @@
+This file describes how to configure, build, and use this source tree.
+
+--------------------------------------------------------------------------
+COPYRIGHT / LICENSE INFO
+
+This source is copyrighted source distributed under the terms of GPL
+(the GNU General Public License).
+
+Parts of this code has been derived from previous GPL and/or other
+open-source distributions.
+These parts can be found in the following libraries:
+
+	libgzip		GZIP compression library (Jean-loup Gailly & Mark Adler).
+				For details, see the file "libgzip/zlib.h".
+
+	libmagic	MAGIC file processing (Ian F. Darwin).
+				For details, see the file "libmagic/libmagic.h".
+
+	libdiff		GNU DIFF program (various authors).
+				For details, see the file "libdiff/diffsys.h".
+
+	libutils	REGEXP processing (Henry Spencer).
+				For details, see the file "libutils/utregexp.c".
+
+	libform		FORM processing under curses (Juergen Pfeifer).
+				This library is not used by this source, but is included
+				to provide a complete curses implementation.
+				For details, see the file "libform/form.h".
+				
+	libmenu		MENU processing under curses (Juergen Pfeifer).
+				This library is not used by this source, but is included
+				to provide a complete curses implementation.
+				For details, see the file "libmenu/menu.h".
+
+	libpanel	PANEL processing under curses (Zeyd M. Ben-Halim &
+				Eric S. Raymond).
+				This library is not used by this source, but is included
+				to provide a complete curses implementation.
+				For details, see the file "libpanel/panel.h".
+
+	libxpm		XPM library (XFree86 source distribution)
+				This library is only used by libxvt if USE_XPM is defined,
+				which allows pixmap (*.xpm) files to be specified for icons.
+				For details, see the file "libxpm/xpm.h".
+
+Note that the code in these libraries have been seriously hacked from their
+original form, mostly to convert them from a single-use program to a
+general-use library, and to use our malloc-interface.
+
+--------------------------------------------------------------------------
+GENERAL NOTES
+
+1.	All files in this source tree were created using a TabStop of 4.
+
+	If you are using "vi" to view these files, use the cmd "set ts=4"
+	to set the TabStops correctly. (You can also put that cmd in your
+	~/.exrc file to have it always in effect.)
+
+	The only exceptions are the CHANGES file, the text files in the
+	support directory, and the term-files in the termfiles directory,
+	which are delivered to the user, so they have a "standard" TabStop of 8.
+
+2.	The source files in this tree are all written using ANSI C.
+
+	To compile this source, your C compiler MUST be an ANSI-compliant
+	compiler.  There are enough of them out there (including GNU), and
+	the ANSI standard has been out there long enough, that this *should*
+	not be an issue. (Although you know the difference between theory and
+	practice: in theory there is no difference.)
+
+	If your compiler is not ANSI-compliant, join the real world and get one
+	that is.  If you don't want to pay for one, you can always download the
+	GNU compiler source (from www.gnu.org) and build it yourself, or there
+	are sites with pre-built versions of the GNU compiler can be downloaded.
+
+	Of the platforms which I have built this source on, the only platforms I
+	found that do not have a native ANSI compiler are SunOS and HP.
+	I use the GNU compiler on both of these platforms.
+
+3.	You MUST set the variables BUILDER_NAM & BUILDER_EMA in bldinfo.
+
+	These variables provide the name & email address of the person who
+	built that package.  In this way, we can look at a build and know
+	who built it.  This is very important when the source is available
+	to anyone who wants to do a build & distribute it.
+
+	Note that the "-ZV" option displays this information, as well as
+	the description of the platform it was built on.
+
+--------------------------------------------------------------------------
+WINDOWS BUILD NOTES
+
+1.	If you are building this tree in Windows, you MUST have the either
+	the MKS ToolKit or the CYGWIN package installed.
+
+	The make process assumes the use of a "shell" similar to the
+	Bourne/Korn/Bash shells to execute scripts and commands in the
+	makefiles, and uses "make" rather than "nmake".
+
+	I highly recommend the MKS toolkit for anyone doing Unix/Windows
+	cross-platform development.  I could not live without it.  Nuff said.
+
+	The CYGWIN package can be used to do the build, but if you use the gcc
+	system included with it instead of the Microsoft development package,
+	you cannot access all the capabilities of Windows, such as mouse &
+	color support and low-level file-system support.
+
+2.	This source assumes the use of the Microsoft development platform.
+	I do not know if it will work using any other package (Borland, etc.).
+
+	Specifically, I detect we are compiling in Windows by checking for
+	the manifest constants _MSC_VER or _WIN32.  If your compiler defines
+	a different manifest constant, then put either -D_MSC_VER or -D_WIN32
+	in the CDEFS entry in the winx86.env file.
+
+	Note that using "gcc" under "cygwin" results in compiling the
+	source as if it were in Unix.
+
+3.	This code also assumes the use of sub-threads, so be sure to specify
+	whatever compiler options are necessary to turn on multiple-thread
+	support and link with any needed multi-thread libraries.
+
+--------------------------------------------------------------------------
+BUILD SCRIPT
+
+Due to the differences between Unix platforms (what to speak of Windows),
+a "build environment" must be setup prior to running the make.  To setup
+this environment, the script "build" must be "sourced" first:
+
+	$ . build [options] <platform>
+
+The "build" script is invoked with a platform-name as the argument, which
+tells it which "env" script to use.  The platform-specific "env" scripts
+are found in the env directory as "env/<platform>.env".
+
+If <platform> is not specified, then the build script will try to
+guess the platform, using the "guess.sh" script.  See the "guess.sh" script
+for details.
+
+Examples:
+
+	To do a "debug" build for the "Solaris" platform, do the following:
+
+		$ . build -d solaris
+		$ make
+
+	To do a "release" build for the "Linux" platform, do the following:
+
+		$ . build -r linux
+		$ make
+
+The "build" script sets up various environment variables which are common
+for a particular operating system (Unix or Windows), and the "env" script
+sets up those environment variables which are particular to a specific
+platform.
+
+To create an "env" script for a new platform, you can start by copying the
+"env" script for a similar platform, and changing whatever entries are
+different.  A suitable entry should then be added to the "guess.sh" script
+to use that platform.
+
+See the "build" script for more complete documentation as to what
+environment variables are possible/required to be set.
+
+The following platforms currently have "env" scripts:
+
+	platform	O/S name			O/S		Architecture	Notes
+	--------	------------		----	-------------	-------------------
+	aix			IBM AIX				SVR4*	rs6000/ppc
+	alpha		Digital/ux			SVR4	alpha
+	dg88		DG/ux				SVR4	88k				Not tested lately
+	dg86		DG/ux				SVR4	x86
+	freebsd		FreeBSD				BSD		x86	
+	hp			HP/ux				SVR4	pa/risc			Native cc not ANSI
+	i386v3		generic SVR3		SVR3	x86
+	i386v4		generic SVR4		SVR4	x86
+	linux		Linux				SVR4*	x86
+	ncr			ATT/NCR				SVR4	x86
+	netbsd		NetBSD				BSD		x86
+	osx			Mac OS/X			BSD		powerpc			No X-Windows avail
+	os5			SCO OpenServer		SVR3	x86
+	sgi			IRIX				SVR4	mips			Not tested lately
+	solaris		Solaris				SVR4	sparc
+	solaris64	Solaris				SVR4	sparc			64-bit
+	sunos		SunOS				BSD		sparc			Native cc not ANSI
+															Not tested lately
+	sunx86		Solaris				SVR4	x86
+	uw			SCO UnixWare		SVR4	x86
+
+	winx86		Windows				Win		x86				Need MKS ToolKit
+															Uses MSVC.
+	cygwin		Windows				Win		x86				cygwin version
+															Uses MSVC.
+	cygwin-gcc	Windows				Win**	x86				cygwin-gcc version
+															Uses gcc.
+
+	*	This kernel is not SVR4, but it behaves like SVR4:
+			aix		uses the "mach"  kernel
+			linux	uses the "linux" kernel
+
+	**	The cygwin-gcc system runs under Windows, but behaves like Unix
+		and requires the presence of the cygwin1.dll, which provides
+		the Unix/Windows interface.
+
+I opted for this "env-file" mechanism as opposed to the GNU "configure"
+mechanism, since I have experienced too many "autoconf" failures using
+GNU builds, and we have too many options which a "configure" would not
+detect.  Also, very few systems have autoconf (and related binaries)
+installed on them.
+
+Note that, before sourcing the appropriate env file for a platform, the
+build script will source the file "build.pre" if found.  This allows
+a user to set personal stuff, such as a PATH, etc, prior to the actual
+setup.  Also, if the script "build.post" is present, it is sourced after
+the build script is finished.
+
+--------------------------------------------------------------------------
+MAKEFILE
+
+The top-level makefile has the following targets:
+
+Build targets:
+
+	all			Builds everything.
+
+	install		Builds everything and installs all files into the
+				$INS_DIR directory. Note that this installs all files
+				which would be put in either the $DST_DIR or $UTL_DIR
+				directories.
+
+	deliver		Builds everything and delivers all normal files to the
+				$DST_DIR directory, the utility programs to the $UTL_DIR
+				directory, and the ecurses library to $WIN_DIR.
+
+	bundle		Packages up all files in $DST_DIR and creates a
+				deliverable package into $SKU_DIR.
+
+					Linux				$PROGRAM-$SKU.tar.gz
+					All other Unixes	$PROGRAM-$SKU.tar.Z
+					Windows				$PROGRAM-$SKU.zip
+
+				The deliverable consists of a compressed tar file
+				(or zip file if in Windows).  It may also create
+				a platform-specific installable.  Currently,
+				the only platform-specific installables are:
+
+					pkgadd				$PROGRAM-$SKU.pkg.Z	for SVR4 systems
+					rpm					$PROGRAM-$SKU.rpm	for Linux
+
+				Also packages up all files in $UTL_DIR and creates the
+				following deliverable:
+
+					Linux				termutils-$SKU.tar.gz
+					All other Unixes	termutils-$SKU.tar.Z
+					Windows				termutils-$SKU.zip (cygwin-gcc only)
+
+				Also packages up all files in $WIN_DIR and creates the
+				following deliverable:
+
+					Linux				libecurses-$SKU.tar.gz
+					All other Unixes	libecurses-$SKU.tar.Z
+					Windows				libecurses-$SKU.zip
+
+	sku			Builds & delivers everything and produces SKU bundles.
+				(Same as "deliver bundle".)
+
+Clean targets:
+
+	notarget	Deletes all linked executables.
+
+	clean		Cleans everything (except the SKU directory).
+
+	clean-dist	Cleans all distribution directories (except the SKU
+				directory).
+
+Listing targets:
+
+	srclist		Creates a sorted list of all source files in the tree
+				by invoking "make srclist" in all sub-directories.
+				Output goes to stdout.
+	src.list	Same as "make srclist >src.list"
+
+	fndlist		Creates a sorted list of all read-only files (presumably
+				the actual source files) via the "find" command.
+				Output goes to stdout.
+	fnd.list	Same as "make fndlist >fnd.list"
+
+	cmslist		Creates a sorted list of all source files checked-in
+				via the CM system in use.
+				(I use perforce, which I highly recommend for anyone
+				doing cross-platform development. See www.perforce.com
+				for information.)
+				Output goes to stdout.
+	cms.list	Same as "make cmslist >cms.list"
+
+Other targets:
+
+	srcsku		Delivers the source as an SKU into $SKU_DIR.
+				It delivers two different source SKUs:
+
+					$PROGRAM-source-$VERSION.$RELEASE.tar.Z
+					$PROGRAM-source-$VERSION.$RELEASE.tar.gz
+
+				Note that the source is "tarred" up as if it were in
+				the directory "$PROGRAM-$VERSION.$RELEASE".
+
+	lint		Runs lint on all source files (produces lots of output).
+
+	xrflist		Creates a cross-reference list of names in all object files.
+				Output goes to stdout.
+	xrf.list	Same as "make xrflist >xrf.list"
+
+The final output of the build procedure are the SKU packages which are
+delivered to $SKU_DIR.  These packages are the files distributed to users
+for installation.
+
+I use the targets srclist/fndlist/cmslist to create the list of all files
+in the tree and to validate that everything used is actually present and
+checked-in to the CM system. For example, I do a "make src.list cms.list"
+and then do a "diff src.list cms.list" to verify that everything is checked-in.
+
+You can create a tar file of the entire source with the cmd
+"tar cvf source.tar `make srclist`".
+
+The "xrflist" target is handy in generating a list of all names which
+can be easily "grepped" to locate procedure/data instances/references.
+See the file "bin/xrfobjs" for details on the contents of this file.
+
+--------------------------------------------------------------------------
+PRODUCING A SKU
+
+The final output of building the source is an SKU ("stock-keeping-unit")
+which can be distributed to users.  An SKU consists of a single file
+which contains the entire distribution for a platform and is designed
+to be installed via some install mechanism.
+
+Unfortunately, there is no "standard" in Unix for installing packages,
+so the default SKU is a compressed "tar" file which can be "extracted"
+into a directory using "tar" (after being uncompressed).  The Windows
+build produces a "zip" file.
+
+For systems which have a "standard" for that system, we produce additional
+platform-specific SKUs for that platform (see below).
+
+To produce a SKU for a particular platform, you would do the following:
+
+	$ . build -r <platform>
+	$ make sku
+
+This will produce one of the following files in the SKU directory ($SKU_DIR):
+
+	Linux				$PROGRAM-$SKU.tar.gz
+	All other Unixes	$PROGRAM-$SKU.tar.Z
+	Windows				$PROGRAM-$SKU.zip
+
+The $SKU name for a particular platform is set in the "env" file for that
+platform. We use the standard of "<architecture-name>-<os-name>".
+For example, for Linux on Intel, we use "x86-linux".
+
+We use "compress" on all Unix platforms (which produces *.Z files)
+except Linux, where we use "gzip" (which produces *.gz files).
+This is because "gzip" is always present on Linux and is the standard there,
+but is not usually available on other platforms.  Note that "gzip" will
+uncompress files produced by "compress".
+
+The Windows files "*.zip" can be "extracted" using any of the available
+Windows programs, such as "pkzip", "winzip", etc.
+
+This command will also produce a platform-specific installable for
+selected platforms.  These are as follows:
+
+	Linux				$PROGRAM-$SKU.rpm		uses "rpm"    to install
+	SVR4 Unixes			$PROGRAM-$SKU.pkg.Z		uses "pkgadd" to install
+
+Note that for testing purposes, you can "cd" to the $DST_DIR directory
+and run the program.  The files there are the complete set of files which
+are packaged up.
+
+--------------------------------------------------------------------------
+TERMINAL-CAPABILITIES DATABASE CONFIGURATION (Unix only)
+
+This section is to aid in figuring out how to setup the terminal-capabilities
+database configuration for a new platform.
+
+The biggest difference in terminal processing between various Unix platforms
+is in the terminal database used.  There are two different terminal databases
+used in Unix: "termcap" and "terminfo".
+
+termcap database:
+
+	The "termcap" database consists of the text file /etc/termcap or
+	/usr/share/misc/termcap.
+
+	In general, the "termcap" database is used in BSD systems.
+
+terminfo database:
+
+	The "terminfo" database consists of "compiled" terminfo files kept in
+	a terminfo directory (usually /usr/share/lib/terminfo), with all "a*"
+	entries going into <terminfo-dir>/a/a*, etc.  OS/X on the Mac uses the
+	naming convention /usr/share/lib/<hh>/<name>, where <hh> is the hex
+	representation of the first character in <name>.
+
+	In general, the "terminfo" database is used in SYSV systems (SVR3 & SVR4).
+
+To make things more complicated, the syntax of the parameterized strings
+and padding information is different between the two systems, so you cannot
+provide your own versions of strings without knowing which type of system
+you are using.
+
+Currently, the only platforms which use "termcap" are *BSD, and SunOS,
+which are all BSD-based systems.  Note that most other Unixes do
+provide termcap (and the /etc/termcap file), but do so by "emulating" the
+termcap routines via terminfo.
+
+We do not use the "standard" curses library, but use our own version of it.
+This is because "standard" curses varies between different platforms,
+and no version provides all the functionality needed (such as defining all
+function-keys, color capability, and mouse capability).  Also, obviously,
+there is no "curses" library available for Windows (before now).
+
+Our version of the "curses" library is the "ecurses" (extended-curses) library.
+The "ecurses" library provides a super-set of the standard "curses"
+functionality, and *should* be plug-and-play with any program written
+which uses "curses".  By providing this library (and all the headers
+included in it), you can substitute this version with the standard version
+(of course, you must re-compile any program using the provided headers).
+
+The "ecurses" library will support both types of databases, and can switch
+between them at run-time.  The default behavior is to "auto-detect" which
+type is in use, by first trying to load a "terminfo" entry, and, if that
+fails, trying to load a "termcap" entry.
+
+Regardless of which database entry type was loaded, a term-file can override
+the type.  Therefore, it is important than any term-files provided either
+indicate which database-type its parameterized strings are for or use the
+database-specific entries for the parameterized strings.  The "ecurses"
+routines will automatically handle either syntax for padding information.
+
+See the section "Extended Curses Library" below for further details.
+
+--------------------------------------------------------------------------
+TERM-FILES (Unix only)
+
+The "ecurses" library uses the appropriate terminal database (terminfo
+or termcap) to load initial values for a particular terminal, but then it
+loads a "term-file" ("$TERM.trm") in order to get extended functionality
+which may not be in the "standard" entry.  The term-files which are
+delivered with the product are found in the "termfiles" directory.
+
+You can even provide a term-file for a TERM type which is not in any "standard"
+database.  The rule is that there must be either a database entry, a term-file,
+or both for a given TERM type.  Entries in a term-file will override any
+corresponding entry from the database.
+
+See the file "support/termfiles.txt" for documentation of term-files.
+
+For help in creating & testing term-files, the following programs are
+built in the "termutils" directory:
+
+	dispbox		Display boxes using the alt-char sets in all styles.
+
+	dispblks	Display block letter strings using alt-char sets if possible.
+
+	dispchrs	Display all characters (in the regular char-set).
+
+	dispclrs	Display all colors.
+
+	dispkeys	Display the names for key-strokes.
+				Run "dispkeys -d" to get raw char data for adding key
+				entries to a term-file.
+
+	dispterm	Display the all terminal configuration for a given TERM type.
+
+	saveterm	Write out a term-file for a given TERM type.
+
+	dispsnap	Display the contents of a "snap file" ("screen.snp").
+				A snap file is produced at any time by entering
+				KEY_SNAP (by default KFUNC-z ("^]" "z").  Subsequent
+				KEY_SNAP commands will append snapshots to the file.
+
+	ditto		Display user input on multiple terminals simultaneously.
+
+	dumpterm	Dump the contents of a terminal database entry (either
+				termcap or terminfo).
+
+	playback	Playback a saved screen log file, one character at a time.
+				Each key stroke will "playback" one character ("1"-"9"
+				will display 1-9 characters at a time).
+				Run "playback -x" to playback a text screen log file.
+
+				A binary screen log file is opened with a KFUNC-< ("^]" "<")
+				and closed with a KFUNC-> ("^]" ">").
+				The default binary screen log file is "scrn.log".
+
+				A text   screen log file is opened with a KFUNC-( ("^]" "(")
+				and closed with a KFUNC-) ("^]" ")").
+				The default text   screen log file is "scrn.txt".
+
+	termput		Display the value of a terminal entry (ala "tput").
+				Name can be a "termcap" name, a "terminfo" name,
+				or a "term-file" name.
+
+--------------------------------------------------------------------------
+FILE-SYSTEM DIFFERENCES
+
+Another area in which practically every Unix is different is in the
+library calls to read the mount-table and to get the amount of free-space
+for a mounted file-system, as many platforms have their own proprietory
+file-system access mechanism.
+
+The currently supported file-system types are:
+
+	FS name		O/S
+	-------		-----------
+	aix			IBM AIX
+	bsd			FreeBSD, OpenBSD, SunOS, & OS/X
+	cygwin		Windows (using cygwin-gcc)
+	dg			DG/ux (both dg86 & dg88)
+	hp			HP/ux
+	linux		Linux
+	netbsd		NetBSD
+	osf			Digital OSF
+	posix		Posix
+	sgi			SGI (IRIX)
+	svr3		generic SVR3
+	svr4		generic SVR4
+	win			Windows
+
+The file-system type is specified by the $FS_TYPE environment variable,
+which is set in the platform's "env" file.  This is a REQUIRED variable to
+be set, and if it is not set, "posix" will be assumed.
+
+If your file-system is different from all the above types, you can add
+source code to support your file-system.  The file must be named
+"libos/osmnt-$FS_TYPE.c".  You can look at the other libos/osmnt-*.c
+files to get an idea of how to do it.  See the file libos/osmnt.h
+for details.
+
+If you are not sure what to do or what type of file-system your Unix uses,
+then set FS_TYPE to "posix", which are a set of "empty" routines which
+do nothing.  The program will still function properly, but you will not
+be able to view the amount of free-space available, or get the list of
+mounted file systems.
+
+--------------------------------------------------------------------------
+PSEUDO-TTY DIFFERENCES (Unix only)
+
+Another area in which various Unixes are different is in the library calls
+to open a pseudo-tty.  Pseudo-ttys are used in the xvt library to create a
+communication between a program and its display window.
+
+The currently supported pseudo-tty types are:
+
+	type	O/S					master names			slave names
+	-----	-----------			------------			-----------
+	sysv	SYSV				/dev/ptmx				/dev/pty[p-s][0-9a-f]
+	bsd		BSD, AIX, & Linux	/dev/pty[p-z][0-9a-f]	/dev/tty[p-z][0-9a-f]
+
+If needed, you can add either -DPTY_SYSV or -DPTY_BSD to XVT_OPTS to
+indicate which is to be used.
+
+--------------------------------------------------------------------------
+THREADS (Unix only)
+
+Yet another area of difference is in the way threads are used.  Threads
+are processed by the file libsys/systhread.c.  In Windows native threads
+are used, and in Unix POSIX threads are used.
+
+Threads are used by the libxvt routines to create an event-loop which
+processes events for displaying output in an X11 window.  The routines
+are designed such that if threads are not available, they will still
+work, but they are much more efficient if threads are available.
+
+Note that, even if threads are supported, they may not work on a given
+machine, as on some platforms threads require a certain level of O/S
+or require certain patches to be applied.  As a general rule, if the platform
+supports Java, then threads will work.
+
+If a given platform supports threads, then add the option "-DV_USE_THREADS"
+to the SYS_OPTS entry in the env file.  You may have to add other options
+specific to a platform.
+
+--------------------------------------------------------------------------
+X-WINDOWS (Unix only)
+
+The xvt library uses X11 (X-Windows) to create a window for input/output.
+This *should* not be a problem, since every Unix available now provides
+X11 support (except Mac OS/X), although many Linux and SCO users with a custom
+install choose not to include X11 support.
+
+The real problem is in locating the X11 header files and libraries.
+If they are not in the "standard" location, then the following environment
+variables may be set:
+
+	X11_INCS	Specifies where to locate the X11 headers.
+				This variable should include any leading "-I", since
+				it is used as an option to the C compiler.
+				The default value for this entry is "" (which
+				will result in looking in /usr/include/X11).
+
+	X11_LIBS	Specifies where to locate the X11 libraries.
+				The default value for this entry is "-lX11".
+
+Note that only basic "xlib" functions are used.  No toolkits (such
+as Xt, Motif, etc.) are used.
+
+If you don't have the X11 development system on your machine (i.e.
+the X11 headers and libraries), then set the following environment
+variable in your <platform>.env file:
+
+	USE_X11=no
+
+--------------------------------------------------------------------------
+ARCHIVE DEVICE TABLE (Unix only)
+
+Another difference between various Unixes are the names for various devices.
+We are interested in the devices which we can write an archive to, namely
+floppy-disk drives and tape drives.  These are known as "raw" devices.
+
+To deal with this problem, we deliver a file $PROGRAM.dev, which contains
+information on various devices for a particular system.  The content of this
+file is as follows (note that blank lines and comment lines are ignored):
+
+	archive[n]=<device-path> blk-factor num-blks tape # comment
+
+where:
+
+	archive[n]	is the "name" of the entry.  An entry with no
+				number is the default entry.
+
+	device-path	is the full pathname of the device.
+
+	blk-factor	is the blocking factor to use.  Note that archive
+				records are 512 bytes long.  This value is important
+				if the device is a tape, as short blocks consume lots
+				of tape.  This is ignored if the path is a real file.
+
+	num-blks	is the number of blocks on the device.  A value
+				of 0 indicates a tape of unknown length or a real file.
+
+	tape		is either Y or N, indicating whether this is a
+				tape drive.  A tape drive is not considered seekable.
+
+	comment		is the description displayed in the menu list.
+				If not present, the device-path is used.
+
+The syntax of this file is an extension of the file found on many Unix
+systems in /etc/default/tar, which can be used as a starting point for
+creating a new file for a new platform.
+
+To create a device table for a new platform, add the file as $PLATFORM.dev
+in the "support" directory.  You can use an existing entry or name it
+differently by setting the $DEVTBL environment variable in the "env" file
+for that platform.
+
+Note that this file is not delivered in Windows, since Windows does not
+does not have the concept of "raw" devices (or device-names for them).
+
+--------------------------------------------------------------------------
+EXTENDED CURSES LIBRARY
+
+This build delivers into the directory $WIN_DIR the extended curses
+libraries and all headers needed by programs to use it.
+This directory can be extracted and used by any program using curses
+to access the extended functionality provided.
+
+To use this library, the following commands can be used (<ldir> refers
+to the directory where the libecurses library is to be found and <hdir>
+refers to the directory where the headers are be found):
+
+	compiling:	cc [flags] -I<hdir> file ...
+
+	linking:	cc [flags] object ... <ldir>/libcurses.a ...
+
+				or
+
+				cc [flags] object ... -L <ldir> -lcurses ...
+
+Note that to use these headers, your compiler MUST be ANSI-compilant.
+
+There is a "man3" sub-directory in the "libecurses" directory which
+contains documentation (as man files) concerning the extended curses package.
+
+Files provided in this directory are:
+
+	libcurses.$LIB_EXT		The extended curses library.
+
+	libform.$LIB_EXT		The FORM  library.
+	libmenu.$LIB_EXT		The MENU  library.
+	libpanel.$LIB_EXT		The PANEL library.
+
+	curses.h				The "curses" header.
+							Note that this header also includes the system
+							headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+
+	termcap.h				A header for low-level termcap database access.
+							This header is not normally used.
+
+	term.h					A header for low-level terminfo database access.
+							This header is not normally used.
+
+	form.h					A header for accessing the FORM  library.
+	menu.h					A header for accessing the MENU  library.
+	panel.h					A header for accessing the PANEL library.
+	eti.h					A copy of the system eti.h header (included by
+							form.h & menu.h).  It is included in case your
+							system does not have it installed.
+
+	sysmem.h				A header for the malloc-interface used by
+							this library.  It is made available for users who
+							want to add malloc-debugging to their programs
+							(A Good Thing To Do).
+
+	sysopt.h				A header which defines replacement routines for
+							getopt(), which is not available on all systems.
+							This is provided for portability purposes,
+							although it also provides extended capabilities.
+
+	systhread.h				A header for the threads interface.
+
+	syssig.h				A header for the signal interface.
+
+	TERMFILES				A text-file documenting term-files.
+
+	man3/ecurses			Top-level man page for the extended curses library.
+
+	man3/ecurs_*			Supplemental man pages for all sections.
+
+	man3/ecurs-funcs.sh		A script to create function entries for all
+							functions, linking them to their respective
+							section entry:
+
+								ecurs-funcs.sh -a	create all entries
+								ecurs-funcs.sh -d	delete all entries
+
+By setting your MANPATH to "$SRC_DIR/libecurses:$MANPATH", you can access
+the provided man pages via "man".  Note that the build script does this
+automatically.  You can also just view them via any viewer such as "more"
+or "vi".
+
+--------------------------------------------------------------------------
+LIBRARY DESCRIPTIONS
+
+The following libraries are present in this source tree:
+
+	Sub-libraries for "libecurses":
+
+		libsys			library for basic system functions
+						(memory allocation, cmd-line processing, & threads)
+		libterm			library for device I/O functions
+		libtcap			library for termcap/terminfo interface functions
+		libwin			library for "curses" functions
+
+	The following is the replacement library for "libcurses"
+	(built from the sub-libraries above):
+
+		libecurses		extended curses library & headers
+
+	The following libraries are not used by this source, but are included
+	to provide a complete curses implementation:
+
+		libform			library for FORM  processing
+		libmenu			library for MENU  processing
+		libpanel		library for PANEL processing
+
+	"Standalone" utility libraries (they include only libsys for the
+	malloc interface):
+
+		libxpm			library for pixmap manipulation (needs X11 hdrs)
+		libxvt			library for xterm emulation (needs X11 hdrs & libs)
+		libos			library for O/S-dependent functions
+		libdiff			library for file diff functions
+		libgzip			library for gzip functions
+		libmagic		library for magic functions
+
+	Other libraries:
+
+		libutils		library for general-purpose utility functions
+						(requires libos & libecurses)
+
+		libftp			library for FTP functions
+						(requires libutils, libos, & libecurses)
+						(needs network headers & libraries)
+
+		libres			library for resource-file processing
+						(requires libecurses)
+
+		libhelp			help file creation - not really a library
+
+	Program library:
+
+		libprd			library with actual program code
+						(requires all sub-libraries)
+
+The libecurses library is a self-contained library with no external
+dependencies.
+
+The "standalone" libraries are only dependent on the libsys library
+for the "malloc/free" (sysmem) interface.
+They are all designed to be "lifted" to be used elsewhere.
+
+The following libraries have targets for "stand-alone" test programs:
+(The test programs are also dependent on the libsys library for the
+"getopt" (sysopt) interface.)
+
+	library			program		description
+	--------		-------		--------------------------------
+	libdiff			diff		Similar to the Unix  "diff"  cmd
+	libgzip			gzip		Similar to the Linux "gzip"  cmd
+	libmagic		file		Similar to the Unix  "file"  cmd
+	libxvt			pcxterm		Similar to the Unix  "xterm" cmd
+
+	libecurses		*			Various programs in termutils directory
+
+--------------------------------------------------------------------------
+TIPS & TRICKS
+
+The following are tips in building and testing this source tree.
+
+1.	If "." is not in your path before sourcing the build script, you
+	will have to source the build script as follows:
+
+		$ . ./build [options] <platform>
+
+	since otherwise it will not find "build".
+
+	Note that after sourcing "build", "." will be in your path.
+
+2.	Strange things happen if you source "build" a second time.
+	Don't do that.  I use the following sequence of commands:
+
+		$ cd <source-directory>
+		$ ksh						(go into a sub-shell)
+		$ . build -d <platform>		(I usually do debug builds)
+
+	Then, if I change anything involving the environment (this is
+	not very frequent, except for the version/release/build numbers),
+	I can just do the following:
+
+		$ exit						(leave your sub-shell)
+		$ ksh						(create a new sub-shell)
+		$ . build					(reload the build env using param cache)
+
+	This takes me back to the top-level of the source tree and "reloads"
+	my environment.
+
+3.	Setting the environment variable "TC_IGNORE_SIGNALS" (the value is
+	ignored) will disable at run-time the catching of signals such as
+	SIGSEGV (illegal pointer dereference), SIGBUS (illegal alignment), etc.
+	This will then enable a "core" file to be written, which you can then
+	debug.  Normally, these signals are caught in order to restore the
+	terminal settings, which results in no core file being produced.
+
+	Note that if you use this and the program does core-dump (highly
+	unlikely, haha), you will then have to manually reset the terminal
+	state, as follows:
+
+		^j				(control-j, NOT a CR)
+		stty sane^j		(again, control-j, NOT a CR)
+
+	Your terminal should then be in a "sane" mode, and you can then debug
+	your core file.
+
+4.	If you seem to have problems with data on the "heap", there are a
+	number of run-time malloc-debugging options available.  See the file
+	libsys/sysmem.h for details.
+
+	At the minimum, be sure to run the program with the "-ZM" option
+	occasionally, which will output to stderr a malloc-statistics
+	summary line at program exit.  If the number of outstanding mallocs
+	is not zero (i.e. the number of mallocs does not equal the number
+	of frees), you have a memory-leak somewhere.  (This is something
+	I check religiously.)  If you run the program with the option "-ZMM",
+	then, if the count of outstanding mallocs is not zero, the malloc chain
+	will be dumped to stderr also.
+
+	Note that, if you are running in a separate window, then stderr will
+	point to that window, which "disappears" when the program exits.
+	In this case, you should set the environment variable V_MALLOC_DBGFILE
+	to point to a file where this debug info will written.
+
+	Note also that if you set the environment variable COPTS to
+	"-DV_MALLOC_FILEINFO" (or add that to your CDEFS variable),
+	then all calls to MALLOC & FREE will have the source file-name and
+	line-number included.  This is a compile-time option, not a run-time
+	option.  Although this enables maximum heap-debugging abilities,
+	it will generate a much larger executable file.  Note that you
+	can selectively set this option when compiling suspect code, and
+	leave it off for code you know is OK.
+
+5.	The command "make xrflist" will generate a very useful cross-reference
+	list of all data & procedure names in the source tree.
+	This will enable you to navigate around the source tree as you become
+	familiar with where everything is located.
+
+	This command works in both the Unix and the Windows environment.
+
+6.	You will notice that most libraries have a "*common.h" file which
+	contains all includes used in that library.  This not only makes
+	adding new source files easier, but also enables the use of
+	pre-compiled headers if your compiler supports them (like Windows).
+	(All compilers should have that option.)  This provides a *significant*
+	decrease in the time needed to build the source.
+
+7.	The files sysmem.[ch] and sysopt.[ch] in the libsys directory
+	are designed to be "lifted" out so they can be used in any other
+	code tree.  They are completely "self-contained".  I have done
+	this many times myself.  I can't imagine writing code without a
+	memory-allocation interface to track memory problems (hint, hint).
+
+	To use the "sysmem" package in another code tree, do the following:
+
+	1.	Add the line < #include "sysmem.h" > to all files which do
+		heap processing.  The easiest way to do this is to replace
+		all #include <malloc.h> lines with the above, or just add that
+		if you don't use <malloc.h>.
+
+		Note that some systems define malloc() & friends in stdlib.h
+		(in fact that is the ANSI standard), in which case you may just
+		have to add the "sysmem.h" include to the source files which use
+		these routines.
+
+	2.	Change the references to the names of the following calls:
+
+		malloc	->	MALLOC
+		calloc	->	CALLOC
+		realloc	->	REALLOC
+		free	->	FREE
+		strdup	->	STRDUP
+
+	3.	Recompile your source and link it with sysmem.$OBJ_EXT.
+
+	4.	If your code makes use of threads, be sure to also include
+		the files systhread.[ch] and compile both with the option
+		"-DV_USE_THREADS" (and link with systhread.$OBJ_EXT also).
+
+	Most "large" programs have some kind of "base" library & headers
+	which are included everywhere and always linked in.  You can just
+	add sysmem.[ch] to that library (and its header) to include this
+	functionality.
+
+8.	Building on multiple platforms.
+
+	The scripts "makesrc.sh" and "linksrc.sh" enable you to make "clones"
+	of a source tree for multiple platforms.  The advantage of "clones"
+	versus normal trees is that a "clone" uses virtually no disk space,
+	since all source files are really sym-links, and by changing the "master"
+	source tree, all "clones" see the change immediately.
+
+	For example, assume you want to build on machines "linux", "alpha",
+	and "solaris" (and all machines have your source-directory NFS mounted).
+	You can then use the following commands:
+
+	1.	Create the "master" source tree:
+
+		$ mkdir -p <source-dir>/master
+		$ cd <source-dir>/master
+		$ tar xvf <source>.tar
+
+	2.	Make "clone" trees
+
+		$ cd <source-dir>
+		$ for i in linux alpha solaris
+		> do
+		>	echo "===== making $i"
+		>	mkdir $i
+		>	(cd $i; ../master/bin/makesrc.sh ../master)
+		> done
+
+	3.	Build the "clones"
+
+		<on local machine>
+		$ telnet <remote-machine>
+
+		<on remote machine>
+		$ cd <nfs-source-dir>/<platform>
+		$ . build -r <platform>
+		$ make sku
+
+		Repeat for each platform.
+
+	At the end, you will have in your $SKU_DIR directory all SKUs for the
+	various platforms.  This is how I build the various platforms which
+	are currently delivered.
+
+	See the file "bin/makesrc.sh" for further details.
+
+	Note that you should not do any builds in the "master" directory, as
+	then all the "built" files (objects, etc.) will be cloned also.
+
+--------------------------------------------------------------------------
+COMMENTS & QUESTIONS
+
+If you have any problems building the source or with configuring the
+source for a particular platform, please let me know.
+
+Also, if you add a new platform or make any other configuration changes,
+please let me know so I can update the "official" source.
+
+Rob Juergens
+robj@nano-soft.com

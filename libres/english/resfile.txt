@@ -1,0 +1,9 @@
+# resource file list
+
+name	English
+
+file	cmds:key
+file	dflt:str
+file	errs:str
+file	msgs:str
+file	pgmi:str

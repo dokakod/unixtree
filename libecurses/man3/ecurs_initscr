@@ -1,0 +1,147 @@
+Curses Library Functions ecurs_initscr
+
+
+
+NAME
+     ecurs_initscr - curses screen initialization and manipulation
+     routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     WINDOW *initscr(void);
+
+     int endwin(void);
+
+     int end_win(int exiting);
+
+     int isendwin(void);
+
+     SCREEN *newterm(const char *term,
+         FILE *inp_fp, FILE *out_fp);
+
+     SCREEN *newscreen(const char *term,
+         int inp_fd, int out_fd);
+
+     SCREEN *set_term(SCREEN *new_screen);
+
+     SCREEN *get_term(void);
+
+     void set_term_path(const char *path);
+
+     int set_term_db(const char *db_type);
+
+     const char *get_term_db(void)
+
+     void delscreen(SCREEN * sp);
+
+     void end_curses(void);
+
+     void *set_usr_data(SCREEN *sp, void *usrdata);
+
+     void *get_usr_data(SCREEN *sp);
+
+DESCRIPTION
+     initscr() is almost always the first routine that should be
+     called (the exceptions are slk_init(), filter(),
+     ripoffline(), use_env() and, for multiple-terminal
+     applications, newterm().) This determines the terminal type
+     and initializes all curses data structures. initscr() also
+     causes the first call to refresh() to clear the screen. If
+     errors occur, initscr() writes an appropriate error message
+     to standard error and exits; otherwise, a pointer is
+     returned to stdscr(). If the program needs an indication of
+     error conditions, newterm() should be used instead of
+     initscr(); initscr() should only be called once per
+     application.
+
+     A program that outputs to more than one terminal should use
+     the newterm() or newscreen() routine for each terminal
+     instead of initscr(). A program that needs an indication of
+     error conditions, so it can continue to run in a line-
+     oriented mode if the terminal cannot support a screen-
+     oriented program, would also use this routine. The routine
+     newterm() should be called once for each terminal. It
+     returns a variable of type SCREEN * which should be saved
+     as a reference to that terminal. The arguments are the type
+     of the terminal to be used in place of $TERM, a file
+     pointer for input from the terminal, and another file
+     pointer for output to the terminal. If term is NULL,
+     $TERM will be used. If inp_fp or out_fp are NULL, then
+     stdin or stdout will be used. The program must also call
+     endwin() for each terminal being used before exiting from
+     curses. If newterm() is called more than once for the same
+     terminal, the first terminal referred to must be the last
+     one for which endwin() is called.
+
+     newscreen() acts the same as newterm() except it is passed
+     file descriptors instead of FILE pointers. If inp_fd or
+     out_fd are negative, then fileno(stdin) or fileno(stdout)
+     will be used.
+
+     A program should always call endwin() before exiting or
+     escaping from curses mode temporarily. This routine restores
+     tty modes, moves the cursor to the lower left-hand corner of
+     the screen and resets the terminal into the proper
+     non-visual mode. Calling refresh() or doupdate() after a
+     temporary escape causes the program to resume visual mode.
+
+     end_win() performs the same functions as endwin(), but also
+     does final closes of any debug files if exiting is TRUE.
+     endwin() is equivalent to end_win(FALSE).
+
+     The isendwin() routine returns TRUE if endwin() has been
+     called without any subsequent calls to wrefresh(), and FALSE
+     otherwise.
+
+     The set_term() routine is used to switch between different
+     terminals. The screen reference new becomes the new current
+     terminal. The previous terminal is returned by the routine.
+     This is the only routine which manipulates SCREEN pointers;
+     all other routines affect only the current terminal.
+
+     The get_term() routine returns a pointer to the current
+     screen being used.
+
+     The set_term_path() routine specifies the path to be
+     searched when looking for term-files. For each directory
+     specified in the path, ecurses will look in that directory
+     and in a "trm" sub-directory.
+
+     The set_term_db() routine specifies what terminal database
+     to query and the type of parameterized strings to process.
+     Valid arguments are "termcap" and "terminfo".  Any other
+     argument is an error.  The default database type is set at
+     compile time for a particular platform.
+
+     get_term_db() returns the name of the current database
+     type.
+
+     The delscreen() routine frees storage associated with the
+     SCREEN data structure. The endwin() routine does not do
+     this, so delscreen() should be called after endwin() if a
+     particular SCREEN is no longer needed. delscreen() notes if
+     the screen being deleted is the current screen and sets it
+     to NULL if so.
+
+     The end_curses() routine completely un-initializes curses
+     and frees all internal storage used, including the current
+     screen.
+
+     set_usr_data() allows a user to store a pointer to user-
+     defined data into a SCREEN.  It returns the old pointer,
+     if any.  get_usr_data() fetches the stored pointer.
+
+RETURN VALUES
+     endwin() returns the integer ERR upon failure and OK upon
+     successful completion.
+
+     Routines that return pointers always return NULL on error.
+
+SEE ALSO
+     ecurs_kernel, ecurs_refresh, ecurs_slk, ecurs_util, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

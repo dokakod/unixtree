@@ -1,0 +1,53 @@
+Curses Library Functions ecurs_clear
+
+
+
+NAME
+     ecurs_clear - clear all or part of a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int erase(void);
+
+     int werase(WINDOW *win);
+
+     int clear(void);
+
+     int wclear(WINDOW *win);
+
+     int clrtobot(void);
+
+     int wclrtobot(WINDOW *win);
+
+     int clrtoeol(void);
+
+     int wclrtoeol(WINDOW *win);
+
+DESCRIPTION
+     The erase() and werase() routines copy blanks to every
+     position in the window.
+
+     The clear() and wclear() routines are like erase() and
+     werase(), but they also call clearok() , so that the screen
+     is cleared completely on the next call to wrefresh() for
+     that window and repainted from scratch.
+
+     The clrtobot() and wclrtobot() routines erase all lines
+     below the cursor in the window. Also, the current line to
+     the right of the cursor, inclusive, is erased.
+
+     The clrtoeol() and wclrtoeol() routines erase the current
+     line to the right of the cursor, inclusive.
+
+RETURN VALUES
+     All routines return the integer OK, or a non-negative
+     integer if immedok() is set. See ecurs_outopts.
+
+SEE ALSO
+     ecurs_outopts, ecurs_refresh, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

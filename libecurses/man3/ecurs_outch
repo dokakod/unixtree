@@ -1,0 +1,47 @@
+Curses Library Functions ecurs_outch
+
+
+
+NAME
+     ecurs_outch - Store chtypes into a window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int outch(int y, int x, chtype c);
+
+     int woutch(WINDOW *win, int y, int x, chtype c);
+
+     ouch(chtype c);
+
+     wouch(WINDOW *win, chtype c);
+
+     mvouch(int y, int x, chtype c);
+
+     mvwouch(WINDOW *win, int y, int x, chtype c);
+
+DESCRIPTION
+     These routines all store a chtype directly into a window.
+     They are all macros, and do not check if the specified
+     coordinates are valid.
+
+     ouch() and wouch() store chtype c at the current position.
+     The current position is not changed.
+
+     outch() and woutch() store chtype c at the specified
+     position. The current position is not changed.
+
+     mvouch() and mvwouch() move to the specified position, then
+     store the given chtype at that position.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_inch, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

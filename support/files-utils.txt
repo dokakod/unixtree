@@ -1,0 +1,31 @@
+The following files are in this distribution:
+
+Terminal test programs:
+
+	dispblks	A program to display strings as block letters
+	dispbox		A program to display all box types
+	dispchrs	A program to display all characters
+	dispclrs	A program to display all colors
+	dispkeys	A program to display values of keys
+	dispsnap	A program to display a screen snapshot
+	dispterm	A program to display terminal info
+	dumpterm	A program to dump a termcap/terminfo entry
+	playback	A program to "playback" a screen log file
+	saveterm	A program to save term info into a term-file
+	termput		A program to output screen cmds (ala "tput")
+
+xvt files (if X-Windows is supported):
+
+	pcxterm		An "xterm" clone which supports color & mouse
+
+Text files:
+
+	LICENSE		License stuff
+	COPYING		The GNU General Public License
+	FILES		This file
+	TERMFILES	A text file documenting term-files
+
+--------------------------------------------------------------------------
+Email comments to: ${EMA}
+${PKG} home: ${WWW}
+${SLG}

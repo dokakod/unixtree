@@ -1,0 +1,45 @@
+Curses Library Functions ecurs_instr
+
+
+
+NAME
+     ecurs_instr - get a string of characters from a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int instr(char *str);
+
+     int innstr(char *str, int n);
+
+     int winstr(WINDOW *win, char *str);
+
+     int winnstr(WINDOW *win, char *str, int n);
+
+     int mvinstr(int y, int x, char *str);
+
+     int mvinnstr(int y, int x, char *str, int n);
+
+     int mvwinstr(WINDOW *win, int y, int x, char *str);
+
+     int mvwinnstr(WINDOW *win, int y, int x, char *str, int n);
+
+DESCRIPTION
+     These routines return a string of characters in str,
+     starting at the current cursor position in the named window
+     and ending at the right margin of the window. Attributes
+     are stripped from the characters. The four functions with n
+     as the last argument return the string at most n characters
+     long.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

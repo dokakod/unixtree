@@ -1,0 +1,2949 @@
+# ------------------------------------------------------------------------
+#  This is the help file
+#
+
+HELP_INDEX_BASE
+Index of Help Topics
+\lHELP_HELP    :Using context-sensitive help\l\
+\lHELP_KEYBOARD:Keyboard Functions\l\
+\lHELP_COMMANDS:Commands\l\
+\e
+
+HELP_HELP
+Using context-sensitive help
+To obtain help at any time, press F1.  When you press F1,\
+you see a list of commands that are available from the\
+current menu.  If you select a command, then press F1, you\
+get help about that specific command.\
+\
+The current help topic is highlighted.  Press Tab to\
+highlight different items on the screen.  Press Enter to\
+see information about the highlighted topic.\
+\
+Arrow keys scroll the screen to show additional items and\
+text. The PgUp and PgDn keys move up and down a page, and\
+the Home and End keys move to the top and bottom of the\
+current list, respectively. Press PgDn now, or use the\
+down-arrow key to see more of this topic screen.\
+\
+Press "p" (Previous) to display help about the previous\
+command in the current list.  Press "n" (Next) to display\
+help about the next command in the list.\
+\
+The top-level index lists all of the commands available\
+with ${PGM}.  To return to the top-level index at any time,\
+press "i" (Index). To quit from the Help system, press "q"\
+(Quit).\
+\e
+
+HELP_KEYBOARD
+Keyboard Functions
+\lHELP_KBD_COMMON:Key functions common to all windows\l\
+\lHELP_KBD_EDIT  :Keys used to edit input lines\l\
+\e
+
+HELP_KBD_COMMON
+Key functions common to all windows
+Arrow keys    Move the cursor from one item to another\
+Page down     Moves the cursor down to the bottom of the\
+              display or to the top of the next page\
+Page up       Moves the cursor up to the top of the\
+              display or to the top of the previous page\
+Home          Moves the cursor to the first item in a list\
+End           Moves the cursor to last item in the list\
+Space         Acts like the Down Arrow key when scrolling\
+              in a window\
+\e
+
+HELP_KBD_EDIT
+Keys used to edit input lines
+Home          Moves the cursor to the beginning of a line\
+End           Moves the cursor to the end of a line\
+Left          Moves the cursor one position to the left\
+Right         Moves the cursor one position to the right\
+Up            Retrieves the previous entry for that line,\
+              if any\
+Down          Erases the entire line and moves the cursor\
+              to the beginning of the line\
+Delete        Deletes the character under the cursor\
+Backspace     Deletes the character to the left of the\
+              cursor\
+Insert        Toggles Insert mode on or off.  When Insert\
+              mode is on, you see the word INSERT at the\
+              lower left of the screen. Characters you\
+              type are inserted in front of the cursor and\
+              any remaining text on the line is moved to\
+              the left.  When Insert mode is off,\
+              characters you type overwrite any existing\
+              characters on the line.\
+\e
+
+HELP_COMMANDS
+Commands
+The following commands are available:\
+Directory menu:\
+    \lHELP_CMDS_REG_DIR :Directory\l commands\
+    \lHELP_CMDS_TAG_DIR :Tag Directory\l commands\
+    \lHELP_CMDS_ALT_DIR :Alt Directory\l commands\
+File menu:\
+    \lHELP_CMDS_REG_FILE:File\l commands\
+    \lHELP_CMDS_TAG_FILE:Tag File\l commands\
+    \lHELP_CMDS_ALT_FILE:Alt File\l commands\
+Autoview menu:\
+    \lHELP_CMDS_REG_AV  :Autoview\l commands\
+    \lHELP_CMDS_TAG_AV  :Tag Autoview\l commands\
+    \lHELP_CMDS_ALT_AV  :Alt Autoview\l commands\
+View menu:\
+    \lHELP_CMDS_REG_FV  :View\l commands\
+All menus:\
+    \lHELP_CMDS_MISC    :Miscellaneous\l commands\
+\e
+
+HELP_CMDS_REG_DIR
+Directory commands
+The following commands are available from the\
+Directory menu:\
+    \lHELP_REG_DIR_ATTRS     :Attributes\l    Change directory attributes\
+    \lHELP_REG_DIR_COMPARE   :Compare\l       Compare files in two directories\
+    \lHELP_REG_DIR_DELETE    :Delete\l        Delete current directory\
+    \lHELP_REG_DIR_EDIT      :Edit\l          Edit/create a new file\
+    \lHELP_REG_DIR_FILESPEC  :Filespec\l      Change the file specification\
+    \lHELP_REG_DIR_GLOBAL    :Global\l        Display files in all logged nodes\
+    \lHELP_REG_DIR_INVERT    :Invert\l        Invert the tag status of all files in\
+    \i                        \i              the current directory\
+    \lHELP_REG_DIR_LINK      :Link\l          Make a symbolic link to a directory\
+    \lHELP_REG_DIR_MKDIR     :Make Dir\l      Make a new directory\
+    \lHELP_REG_DIR_NODE      :Node\l          Log a new node or relog a node\
+    \lHELP_REG_DIR_PRINT     :Print\l         Print a catalog of tagged files,\
+    \i                        \i              all pathnames, or the directory tree\
+    \lHELP_REG_DIR_QUIT      :Quit\l          Quit ${PGM}\
+    \lHELP_REG_DIR_RENAME    :Rename\l        Rename a directory\
+    \lHELP_REG_DIR_SHOWALL   :Showall\l       Display all files in the current node\
+    \lHELP_REG_DIR_TAG       :Tag\l           Tag all files in the current directory\
+    \lHELP_REG_DIR_UNTAG     :Untag\l         Untag all files in the current directory\
+    \lHELP_REG_DIR_AVAILABLE :aVailable\l     Display available space on all\
+    \i                        \i              mounted filesystems\
+    \lHELP_REG_DIR_EXEC      :eXec\l          Execute a shell escape\
+\
+    \lHELP_REG_DIR_TAGMENU   :Tag menu (F3)\l Enter Tag menu\
+    \lHELP_REG_DIR_ALTMENU   :Alt menu (F4)\l Enter Alt menu\
+    \lHELP_REG_DIR_HIDE      :Hide (F5)\l     Hide a directory from view\
+    \lHELP_REG_DIR_SHOW      :Show (F6)\l     Show a hidden directory\
+    \lHELP_REG_DIR_AUTOVIEW  :Autoview (F7)\l Enter Autoview mode\
+    \lHELP_REG_DIR_SPLIT     :Split (F8)\l    Split or Unsplit the display\
+    \lHELP_REG_DIR_MENU      :Menu (F9)\l     Enter Applications Menu\
+    \lHELP_REG_DIR_RELOG     :Relog (+)\l     Relog a directory\
+    \lHELP_REG_DIR_LOG_RECURS:Relog recursive (*)\l\
+    \i                        \i              Relog an entire sub-node\
+    \lHELP_REG_DIR_UNLOG     :Unlog (-)\l     Unlog a directory\
+\e
+
+HELP_CMDS_TAG_DIR
+Tag Directory commands
+The following commands are available from the\
+Tag Directory menu:\
+    \lHELP_TAG_DIR_GLOBAL :Tag Global\l          Show all tagged files in all\
+    \i                     \i                    logged nodes\
+    \lHELP_TAG_DIR_INVERT :Tag Invert\l          Invert the tag status on all files\
+    \lHELP_TAG_DIR_SHOWALL:Tag Showall\l         Show all tagged files in the\
+    \i                     \i                    current node\
+    \lHELP_TAG_DIR_TAG    :Tag Tag\l             Tag all files in the current node\
+    \lHELP_TAG_DIR_UNTAG  :Tag Untag\l           Untag all files in the current node\
+\
+    \lHELP_REG_DIR_ALTMENU:Alt Menu (F4)\l       Enter Alt menu\
+    \lHELP_REG_DIR_SPLIT  :Split (F8)\l          Split or Unsplit the display\
+\e
+
+HELP_CMDS_ALT_DIR
+Alt Directory commands
+The following commands are available from the\
+Alt Directory menu:\
+    \lHELP_ALT_DIR_COMPACT :Compact\l            Compact a sub-node\
+    \lHELP_ALT_DIR_DIRDISP :Directory display\l  Change the directory display format\
+    \lHELP_ALT_DIR_FILEDISP:File display\l       Change the file display format\
+    \lHELP_ALT_DIR_GRAFT   :Graft\l              Graft a sub-node to another node\
+    \lHELP_ALT_DIR_INVERT  :Alt Invert\l         Invert the tagged status of\
+    \i                      \i                   selected files\
+    \lHELP_ALT_DIR_NODE    :Alt Node\l           Release the current node and log\
+    \i                      \i                   a new node\
+    \lHELP_ALT_DIR_PRUNE   :Prune\l              Prune a sub-node\
+    \lHELP_ALT_DIR_QUIT    :Quit\l               Checkpoint all nodes and quit\
+    \lHELP_ALT_DIR_RELEASE :Release\l            Release a logged node\
+    \lHELP_ALT_DIR_SORT    :Sort\l               Change the order of display\
+    \i                      \i                   for all files\
+    \lHELP_ALT_DIR_TAG     :Alt Tag\l            Tag all selected files\
+    \lHELP_ALT_DIR_UNTAG   :Alt Untag\l          Untag all selected files\
+\
+    \lHELP_REG_DIR_TAGMENU :Tag menu (F3)\l      Enter Tag menu\
+    \lHELP_ALT_DIR_HIDE    :Alt Hide (F5)\l      Hide all directories deeper than\
+    \i                      \i                   the current level\
+    \lHELP_ALT_DIR_SHOW    :Alt Show (F6)\l      Show all files below a certain\
+    \i                      \i                   level\
+    \lHELP_REG_DIR_SPLIT   :Split (F8)\l         Split or Unsplit the display\
+    \lHELP_ALT_DIR_CONFIG  :Configure (F10)\l    Enter the configure utility\
+\e
+
+HELP_CMDS_REG_FILE
+File commands
+The following commands are available from the\
+File menu:\
+    \lHELP_REG_FILE_ATTRS   :File attributes\l      Change attributes of a file\
+    \lHELP_REG_FILE_BACKUP  :Backup\l               Backup current file\
+    \lHELP_REG_FILE_COPY    :Copy\l                 Copy current file\
+    \lHELP_REG_FILE_DELETE  :Delete\l               Delete current file\
+    \lHELP_REG_FILE_EDIT    :Edit\l                 Edit the current file\
+    \lHELP_REG_FILE_EXTRACT :Extract\l              Extract files from an archive\
+    \lHELP_REG_FILE_FILESPEC:Filespec\l             Change the specification for\
+    \i                       \i                     displayed files\
+    \lHELP_REG_FILE_GOTO    :Goto\l                 Go to first file matching spec\
+    \lHELP_REG_FILE_INVERT  :Invert\l               Invert tag status of current file\
+    \lHELP_REG_FILE_LINK    :Link\l                 Link current file to another\
+    \lHELP_REG_FILE_MOVE    :Move\l                 Move current file\
+    \lHELP_REG_FILE_NODE    :Node\l                 Log a new node or relog an\
+    \i                       \i                     existing node\
+    \lHELP_REG_FILE_OPEN    :Open\l                 Execute the file, or associated\
+    \i                       \i                     shell script\
+    \lHELP_REG_FILE_PRINT   :Print\l                Print the current file\
+    \lHELP_REG_FILE_QUIT    :Quit\l                 Quit ${PGM}\
+    \lHELP_REG_FILE_RENAME  :Rename\l               Rename the current file\
+    \lHELP_REG_FILE_RESTORE :Restore\l              Restore files from a backup\
+    \lHELP_REG_FILE_TAG     :Tag\l                  Tag the current file\
+    \lHELP_REG_FILE_UNTAG   :Untag\l                Untag the current file\
+    \lHELP_REG_FILE_VIEW    :View\l                 View the current file\
+    \lHELP_REG_FILE_EXEC    :eXec\l                 Execute a system command\
+\
+    \lHELP_REG_DIR_TAGMENU  :Tag menu (F3)\l        Enter Tag menu\
+    \lHELP_REG_DIR_ALTMENU  :Alt menu (F4)\l        Enter Alt menu\
+    \lHELP_REG_DIR_AUTOVIEW :Autoview (F7)\l        Enter Autoview mode\
+    \lHELP_REG_DIR_SPLIT    :Split (F8)\l           Split or Unsplit the display\
+    \lHELP_REG_DIR_MENU     :Menu (F9)\l            Enter Applications Menu\
+\e
+
+HELP_CMDS_TAG_FILE
+Tag File commands
+The following commands are available from the\
+Tag File menu:\
+    \lHELP_TAG_FILE_ATTRS  :Tag Attributes\l         Change attributes of all\
+    \i                      \i                       tagged files\
+    \lHELP_TAG_FILE_BACKUP :Tag Backup\l             Backup all tagged files\
+    \lHELP_TAG_FILE_COPY   :Tag Copy\l               Copy all tagged files\
+    \lHELP_TAG_FILE_DELETE :Tag Delete\l             Delete all tagged files\
+    \lHELP_TAG_FILE_EXTRACT:Extract\l                Extract all tagged files from\
+    \i                      \i                       an archive\
+    \lHELP_TAG_FILE_BATCH  :Shellscript\l            Create a shell script from all\
+    \i                      \i                       tagged filenames\
+    \lHELP_TAG_FILE_INVERT :Tag Invert\l             Invert the tag status of\
+    \i                      \i                       all files\
+    \lHELP_TAG_FILE_LINK   :Tag Link\l               Link all tagged files\
+    \lHELP_TAG_FILE_MOVE   :Tag Move\l               Move all tagged files\
+    \lHELP_TAG_FILE_COMPARE:Compare\l                Compare all tagged files with\
+    \i                      \i                       current file\
+    \lHELP_TAG_FILE_PRINT  :Tag Print\l              Print all tagged files\
+    \lHELP_TAG_FILE_RENAME :Tag Rename\l             Rename all tagged files\
+    \lHELP_TAG_FILE_SEARCH :Tag Search\l             Search all tagged files for text\
+    \lHELP_TAG_FILE_TAG    :Tag Tag\l                Tag all files\
+    \lHELP_TAG_FILE_UNTAG  :Tag Untag\l              Untag all files\
+    \lHELP_TAG_FILE_VIEW   :Tag View\l               View all tagged files\
+    \lHELP_TAG_FILE_EXEC   :Tag eXec\l               Execute a cmd with all tagged\
+    \i                      \i                       files as arguments\
+\
+    \lHELP_REG_DIR_ALTMENU :Alt menu (F4)\l          Enter Alt menu\
+    \lHELP_REG_DIR_SPLIT   :Split (F8)\l             Split or Unsplit the display\
+\e
+
+HELP_CMDS_ALT_FILE
+Alt file commands
+The following commands are available from the\
+Alt File menu:\
+    \lHELP_ALT_FILE_COPY    :Alt Copy\l            Copy tagged files and duplicate\
+    \i                       \i                    the directory structure\
+    \lHELP_ALT_DIR_DIRDISP  :Directory display\l   Change the directory\
+    \i                       \i                    display format\
+    \lHELP_ALT_DIR_FILEDISP :File display\l        Change the file display format\
+    \lHELP_ALT_FILE_INVERT  :Alt Invert\l          Invert the tagged status of\
+    \i                       \i                    selected files\
+    \lHELP_ALT_DIR_NODE     :Alt Node\l            Release all current nodes and\
+    \i                       \i                    log a new node\
+    \lHELP_ALT_DIR_QUIT     :Quit\l                Checkpoint logged nodes and quit\
+    \lHELP_ALT_DIR_RELEASE  :Release node\l        Release the current node\
+    \lHELP_ALT_DIR_SORT     :Sort\l                Change the order of display\
+    \i                       \i                    for all files\
+    \lHELP_ALT_FILE_TAG     :Alt Tag\l             Tag selected files\
+    \lHELP_ALT_FILE_UNTAG   :Alt Untag\l           Untag selected files\
+\
+    \lHELP_REG_DIR_RELOG    :Relog dir (F2)\l      Relog directory\
+    \lHELP_REG_DIR_TAGMENU  :Tag menu (F3)\l       Enter Tag menu\
+    \lHELP_ALT_FILE_COPYTAGS:Merge tags (F6)\l     Merge tags between windows\
+    \lHELP_REG_DIR_SPLIT    :Split (F8)\l          Split or Unsplit the display\
+    \lHELP_ALT_FILE_RESOLVE :Resolve link (F10)\l  Resolve symbolic link\
+\e
+
+HELP_CMDS_REG_AV
+Autoview commands (F7)
+The following commands are available from the\
+Autoview menu:\
+    \lHELP_REG_FILE_EDIT    :Edit\l                  Edit the current file\
+    \lHELP_REG_FILE_FILESPEC:Filespec\l              Change the specification of\
+    \i                       \i                      displayed files\
+    \lHELP_REG_FILE_GOTO    :Goto\l                  Go to first file matching spec\
+    \lHELP_REG_FILE_INVERT  :Invert\l                Invert tag status of current file\
+    \lHELP_REG_FILE_PRINT   :Print\l                 Print the current file\
+    \lHELP_REG_FILE_QUIT    :Quit\l                  Quit ${PGM}\
+    \lHELP_REG_AV_SEARCH    :Search\l                Search for text\
+    \lHELP_REG_FILE_TAG     :Tag\l                   Tag the current file\
+    \lHELP_REG_FILE_UNTAG   :Untag\l                 Untag the current file\
+    \lHELP_REG_FILE_VIEW    :View\l                  View the current file\
+\
+    \lHELP_REG_AV_ASCII     :Ascii\l                 Display file in ASCII format\
+    \lHELP_REG_AV_DUMP      :Dump\l                  Display file in dump format\
+    \lHELP_REG_AV_HEX       :Hex\l                   Display file in hex format\
+    \lHELP_REG_AV_KEEP      :Keep mode\l             Keep current display format\
+    \lHELP_REG_AV_MASK      :Mask\l                  Mask off unprintable chars\
+    \lHELP_REG_AV_WRAP      :Wrap\l                  Display file in wrap format\
+    \lHELP_REG_AV_TABWIDTH  :Tab width\l             Toggle tab width between 4 & 8\
+\
+    \lHELP_REG_DIR_TAGMENU  :Tag menu (F3)\l         Enter Tag menu\
+    \lHELP_REG_DIR_ALTMENU  :Alt menu (F4)\l         Enter Alt menu\
+    \lHELP_REG_DIR_SPLIT    :Split (F8)\l            Split or Unsplit the display\
+    \lHELP_REG_AV_SRCH_PREV :Srch prev (F9)\l        Search for prev occurrence of text\
+    \lHELP_REG_AV_SRCH_NEXT :Srch next (F10)\l       Search for next occurrence of text\
+\e
+
+HELP_CMDS_TAG_AV
+Tag Autoview commands
+The following commands are available from the\
+Tag Autoview menu:\
+    \lHELP_TAG_FILE_INVERT:Tag Invert\l          Invert the tag status of all files\
+    \lHELP_TAG_FILE_PRINT :Tag Print\l           Print all tagged files\
+    \lHELP_TAG_FILE_SEARCH:Tag Search\l          Search all tagged files for text\
+    \lHELP_TAG_FILE_TAG   :Tag Tag\l             Tag all files\
+    \lHELP_TAG_FILE_UNTAG :Tag Untag\l           Untag all files\
+    \lHELP_TAG_FILE_VIEW  :Tag View\l            View all tagged files\
+\
+    \lHELP_REG_DIR_ALTMENU:Alt menu (F4)\l       Enter Alt menu\
+    \lHELP_REG_DIR_SPLIT  :Split (F8)\l          Split or Unsplit the display\
+\e
+
+HELP_CMDS_ALT_AV
+Alt autoview commands
+The following commands are available from the\
+Alt Autoview menu:\
+    \lHELP_ALT_FILE_INVERT:Alt Invert\l           Invert the tagged status of\
+    \i                     \i                     selected files\
+    \lHELP_ALT_FILE_TAG   :Alt Tag\l              Tag selected files\
+    \lHELP_ALT_FILE_UNTAG :Alt Untag\l            Untag selected files\
+\
+    \lHELP_REG_DIR_TAGMENU:Tag menu (F3)\l        Enter Tag menu\
+    \lHELP_REG_DIR_SPLIT  :Split (F8)\l           Split or Unsplit the display\
+\e
+
+HELP_CMDS_REG_FV
+View commands
+The following commands are available from the\
+View menu:\
+    \lHELP_REG_FILE_EDIT   :Edit\l               Edit the current file\
+    \lHELP_REG_FILE_PRINT  :Print\l              Print the current file\
+    \lHELP_REG_FILE_QUIT   :Quit\l               Quit ${PGM}\
+    \lHELP_REG_AV_SEARCH   :Search\l             Search for text\
+\
+    \lHELP_REG_AV_ASCII    :Ascii\l              Display file in ASCII format\
+    \lHELP_REG_AV_DUMP     :Dump\l               Display file in dump format\
+    \lHELP_REG_AV_HEX      :Hex\l                Display file in hex format\
+    \lHELP_REG_AV_KEEP     :Keep mode\l          Keep current display format\
+    \lHELP_REG_AV_MASK     :Mask\l               Mask off unprintable characters\
+    \lHELP_REG_AV_WRAP     :Wrap\l               Display file in wrap format\
+    \lHELP_REG_AV_TABWIDTH :Tab width\l          Toggle tab width between 4 & 8.\
+\
+    \lHELP_REG_FV_PREVFILE :Prev file (F5)\l     Skip to previous file\
+    \lHELP_REG_FV_NEXTFILE :Next file (F6)\l     Skip to next file\
+    \lHELP_REG_AV_SRCH_PREV:Srch prev (F9)\l     Search for previous occurrence\
+    \i                      \i                   of text\
+    \lHELP_REG_AV_SRCH_NEXT:Srch next (F10)\l    Search for next occurrence\
+    \i                      \i                   of text\
+\e
+
+HELP_CMDS_MISC
+Miscellaneous commands
+The following commands are available in all menus:\
+\
+    Help (F1)                Bring up the help menu\
+    Shell Escape (!)         Execute a shell escape\
+    Refresh screen (@)       Refresh the screen\
+    Version (#)              Display current version no.\
+    Memory usage ($)         Display amount of memory used\
+    Print-screen (%)         Print the contents of the\
+                             screen\
+\e
+
+#
+# Directory commands (aka Regular Directory commands)
+#
+HELP_REG_DIR_ATTRS
+Directory attributes command
+Available from: Directory Commands menu\
+\
+This command is used to change the attributes of a directory.\
+The attributes that can be changed are:\
+\
+    \lHELP_ATTR_PERMS:Permissions\l\
+    \lHELP_ATTR_OWNER:Owner\l\
+    \lHELP_ATTR_GROUP:Group\l\
+    \lHELP_ATTR_DATE :Date\l\
+\e
+
+HELP_REG_DIR_COMPARE
+Compare directory command
+Available from: Directory Commands menu\
+\
+This command compares the files in the current directory\
+with those in another directory, and tags those that\
+meet comparison critera that you select.\
+\
+When you select the Compare command, you are prompted\
+to choose a directory to compare with the current one.\
+You can enter the name of the directory, or use the\
+arrow keys to select one from the directory tree.  If\
+you have other nodes logged, you can select one of them\
+by using the "<" and ">" keys.\
+\
+After you select a directory to compare, you are prompted\
+for selection criteria.  Comparison criteria are:\
+\
+\cIdentical dates - Tags each file that has the same\
+                  name and date as another file.\
+\
+\cNewest date -     Tags the most recent version of each\
+                  file that is not unique; if more than\
+                  one file with the same (most recent)\
+                  date and name exists, all are tagged.\
+\
+\cUnique names -    Tags each unique file.\
+\
+\cOldest date -     Tags the earliest version of each\
+                  file that is not unique; if more than\
+                  one file with the same (earliest) date\
+                  and name exists, all are tagged.\
+\
+A criterion is selected if you see the word "yes" next to\
+it.  To switch between "yes" and "no", enter the\
+highlighted letter of the criterion.  These options are\
+cumulative.  That is, if you select all the options, ${PGM}\
+looks for files that satisfy all the criteria.\
+\
+After you select the desired critera, press Enter to begin\
+comparing files.  Files in the current directory are tagged\
+if they compare with those in the second directory\
+according to the critera you select.\
+\e
+
+HELP_REG_DIR_DELETE
+Delete directory command
+Available from: Directory Commands menu\
+\
+This command deletes the current directory.  To delete a\
+directory, highlight it in the Directoy window and press\
+"d".  You are prompted whether or not to delete this\
+directory.  To delete the directory, press "y". To cancel\
+the operation, press "n" or Esc.\
+\
+Note that you can only delete directories you own.  You\
+cannot delete a directory that contains files.  You must\
+remove all files first.  If the directory contains\
+subdirectories, you must remove those first.  To remove an\
+entire branch of the node, you can use the Prune command.\
+\
+You cannot delete the root (top-level directory) of the\
+node.\
+\e
+
+HELP_REG_DIR_EDIT
+Edit command
+Available from: Directory Commands menu\
+\
+Use this command to create a file.  When you enter the Edit\
+command, ${PGM} invokes a text editing program, but does not\
+specify a filename.  You can then compose text and write it\
+to a specific file.\
+\
+You can choose a particular text editor with the\
+Configuration Tool (Alt-F10).\
+\
+\e
+
+HELP_REG_DIR_FILESPEC
+Filespec command
+Available from: Directory Commands menu\
+\
+This command changes the file specification for displayed\
+files.  Only files that match the file specification (shown\
+in the File Specification box at the top right of the Main\
+Display) are shown in the File windows.\
+\
+When you select the Filespec command, you are prompted for\
+a new file specification.   You can:\
+\
+    - Press Enter to automatically choose the default wild\
+      card (*), and specify all files.\
+\
+    - Enter any file specification by typing one at the\
+      prompt. You can enter multiple file specifications\
+      separated by commas or spaces.\
+\
+    - Select the previous file specification using the\
+      up-arrow key.\
+\
+When you enter a file specification, you can use the *\
+and ? characters as wild cards.  An asterisk (*) matches\
+any number of characters.  A question mark matches a single\
+character.  Use a minus sign (-) to display files that\
+do not match the specification.\
+\
+For example, this file specification matches all files that\
+begin with exactly two characters in their name, followed\
+by a period (.), followed by any number of characters:\
+\
+    ??.*\
+\
+This example matches all files that end with a .c, .h\
+or .o:\
+\
+    *.c, *.h, *.o\
+\
+As a shortcut, you can use bracket characters ([ ]) to\
+specify a series of letters in a file specification.  For\
+example, you could enter the previous file specification\
+as:\
+\
+    *.[cho]\
+\
+To display files that do not match the specification, place\
+a minus sign in front of the specification.  For example:\
+\
+    -*.bak\
+\
+The above specification matches all files that do not end\
+with the string .bak.\
+\
+\e
+
+HELP_REG_DIR_GLOBAL
+Global command
+Available from: Directory Commands menu\
+\
+This command displays all files in all logged nodes.  When\
+you use the Global command, you see all the files in all of\
+the logged nodes displayed in the Extended File window.\
+You can use any of the File, Alt File and Tag File commands\
+in the Global display.\
+\
+Use the up-arrow, down-arrow, PgUp, PgDn, Home and End keys\
+to scroll through the file display.\
+\e
+
+HELP_REG_DIR_INVERT
+Directory invert command
+Available from: Directory Commands menu\
+\
+This command inverts the tag status of all files in the\
+current directory.  All files that were tagged are now\
+untagged, and all files that were not tagged are now\
+tagged.\
+\e
+
+HELP_REG_DIR_LINK
+Directory link command
+Available from: Directory Commands menu\
+\
+This command creates a symbolic link to the current\
+directory.  When you enter this command, you are\
+prompted for the name of the link you want to create\
+and the directory you wish the symbolic link created in.\
+This command is only available if the underlying\
+operating system supports symbolic links.\
+\e
+
+HELP_REG_DIR_MKDIR
+Make directory command
+Available from: Directory Commands menu\
+\
+Use this command to create a new sub-directory in the\
+current directory.  When you enter the Make directory\
+command, you are prompted for the name of the directory to\
+create.  Enter the name and press Enter.\
+\
+You must have permission to write to the current directory\
+in order to make a new subdirectory.  You can only make one\
+directory at a time.  That is, you cannot create a series\
+of subdirectories, one beneath the other, at one time.  You\
+must use the Make command for each subdirectory that you\
+create.\
+\e
+
+HELP_REG_DIR_NODE
+Node command
+Available from: Directory Commands menu\
+\
+This command is used to:\
+    \lHELP_NODE_NEW    :log\l a new node,\
+    \lHELP_NODE_RELOG  :relog\l an existing node, or\
+    \lHELP_NODE_ARCHIVE:archive\l a backup file (bar, tar, or cpio).\
+\e
+
+HELP_REG_DIR_PRINT
+Print directory command
+Available from: Directory Commands menu\
+\
+This command prints the names of directories and files on a\
+printer. You can choose from the following types of\
+printouts:\
+\
+    \lHELP_PRINT_PATH:Print all pathnames\l\
+    \lHELP_PRINT_TREE:Print the directory tree\l\
+    \lHELP_PRINT_CAT :Print a catalog of all tagged files\l\
+\
+The output is sent to whatever printer ${PGM} is configured\
+to use.\
+\e
+
+HELP_REG_DIR_QUIT
+Quit command
+Available from: Directory Commands menu\
+\
+Use this command to quit from ${PGM}.  By default,\
+${PGM} prompts whether or not you really want to quit.\
+You can turn off this prompt using the Configuration Tool.\
+\e
+
+HELP_REG_DIR_RENAME
+Rename directory command
+Available from: Directory Commands menu\
+\
+This command changes the name of the current directory.\
+When you execute the command, you are prompted to enter the\
+new name of the new directory.  Enter the name and press\
+Enter.\
+\e
+
+HELP_REG_DIR_SHOWALL
+Showall command
+Available from: Directory Commands menu\
+\
+This command displays all files in the current node.  When\
+you execute the Showall command, the files in the current\
+node are displayed in the Extended File window.\
+\
+Use the up-arrow, down-arrow, PgUp, PgDn, Home and End keys\
+to scroll through the file display.\
+\e
+
+HELP_REG_DIR_TAG
+Tag directory command
+Available from: Directory Commands menu\
+\
+This command tags all the files in the current directory.\
+The tagged files are indicated by a plus sign (+) next to\
+their names.\
+\e
+
+HELP_REG_DIR_UNTAG
+Untag directory command
+Available from: Directory Commands menu\
+\
+This command removes any tags from the files in the current\
+directory.  Files that were not already tagged are\
+unaffected.\
+\e
+
+HELP_REG_DIR_AVAILABLE
+Available space command
+Available from: Directory Commands menu\
+\
+Use this command to display the available space on all\
+mounted file systems.  When you run the command, you see\
+statistics about each filesystem, starting with the root\
+filesystem.  Press Enter to see information about\
+additional filesystems.  Press Esc to return to the\
+Directory Commands menu.\
+\
+If a filesystem is not mounted, you do not see any\
+information about it.\
+\
+This command reports the size of filesystems in bytes, and\
+indicates where the filesystem is mounted.\
+\e
+
+HELP_REG_DIR_EXEC
+Execute shell escape command (eXec)
+Available from: Directory Commands menu\
+\
+The eXec command temporarily exits from ${PGM} and places you at\
+the system command line.\
+\
+To return to ${PGM}, enter "exit" at the system prompt,\
+and press Enter.\
+\e
+
+HELP_REG_DIR_TAGMENU
+Enter Tag Menu (F3)
+Available from: All menus\
+\
+Use this command to enter the Tag Menu.\
+\e
+
+HELP_REG_DIR_ALTMENU
+Enter Alt Menu (F4)
+Available from: All menus\
+\
+Use this command to enter the Alt Menu.\
+\e
+
+HELP_REG_DIR_HIDE
+Hide directory command (F5)
+Available from: Directory Commands menu\
+\
+This command hides a directory and all of its files and\
+subdirectories.  To hide a directory, highlight it using\
+the arrow keys and press F5.  Hidden directories are\
+indicated in the Directory window with a period (.).\
+This command is useful when you want to unclutter a\
+lengthy directory display.\
+\
+When you highlight a hidden directory, you see the words\
+"No files" in the File window.\
+\
+To restore a directory to view, use the arrow keys to\
+highlight it, then press F6.\
+\e
+
+HELP_REG_DIR_SHOW
+Show directory command (F6)
+Available from: Directory Commands menu\
+\
+This command restores a hidden subdirectory and its files.\
+Hidden directories are indicated in the Directory window\
+with a period (.). To show a hidden directory, use the\
+arrow keys to highlight it, then press F6.\
+\e
+
+HELP_REG_DIR_AUTOVIEW
+Autoview Menu command (F7)
+Available from: Directory Commands or File Commands menu\
+\
+Use this command to enter Autoview mode.  In this mode,\
+a separate view window shows the contents of the\
+highlighted file.\
+\e
+
+HELP_REG_DIR_SPLIT
+Split/Unsplit display command (F8)
+Available from: Directory Commands, File Commands, or\
+                Autoview menu\
+\
+Use this command to either split a single display or to\
+unsplit a split display.\
+\e
+
+HELP_REG_DIR_MENU
+Application Menu command (F9)
+Available from: Directory Commands menu\
+\
+Use this command to enter the Applications Menu.\
+\e
+
+HELP_REG_DIR_RELOG
+Log or relog directory command (+)
+Available from: Directory Commands menu\
+\
+This command logs an unlogged directory or relog an already\
+logged directory.  When you execute the Node command, you\
+are prompted whether you want to relog an existing node, or\
+log a new node.  Press either "r" to relog a node, or "n"\
+to log a new node.\
+\
+Relogging a node is useful to make sure ${PGM} contains the\
+most current information about a node.  In a multiuser\
+or networked system, there are many ways a node\
+can change outside of ${PGM}.  For example, another user may\
+have created or deleted a file in the node.  Or, if you\
+have logged a directory that is used by system\
+programs to store or create temporary or log files, those\
+programs may have added or deleted files since the last\
+time you logged the directory.\
+\
+You need to relog a node if you use either the Shell or\
+eXec commands to add or delete files and directories\
+in a logged node.  ${PGM} does not automatically relog a\
+node if you make changes to it from the command line.\
+\e
+
+HELP_REG_DIR_LOG_RECURS
+Recursive relog directory command (*)
+Available from: Directory Commands menu\
+\
+These commands log an unlogged subdirectory or relog an\
+already logged subdirectory.  A directory that is not\
+logged is indicated in the Directory window with a plus\
+sign (+).
+
+To relog the directory, and all subdirectories below it,\
+use the arrow keys to highlight the directory, then press\
+"*".
+\
+You can also log and relog only the top subdirectory in a\
+branch with the plus (+) command.  When you highlight a\
+directory and press "+", only the immediate subdirectory is\
+logged.  Directories below it are not logged.  If they were\
+unlogged with the unlog directory command (-), they are\
+still unlogged and are displayed in the Directory window\
+with a plus sign (+).\
+\e
+
+HELP_REG_DIR_UNLOG
+Unlog directory command (-)
+Available from: Directory Commands menu\
+\
+This command unlogs a subdirectory.  When you unlog a\
+subdirectory, ${PGM} removes information about it from the\
+node (it does not actually remove the directory).  The\
+subdirectory is indicated in the Directory window by a\
+plus sign (+).  In the File window you see the words "Not\
+logged".\
+\
+To unlog a directory, highlight it with the arrow keys,\
+then press "-".\
+\
+To relog the subdirectory, use either the relog (+) or\
+recursive relog (*) commands.  To relog a directory,\
+highlight it with the arrow keys, then press either "+" or\
+"*".\
+\e
+
+#
+# Tag directory commands
+#
+HELP_TAG_DIR_GLOBAL
+Tag global command
+Available from: Tag Directory menu (F3)\
+\
+This command displays all tagged files on all logged\
+nodes.  When you execute the command, you see the tagged\
+files in the Extended File window.\
+\e
+
+HELP_TAG_DIR_INVERT
+Tag invert command
+Available from: Tag Directory menu (F3)\
+\
+Available from: Directory Commands menu\
+\
+This command inverts the tag status of all files in the\
+current node.  All files that were tagged are untagged, and\
+any files that were not tagged are now tagged.\
+\e
+
+HELP_TAG_DIR_SHOWALL
+Tag Showall command
+Available from: Tag Directory menu (F3)\
+\
+This command displays all tagged files in the current\
+node.  When you execute the command, you see the tagged\
+files in the Extended File window.\
+\e
+
+HELP_TAG_DIR_TAG
+Tag tag command
+Available from: Tag Directory menu (F3)\
+\
+This command tags all files in the current node.  The files\
+are displayed in with a plus sign (+) in the File window.\
+\e
+
+HELP_TAG_DIR_UNTAG
+Tag untag command
+Available from: Tag Directory menu (F3)\
+\
+This command untags all files in the current node.  Any\
+files that are not already tagged are unaffected.\
+\e
+
+#
+# Alt directory commands
+#
+HELP_ALT_DIR_COMPACT
+Compact command
+Available from: Alt Directory menu (F4)\
+\
+This command compacts directories by removing unused space\
+in the directory file itself.  Compacting a directory can\
+improve the speed at which the directory is accessed, for\
+example when initially logging a node, or when running\
+system commands.  This is especially apparent if the\
+directory contains many files, if files are frequently\
+added and deleted, or if many files are deleted from a\
+large directory.\
+\
+To run the Compact command, press Esc until you are at the\
+Directory Commands menu.  Use the arrow keys to highlight\
+the directory you want to compact.  Execute the Compact\
+command by pressing F4, then "c", or by pressing Alt-c.\
+\
+You are prompted whether or not to compact the directory.\
+Press "y" to compact the directory, or "n" to cancel the\
+command.\
+\e
+
+HELP_ALT_DIR_DIRDISP
+Directory display command
+Available from: Alt Directory or Alt File menu (F4)\
+\
+This command changes the way that directories are shown in\
+the Directory window.  You can choose among four different\
+display styles, each providing particular kinds of\
+information about the directories.\
+\
+To change the directory display, execute the Directory\
+Display command.  Either press F4 followed by "d",  or\
+press Alt-d.  The directory display changes from a tree to\
+a multicolumn format.  Each time you use the Directory\
+Display command, the format changes.  You can cycle through\
+the four different formats by repeatedly using the\
+Directory Display command.\
+\
+The formats provide different kinds of information:\
+\
+    - The default format (unless you change it with the\
+      Configuration Tool), is the tree format; this\
+      represents your directories graphically, making it\
+      easy to see the tree-like structure of the node.\
+\
+    - The second format contains five columns.\
+\
+      The first column is the name of the directory.  The\
+      second is its position in the node (0 is the root of\
+      the node, 1 is for directories connected to the root,\
+      2 is for the next level of directories, and so\
+      forth).  The third column is the number of files in\
+      that directory.  The fourth column is the number of\
+      bytes those files consume.  The fifth column is the\
+      total number of bytes in all subdirectories below\
+      the particular directory.\
+\
+    - The third format displays the directory name, its\
+      position in the node, the number of bytes the\
+      directory file itself consumes (as opposed to the\
+      bytes consumed by files in the directory), and the\
+      date and time the directory was last modified (a file\
+      was added to the directory, or a subdirectory was\
+      created).\
+\
+    - The fourth format shows the directory name, its\
+      position in the node, the inode number of the\
+      directory, the access permissions for the directory,\
+      the owner and the group affiliation of the\
+      directory.\
+\e
+
+HELP_ALT_DIR_FILEDISP
+File display command
+Available from: Alt Directory menu (F4)\
+\
+This command changes the way that files are displayed in\
+the File windows.  Execute the command by pressing F4 and\
+"f", or by pressing Alt-f.  Each time you execute the\
+command, you choose one of four display formats.\
+\
+The formats provide different kinds of information about\
+files:\
+\
+    - The first format lists the names of the files in\
+      either one, two or three columns, depending upon the\
+      number of files in the directory.  This is the\
+      default, unless you change it with the Configuration\
+      Tool.\
+\
+    - The second format shows the name of the file and its\
+      size.\
+\
+    - The third format shows the name of the file, its size,\
+      the number of links to that file (there is always at\
+      least one link, which is the file itself), the file's\
+      inode number, and the date and time the file was last\
+      modified.\
+\
+    - The fourth format shows the name of the file, its size,\
+      its access permissions, and its owner and group\
+      affiliation.\
+\e
+
+HELP_ALT_DIR_INVERT
+Alt Invert command
+Available from: Alt Directory menu (F4)\
+\
+This command inverts the tag status of selected files.\
+Files that are tagged are untagged, and those that are not\
+tagged are tagged.\
+\
+Files can be selected based on the following criteria:\
+\
+    \lHELP_TAG_INODE:Inode number\l\
+    \lHELP_TAG_LINKS:Link count\l\
+    \lHELP_TAG_SIZE :File size\l\
+    \lHELP_TAG_PERMS:Permissions\l\
+    \lHELP_TAG_OWNER:Owner\l\
+    \lHELP_TAG_GROUP:Group\l\
+    \lHELP_TAG_DATE :Date\l\
+    \lHELP_TAG_NODE :Node\l\
+    \lHELP_TAG_TYPE :Type\l\
+\e
+
+HELP_ALT_DIR_GRAFT
+Graft command
+Available from: Alt Directory menu (F4)\
+\
+This command moves (grafts) a directory structure and all\
+the files in it to another directory. It copies tagged\
+files and directories to any destination and then deletes\
+those files from their original location.\
+\
+To use the Graft command, tag all the files in the\
+directory you want to move.  With that directory still\
+highlighted, press F4 and "g", or press Alt-g.  You are\
+prompted whether or not to graft this directory.  Press "y"\
+to continue grafting, or "n" to cancel the operation.\
+\
+Next, you are prompted to enter the name of destination\
+directory.  Enter the name of the directory, or use the\
+arrow keys to point to the destination directory.  If you\
+already have logged multiple nodes, you can choose from the\
+list of nodes using the < and > keys.  Note that the\
+destination directory must be in the same filesystem as the\
+directory you are grafting.  When you have chosen the\
+destination directory, press Enter to begin grafting.\
+\
+A useful command to tag all the files and subdirectories of\
+particular file is the File Alt Tag command, available from\
+the File window.\
+\e
+
+HELP_ALT_DIR_NODE
+Alt Node command
+Available from: Alt Directory or Alt File menu (F4)\
+\
+Use this command to release all logged nodes, then either:\
+\
+    \lHELP_NODE_NEW    :log\l a new node\
+    \lHELP_NODE_RELOG  :relog\l an existing node\
+    \lHELP_NODE_ARCHIVE:archive\l a backup file\
+\
+When you run this command, all currently logged nodes are\
+released.  You can choose to log a new node, or relog one\
+of the current nodes.\
+\
+To execute the Alt Node command, press either F4 and "n",\
+or press Alt-n.\
+\e
+
+HELP_ALT_DIR_PRUNE
+Prune command
+Available from: Alt Directory menu (F4)\
+\
+This command prunes a subdirectory.  When you execute it,\
+it removes the subdirectory and all files and\
+subdirectories below it.\
+\
+To execute the Prune command, use the arrow keys to\
+highlight the directory you want to prune.  Next, either\
+press F4 and "p", or Alt-p.  You are prompted whether or\
+not to prune the highlighted directory.  Press "y" to\
+continue pruning, or "n" to cancel the operation.  As a\
+safety precaution, you are asked once more if you really\
+want to prune this directory, since this action is\
+irreversible.  Press "y" to continue, or "n" to cancel the\
+operation.\
+\e
+
+HELP_ALT_DIR_QUIT
+Checkpoint and quit command
+Available from: Alt Directory or Alt File menu (F4)\
+\
+Use this command if you wish to checkpoint all currently\
+logged file-system nodes and quit.  By default, ${PGM}\
+prompts whether or not you really want to quit.  You can\
+turn off this prompt using the Configuration Tool.\
+When you use this command, a checkpoint file is created,\
+and the next time you start up ${PGM} the checkpoint file\
+is read in instead of logging the default node.\
+The checkpoint file is not read if a node is specified on\
+the command line. You must manually delete the checkpoint\
+file (${PGM}.ckp in your home directory) to restore normal\
+operation of ${PGM}.\
+\e
+
+HELP_ALT_DIR_RELEASE
+Release node command
+Available from: Alt Directory or Alt File menu (F4)\
+\
+This command releases a logged node.  Use when you want to\
+release specific nodes.\
+\
+To execute the command, either press F4 and "r", or press\
+Alt-r.  You are prompted in turn whether or not to release\
+each of the nodes you have logged.  Press "y" to release\
+that node, or "n" to see the next node.\
+\e
+
+HELP_ALT_DIR_SORT
+Sort command
+Available from: Alt Directory or Alt File menu (F4)\
+\
+This command changes the order in which files are displayed\
+(sorted in the display).\
+\
+Execute the command by pressing either F4 and "s", or\
+Alt-s.  You are prompted to choose a criterion by which to\
+sort the files.  You can choose from:\
+\
+    - Name\
+    - Extension\
+    - Date and Time\
+    - Inode\
+    - Link count\
+    - Size\
+    - Unsorted\
+    - Order (ascending or descending)\
+\
+Choose a criterion by pressing the first letter of its\
+name.  When you choose any of the critera except for Order,\
+the file display is immediately resorted.  When you choose\
+Order, this switches between ascending and descending\
+order.  If you are only switching the sort order,\
+set Order to either ascending or descending, then press\
+Enter.\
+\e
+
+HELP_ALT_DIR_TAG
+Alt Tag command
+Available from: Alt Directory menu (F4)\
+\
+This command tags files based on the following\
+criteria:\
+\
+    \lHELP_TAG_INODE:Inode number\l\
+    \lHELP_TAG_LINKS:Link count\l\
+    \lHELP_TAG_SIZE :File size\l\
+    \lHELP_TAG_PERMS:Permissions\l\
+    \lHELP_TAG_OWNER:Owner\l\
+    \lHELP_TAG_GROUP:Group\l\
+    \lHELP_TAG_DATE :Date\l\
+    \lHELP_TAG_NODE :Node\l\
+    \lHELP_TAG_TYPE :Type\l\
+\e
+
+HELP_ALT_DIR_UNTAG
+Alt Untag command
+Available from: Alt Directory menu (F4)\
+\
+This command untags files based on the following criteria:\
+\
+    \lHELP_TAG_INODE:Inode number\l\
+    \lHELP_TAG_LINKS:Link count\l\
+    \lHELP_TAG_SIZE :File size\l\
+    \lHELP_TAG_PERMS:Permissions\l\
+    \lHELP_TAG_OWNER:Owner\l\
+    \lHELP_TAG_GROUP:Group\l\
+    \lHELP_TAG_DATE :Date\l\
+    \lHELP_TAG_NODE :Node\l\
+    \lHELP_TAG_TYPE :Type\l\
+\e
+
+HELP_ALT_DIR_HIDE
+Alt Hide command (F5)
+Available from: Alt Directory menu (F4)\
+\
+This command hides all directories deeper than the level of\
+the current directory.  To execute it, choose a directory\
+that is at the appropriate depth.  Press either F4 and F5,\
+or press Alt-F5.  All directories in the node that are\
+deeper than the currently highlighted directory are hidden,\
+and are displayed with a period (.).\
+\e
+
+HELP_ALT_DIR_SHOW
+Alt Show command (F6)
+Available from: Alt Directory menu (F4)\
+\
+This command shows all hidden directories deeper than the\
+level of the current directory.  To execute the command,\
+press either F4 and F6, or Alt-F6.  Any directories that\
+are deeper than the currently highlighted directory and\
+were hidden are now displayed.\
+\e
+
+HELP_ALT_DIR_CONFIG
+Configuration Tool (F10)
+Available from: Alt Directory menu (F4)\
+\
+This command executes the Configuration Tool.  You can run\
+the Configuration Tool by pressing either F4 and F10, or\
+Alt-F10.\
+\
+Configuration Tool displays a menu of eight items:\
+\
+    1 Modify configuration item\
+    2 Modify screen display\
+\
+    3 Read settings from a file\
+    4 Write settings to file\
+\
+    5 Restore settings as the were\
+    6 Restore settings to defaults\
+\
+    S Save settings to file and quit\
+    Q Quit configuration program\
+\
+The first option configures the basic ${PGM} operations.\
+Use this option to change such aspects of ${PGM} as printer\
+configuration, Directory and File window formats, node\
+logging characteristics, some prompts, the default editor\
+and view programs, and other items.\
+\
+The second option lets you change the colors or attributes\
+of the various ${PGM} screens and prompts.\
+\
+The third option reads configuration settings from a\
+particular file, but does not exit from the Configuration\
+Tool.  The fourth option writes the configuration options\
+to a file, but does not exit from the Configuration Tool.\
+For both of these options, you can press Enter to choose\
+the default configuration file, ${PGM}.rc, which is kept in\
+your home directory.\
+\
+The fifth option restores settings as they were when you\
+execute the Configuration Tool.  This is useful if you made\
+some changes to the configuration, but want to abandon\
+them and start over.  The sixth option restores the ${PGM}\
+configuration to the program defaults.\
+\
+The seventh option saves the ${PGM} configuration to a file\
+and exits from the program.  When you use this option, you\
+are prompted for the name of a file in which to save the\
+configuration.  The default is the file ${PGM}.rc in your home\
+directory.  Press Enter to use this file, or enter the name\
+of the file you want to use instead.  If you choose the\
+default file, ${PGM}.rc, this configuration is used whenever\
+you start ${PGM}.\
+\
+The eighth option quits from the Configuration Tool without\
+updating any configuration files.  This is useful if you\
+want to abandon any changes you made.\
+\
+                 ------\
+\
+Using option one, "Modify configuration items", you can\
+modify many aspects of ${PGM}.  When you choose this option,\
+you see a series of submenus, each listing different\
+configuration items.  To see the next submenu, press "n".\
+To go to the previous submenu, press "p".  To return to the\
+main Configuration Tool menu, press "m" or "Esc".\
+\
+Alter a configuration item, use the arrow keys to highlight\
+the item, them press Enter to modify it.  Some items have a\
+series of choices, which you can cycle through by pressing\
+Enter.  Other options require you to enter a specific\
+value, for example when you change the screen-blank\
+interval or the default editor.\
+\
+From option two of the main display, you can choose the\
+foreground and background colors if you are using a color\
+display, or attributes if you are using a monochrome display.\
+When you choose this option, you see a series of\
+submenus.  The commands to move through the submenus is the\
+same as for option one.\
+\
+To choose an item to configure, highlight it with the arrow\
+keys.  With each item you can set a foreground and\
+background color or attribute.  Press F5 and F6 to cycle\
+forward and backward through the list of available foreground\
+colors or attributes.  Press F7 and F8 to cycle through the\
+list of available background colors.\
+\
+To return to the main Configuration Tool menu from the\
+submenus, press Esc.  If you want to save your\
+configuration and use it whenever start ${PGM}, press "s"\
+then press Enter when prompted for a configuration file.\
+\e
+
+#
+# Regular file commands
+#
+HELP_REG_FILE_ATTRS
+File attributes command
+Available from: File menu\
+\
+This command changes the attributes of the current file.\
+You can change the following attributes:\
+\
+    \lHELP_ATTR_PERMS:Permissions\l\
+    \lHELP_ATTR_OWNER:Owner\l\
+    \lHELP_ATTR_GROUP:Group\l\
+    \lHELP_ATTR_DATE :Date\l\
+\e
+
+HELP_REG_FILE_BACKUP
+Backup file command
+Available from: File menu\
+\
+This command backs up a single file to either disk or tape,\
+depending upon what type of backup device is available on\
+your system.  To back up more than one file, use the Tag\
+Backup command, available from the Tag File menu.\
+\
+To use the Backup command, place your backup media in the\
+appropriate drive.  Enter the File window.  Using the arrow\
+keys, highlight the file you want to back up and press\
+"b".  You are prompted for the number of a backup device on\
+your system.  Press Enter to use the default device, or\
+enter a device number.  See your system administrator, or\
+consult your operating system documentation for a\
+description of the available backup devices.\
+\
+After you enter the backup device number (or press Enter to\
+choose the default device), the file is backed up and you\
+return to the File window.\
+\
+To restore a backed up file, use the reStore command,\
+also available from the File menu.\
+\e
+
+HELP_REG_FILE_COPY
+Copy file command
+Available from: File menu\
+\
+This command copies the current file to another file.  To\
+copy a file, enter the File window.  Use the arrow keys to\
+highlight the file you want to copy, then press "c".  You\
+are prompted for a new file name.  Type a name, or press\
+Enter to keep the same file name (if you are copying the\
+file to a different directory).\
+\
+You are prompted for a destination to which to copy the\
+file.  Type the name of a directory where you want to copy\
+the file, or press F2 to use the arrow keys to highlight a\
+directory.  When you press F2, a directory window appears\
+on top of the existing window.  Use the arrow keys to\
+highlight a destination directory.  You can use the < and >\
+keys to choose alternate nodes that you have logged.  When\
+you have chosen a destination directory, press Enter.  The\
+name of the destination directory appears in the\
+destination prompt.  Press Enter again to complete the\
+copy.\
+\e
+
+HELP_REG_FILE_DELETE
+Delete file command
+Available from: File menu\
+\
+This command deletes a file.  To execute the command, enter\
+the File window.  Use the arrow keys to highlight the file\
+you want to delete.  Press "d".  You are prompted whether\
+or not you really want to delete this file.  Press "y" to\
+delete the file, or "n" to cancel the operation.\
+\e
+
+HELP_REG_FILE_EXTRACT
+Extract file command
+Available from: File menu\
+\
+This command is used to extract a file from a logged\
+archive (bar, tar, or cpio).\
+\e
+
+HELP_REG_FILE_EDIT
+Edit file command
+Use this command to edit or create a file.  To execute the\
+Edit command, enter the File window.  Use the arrow keys to\
+highlight the file you want to edit.  Press "e". You are\
+prompted whether or not to edit the file (unless you turn\
+off this prompt with the Configuration Tool).\
+\
+Press Enter to edit the file, or enter the name of a\
+different file.  To create a new file, enter the name of\
+the file you want to create.  Press Enter to edit the\
+file.\
+\
+This command uses whatever editor you specify using the\
+Configuration Tool.  The default editor is /bin/vi.  For a\
+description of the vi text editor, see your operating\
+system documentation.\
+\e
+
+HELP_REG_FILE_FILESPEC
+Filespec command
+Available from: File menu\
+\
+This command changes the file specification for displayed\
+files.  Only files that match the file specification (shown\
+in the File Specification box at the top right of the Main\
+Display) are shown in the File windows.\
+\
+When you select the Filespec command, you are prompted for\
+a new file specification.   You can:\
+\
+    - Press Enter to automatically choose the default wild\
+      card (*), and specify all files.\
+\
+    - Enter any file specification by typing one at the\
+      prompt. You can enter multiple file specifications\
+      separated by commas or spaces.\
+\
+    - Select the previous file specification using the\
+      up-arrow key.\
+\
+When you enter a file specification, you can use the *\
+and ? characters as wild cards.  An asterisk (*) matches\
+any number of characters.  A question mark matches a single\
+character.  Use a minus sign (-) to display files that\
+do not match the specification.\
+\
+For example, this file specification matches all files that\
+begin with exactly two characters in their name, followed\
+by a period (.), followed by any number of characters:\
+\
+    ??.*\
+\
+This example matches all files that end with a .c, .h\
+or .o:\
+\
+    *.c, *.h, *.o\
+\
+As a shortcut, you can use bracket characters ([ ]) to\
+specify a series of letters in a file specification.  For\
+example, you could enter the previous file specification\
+as:\
+\
+    *.[cho]\
+\
+To display files that do not match the specification, place\
+a minus sign in front of the specification.  For example:\
+\
+    -*.bak\
+\
+The above specification matches all files that do not end\
+with the string .bak.\
+\e
+
+HELP_REG_FILE_GOTO
+Goto file command
+Available from: File menu\
+\
+This command moves the highlight bar to the first file that\
+matches the given specification.  To execute it, enter the\
+File window and press "g". You are prompted for the name of\
+a file to go to.  Enter the name of the file, or a\
+specification (for example "*.c").\
+\
+The highlight bar moves to the first file in the File\
+window that matches the specification you enter.\
+\
+This command is particularly useful in the Global and\
+Showall windows.\
+\e
+
+HELP_REG_FILE_INVERT
+Invert file command
+Available from: File menu\
+\
+This command inverts the tag status of the current file.\
+If the file is tagged, the tag is removed.  If the file is\
+not tagged, this command tags it.\
+\e
+
+HELP_REG_FILE_LINK
+Link file command
+Available from: File menu\
+\
+This command links the current file to another file.  A\
+link is simply another name for the same file.  When you\
+change one file, for example by editing it, the other file\
+changes as well.  This is because they are not separate\
+files, but actually the same file under different names.\
+\
+To link a file, highlight the file you want to link and\
+press "l".  You are prompted for the name of the file to\
+which to link this file.  Enter the name and press Enter.\
+\
+Next, you are prompted for a destination directory.  Press\
+F2 to choose a different directory.  When you press F2, a\
+directory screen appears.  Use the arrow keys to select the\
+destination directory, then press Enter.  Press Enter again\
+to make the link.\
+\
+To make the link in the current directory, enter a\
+period (.).\
+\e
+
+HELP_REG_FILE_MOVE
+Move file command
+Available from: File menu\
+\
+This command moves the current file to another file.  To\
+execute the command, enter the File window.  Use the arrow\
+keys to highlight the file you want to move and press "m".\
+You are prompted for a new file name.  Enter a new name, or\
+press Enter to keep the same name.\
+\
+Next, you are prompted for a destination directory.  Press\
+F2 to see a list of directories.  If you press F2, you see\
+a directory window.  Use the arrow keys to highlight the\
+destination directory, or use the < and > keys to choose a\
+different logged node.  Press Enter to choose the\
+directory.  Press Enter again to move the file to that\
+directory.\
+\
+To select the current directory, enter a period (.) at the\
+destination directory prompt.  Note that you cannot move a\
+file from one node to another.  If you want to do this, you\
+must copy the file with the Copy command, then delete the\
+original file.\
+\e
+
+HELP_REG_FILE_NODE
+Node command
+Available from: File menu\
+\
+Use this command to:\
+    \lHELP_NODE_NEW    :log\l a new node\
+    \lHELP_NODE_RELOG  :relog\l an existing node\
+    \lHELP_NODE_ARCHIVE:archive\l a backup file\
+\e
+
+HELP_REG_FILE_OPEN
+Open file command
+Available from: File menu\
+\
+This command executes a shell script or program, or runs a\
+shell script that is associated with the file.\
+\
+To use the Open command, enter the File window and press\
+"o". If the file is an executable shell script or a\
+program, it is executed.\
+\
+If the file is not executable, ${PGM} searches its\
+path ($${PRF}PATH) for a shell script that is named after the\
+suffix of the file.  For example, if you run the Open\
+command on a file called "picture.gif", ${PGM} searches for\
+a script called "gif.sh".\
+\
+${PGM} passes the following parameters to the script\
+"gif.sh":\
+\
+    - The full pathname of the file to open\
+    - The pathname of the directory that contains\
+      the file to open\
+    - The name of the file to open\
+    - The full pathname name of the directory\
+      just above the one that contains the file\
+      to open (the parent directory)\
+\
+These are passed as shell positional parameters $1, $2, $3,\
+and $4.  The script "gif.sh" must be executable and must be\
+in one of the directories specified by the ${PRF}PATH\
+environment variable.\
+\e
+
+HELP_REG_FILE_PRINT
+Print file command
+This command is used to print the current file.\
+\e
+
+HELP_REG_FILE_QUIT
+Quit command
+Available from: File menu\
+\
+Use this command to quit from ${PGM}.  Enter "q" to quit.\
+You are prompted whether or not you really want to exit the\
+program (unless you change this using the Configuration\
+Tool).  Enter "y" to quit or "n" to cancel the Quit\
+command.\
+\e
+
+HELP_REG_FILE_RENAME
+Rename file command
+Available from: File menu\
+\
+This command renames a file.  To execute it, enter the File\
+window.  Use the arrow keys to highlight the file you want\
+to rename, then press "r".  You are prompted for a new file\
+name.\
+\
+Note that you cannot move the file to a different directory\
+using the Rename command.  To move a file, use the Move\
+command.\
+\e
+
+HELP_REG_FILE_RESTORE
+reStore files command
+Available from: File menu\
+\
+The reStore command restores files from a backup.  To use\
+the command, place the backup media that contains the files\
+you want to restore in the appropriate drive.  Enter the\
+File window and press "s".  You are prompted for a file\
+specification to use in restoring files.  For example, to\
+restore files that end with the suffix .c, type "*.c" and\
+press Enter.  To restore all files on the backup, type "*"\
+and press Enter.\
+\
+Next, you are prompted for a device from which to restore\
+the files.  Enter the number of the backup device from\
+which you want to restore files, or press enter to use the\
+default.  See your system administrator, or consult your\
+operating system documentation for a description of the\
+available backup devices.\
+\
+After you enter the device number (or press Enter to choose\
+the default device), the files that match the specification\
+are restored.\
+\e
+
+HELP_REG_FILE_TAG
+Tag File command
+Available from: File menu\
+\
+This command tags the current file.  To use the Tag File\
+command, enter the File window.  Use the arrow keys to\
+highlight the file you want to tag, then press "t".  A plus\
+sign (+) appears next to the filename to indicate it is\
+tagged.\
+\e
+
+HELP_REG_FILE_UNTAG
+Untag file command
+Available from: File menu\
+\
+This command removes a tag from a file.  To use the Untag\
+file command, enter the File window.  Use the arrow keys to\
+highlight the file you want to untag, then press "u".  The\
+plus sign next to the filename disappears, indicating the\
+file is no longer tagged.\
+\e
+
+HELP_REG_FILE_VIEW
+View file command
+Available from: File menu , Autoview menu\
+\
+Use the View command to view the contents of a file.  The\
+View command displays a file in a variety of formats. You\
+can use it from any of the File Commands menus, including\
+Showall and Global.\
+\
+When you examine a file with view, you are placed in the\
+View window.  At the top of the screen, you see the name of\
+the file.  In the top, right-hand corner, you see the\
+display mode:  ASCII, Dump, or Hex.  You also see whether\
+or not Mask is on.  An asterisk (*) indicates that Keep\
+mode is on.\
+\
+In the middle of the screen, you see the top portion of the\
+file.  You can scroll down through the file using the arrow\
+keys.  At the bottom of the screen, you see a list of\
+commands.\
+\
+At the bottom of the View window, you see the available\
+View commands:\
+\
+    - Edit: Edits the current file, placing you in the\
+      default editor.\
+\
+    - Quit: Exits the View window and you return to ${PGM}.\
+\
+    - Search: Searches for a pattern in the file.\
+\
+    - Ascii: Views the current file in ASCII format. Use\
+      this for plain text files.\
+\
+    - Dump: Views printable characters in a file without\
+      any line formatting.\
+\
+    - Hex: Views a file as hexadecimal bytes. Use this for\
+      files that contain a large number of non-displayable\
+      characters, such as binary (program) files.\
+\
+    - Keep mode: Prevents ${PGM} from automatically\
+      selecting a display format based on a file's\
+      contents. Use this to view a series of files in one\
+      particular format.\
+\
+      When Keep mode is on, you see an asterisk in the top,\
+      right-hand corner of the screen, next to the other\
+      mode indicators.\
+\
+    - Mask: Masks the eighth bit. Some programs use the\
+      eighth (or high) bit to hold information. In this\
+      case, you may see odd symbols or characters displayed\
+      instead of plain text.  Use this command to command\
+      to turn off the high bit for viewing.\
+\
+    - Wrap: Selects Wordwrap format.  Use this command to\
+      display files that are mostly ASCII characters, but\
+      contain some non-displayable characters. For example,\
+      many files created with word processing programs are\
+      displayed in Wordwrap format.\
+\
+    - Arrows: The up- and down-arrow keys scroll through\
+      the file.\
+\
+#    - F5: Selects the previous file in a list of tagged\
+#      files.  (Available for tagged files only).\
+#\
+#    - F6: Selects the next file in a list of tagged files.\
+#      (Available for tagged files only).\
+#\
+    - F9: Searches for the previous occurrence of the\
+      pattern you selected with the Search command in the\
+      current file.\
+\
+    - F10: Searches for the next occurrence of the pattern\
+      you selected with the Search command in the current\
+      file.\
+\
+    - ?: Displays information about the file, such as its\
+      name, size in bytes, the date and time it was last\
+      modified, access permissions, owner, and group\
+      affiliation.\
+\e
+
+HELP_REG_FILE_EXEC
+Execute System command (eXec)
+Available from: File menu\
+\
+The eXec command executes a command outside of ${PGM}.\
+To use this command, enter the File window and press "x".\
+You are prompted for the name of the command to execute.\
+For example, to see a list of users who are currently\
+logged in to the system, type "who" and press Enter.\
+\
+The command is executed, and you see whatever output the\
+command creates.  Press any key to return to ${PGM}.\
+\
+To temporarily escape to the system prompt, you can simply\
+press Enter when you are prompted to enter the name of a\
+command.  To return to ${PGM}, type "exit" at the\
+system prompt.\
+\e
+
+#
+# Tag File commands
+#
+HELP_TAG_FILE_ATTRS
+Tag file attributes command
+Available from: Tag File menu (F3)\
+\
+This command changes the attributes of all tagged files.\
+You can change these attributes:\
+\
+    \lHELP_ATTR_PERMS:Permissions\l\
+    \lHELP_ATTR_OWNER:Owner\l\
+    \lHELP_ATTR_GROUP:Group\l\
+    \lHELP_ATTR_DATE :Date\l\
+\e
+
+HELP_TAG_FILE_BACKUP
+Tag file backup command
+Available from: Tag File menu\
+\
+This command backs up all tagged files to disk or tape.\
+\
+To use the Backup command, place your backup media in the\
+appropriate drive.  Enter the File window.  Tag the files\
+you want to back up, using any of the ${PGM} file tagging\
+commands (for example Tag, or F3 Tag).\
+\
+When you have tagged the files you want to back up, press\
+F3 and "b".  You are prompted for the number of a backup\
+device on your system.  Press Enter to use the default\
+device, or enter a device number.  See your system\
+administrator, or consult your operating system\
+documentation for a description of the available backup\
+devices.\
+\
+After you enter the backup device number (or press Enter to\
+choose the default device), the files are backed up and you\
+return to the File window.\
+\
+To restore backed up files, use the reStore command,\
+available from the File menu.\
+\e
+
+HELP_TAG_FILE_COPY
+Tag copy file command
+Available from: Tag File menu\
+\
+This command copies all tagged files.  To use it, make sure\
+you have tagged all the files you want to copy.  Enter the\
+File window and press F3 and "c".\
+\
+You are prompted for a new name for the file.  If you are\
+copying more than one tagged file, or it you want to keep\
+the same name for only a single file, press Enter.\
+Otherwise, type the new name of the file and press Enter.\
+\
+You are prompted for a destination directory.  Type a\
+period (.) to copy a tagged file to the the current\
+directory.  To copy a file to another directory, type the\
+name of the directory, or press F2 to see a list of\
+directories.  If you press F2, you see a directory window.\
+Use the arrow keys to highlight the destination directory,\
+and use the < and > keys to select another logged node.\
+When you have highlighted the destination directory, press\
+Enter.   Press Enter again to copy the tagged file or files\
+to the destination directory.\
+\e
+
+HELP_TAG_FILE_DELETE
+Tag delete file command
+Available from: Tag File menu\
+\
+This command deletes all tagged files on a node.  To\
+execute the command, tag all files that you want to\
+delete.  Enter the File window and press F3 and "d".\
+\
+You are prompted to whether or not to confirm each file\
+before it is deleted.  Press "y" to confirm each deletion,\
+and "n" to delete all the files immediately.  If you are\
+deleting a large number of tagged files, you may want to\
+confirm each file to be sure you do not remove important\
+files.  Also, this command deletes all tagged files, so you\
+may want to confirm each deletion in case you have\
+forgotten about an important tagged file that you do not\
+want to erase.\
+\
+If you ask to confirm each file before it is deleted, you\
+are prompted whether or not to delete each of the tagged\
+files.  Press "y" to delete the file and "n" to keep the\
+file.  If you do not ask to confirm each file, all the\
+tagged files on the node are immediately removed.\
+\e
+
+HELP_TAG_FILE_EXTRACT
+Extract files command
+Available from: Tag File menu\
+\
+This command is used to extract all tagged files from\
+a logged archive (bar, tar, or cpio).\
+\e
+
+HELP_TAG_FILE_BATCH
+shEllscript command
+Available from: Tag File menu\
+\
+Use this command to create a shellscript (a collection of\
+system commands) and run it on tagged files.  The\
+commands you specify in the shellscript are repeated once\
+for each file that is tagged.\
+\
+When you use the shEllscript command, you can choose from\
+four keywords, $1, $2, $3, and $4,  that correspond to\
+files and directories.  The following list describes these\
+keywords and the values with which they are replaced.\
+\
+    - $1:  Automatically replaced by the current path (see\
+      the System Path line at the top of the screen).\
+\
+    - $2:  Automatically replaced by the name of the\
+      current directory.\
+\
+    - $3:  Automatically replaced by the name of each\
+      tagged file, in succession.\
+\
+    - $4:  Automatically replaced by the name of the parent\
+      directory.\
+\
+The following demonstrates how to create a simple shellscript\
+that uses the system "grep" utility to locate the\
+string "printer" in a series of tagged files:\
+\
+\
+1. Tag the files on which you want to operate.  Do\
+   this using whatever variation of the Tag command is\
+   convenient (such as Tag Directory commands, Tag File\
+   commands, and so forth).\
+\
+2. Enter the File window and press F3.\
+\
+3. Press "e" to select the shEllscript command.  You\
+   are prompted for the name of the script that you are\
+   about to create, for example "findit".\
+\
+4. Enter the name of the script, "findit", and press\
+   Enter.  You are prompted for the template.  The template\
+   is simply the command that you want to run in the\
+   script.  You can use the shEllscript command keywords on\
+   this line.\
+\
+5. Enter the command (template) you want to run on all the\
+   tagged files.  For this example, search for the string\
+   printer in each file.  Type "grep printer $3" and press\
+   Enter.\
+\
+   ${PGM} builds the shellscript file, "findit". You are\
+   returned to the File window and the last tagged file is\
+   highlighted.\
+\
+6. Press "x" to execute the script.  At the prompt, enter\
+   the name of the script, "findit", and press Enter.\
+\
+   The screen clears, the "findit" script is executed and\
+   the results are displayed.\
+\e
+
+HELP_TAG_FILE_INVERT
+Tag invert file command
+Available from: Tag File menu\
+\
+This command inverts the tag status of all tagged files.\
+Files that were tagged are untagged, and files that were\
+not tagged are tagged.\
+\e
+
+HELP_TAG_FILE_LINK
+Tag link file command
+Available from: Tag File menu\
+\
+This command is used to link all tagged files.  This\
+command is most useful to link several files to another\
+directory, keeping the same filenames.\
+\
+A link is simply another name for the same file.  When you\
+change one file, for example by editing it, the other file\
+changes as well.  This is because they are not separate\
+files, but actually the same file under different names.\
+\
+To link all tagged files, enter the File window.  Press\
+F3 and "l". You are prompted for the name of the file to\
+which to link this file.  Enter the name and press Enter,\
+or, if you are linking several files to another directory,\
+press enter to use the same filenames.\
+\
+Next, you are prompted for a destination directory.  Press\
+F2 to choose a different directory.  When you press F2, a\
+directory screen appears.  Use the arrow keys to select the\
+destination directory, then press Enter.  Press Enter again\
+to make the link.\
+\
+To make the link in the current directory, enter a\
+period (.).\
+\e
+
+HELP_TAG_FILE_MOVE
+Tag move file command
+Available from: Tag File menu\
+\
+This command moves all tagged files.  To execute the\
+command, enter the File window. Press F3 and "m".  You are\
+prompted for a new file name.  Enter a new name, or press\
+Enter to keep the same name.\
+\
+Next, you are prompted for a destination directory.  Press\
+F2 to see a list of directories.  If you press F2, you see\
+a directory window.  Use the arrow keys to highlight the\
+destination directory, or use the < and > keys to choose a\
+different logged node.  Press Enter to choose the\
+directory.  Press Enter again to move the tagged files to\
+that directory.\
+\
+To select the current directory, enter a period (.) at the\
+destination directory prompt.  Note that you cannot move a\
+file from one node to another.  If you want to do this, you\
+must copy the file with the Copy command, then delete the\
+original file.\
+\e
+
+HELP_TAG_FILE_COMPARE
+cOmpare tagged  files command
+Available from: Tag File menu\
+\
+The cOmpare command compares all tagged files with the\
+current file.  Files that meet the criterion you choose\
+(either the Same or Different) are left tagged, and those\
+that do not meet the criterion are untagged.\
+\
+To execute the command, enter the File window.  Press F3\
+and "o".  You are prompted whether to identify files that\
+are the same or different.  Type "s" for files that are the\
+same, and "d" for files that are different.  Files that\
+meet the criterion you select remain tagged while those\
+that do not are untagged.\
+\e
+
+HELP_TAG_FILE_PRINT
+Tag print file command
+Available from: Tag File menu\
+\
+This command prints all tagged files on the system\
+printer.  To execute the command, enter the File window.\
+Press F3 and "p". You are prompted whether you really want\
+to print all tagged files.  Type "y" print all tagged files\
+and "n" to cancel the operation.\
+\e
+
+HELP_TAG_FILE_RENAME
+Tag rename file command
+Available from: Tag File menu\
+\
+This command renames any tagged files.  This command is\
+most useful when renaming a single tagged file.\
+\
+To execute the command, tag the file you want to rename.\
+Enter the File window.  Press F3 and "r".  You are prompted\
+for the new name of the file.  Type the name to which you\
+want to change the tagged file and press enter.  The file\
+is renamed.\
+\e
+
+HELP_TAG_FILE_SEARCH
+Tag search file command
+Available from: Tag File menu\
+\
+This command searchs all tagged files for a given text\
+string.  Files that contain the string remain tagged, and\
+files that do not contain the string are untagged.\
+\
+To execute the command, enter the File window.  Press F3\
+and "s".  You are prompted for a string to search for.\
+Type the string and press Enter.  Each of the tagged files\
+is examined, and if it contains the string it remains\
+tagged.  Any files that do not contain the string are\
+untagged.\
+\
+Not only can you search for simple text strings, but you\
+can also construct complex search patterns, called "regular\
+expressions". A regular expression uses wildcard characters\
+and other commands with a specific syntax to locate\
+patterns that are beyond the capabilities of simple\
+wildcard substitutions.\
+\
+Available regular expression commands are\
+\
+    - a period (.), which matches any single character\
+\
+    - an asterisk (*), which matches any any number of\
+      characters, including no characters at all\
+      (e.g., zero or more characters)\
+\
+    - a plus sign (+), which matches any characters, but\
+      always at least one character (e.g., one or more\
+      characters)\
+\
+    - brackets ([ ]), which match on of the characters\
+      enclosed enclosed in the brackets (for example\
+      "[abcd]"), or a range of characters (for example\
+      "[a-d]")\
+\
+    - a minus sign (-), which specifies a range of\
+      characters when used inside brackets ([ ])\
+\
+    - the pipe character (|), which separates multiple\
+      expressions.\
+\
+    - a carat (^), which signifies the beginning\
+      of a line in an expression;  if you place the\
+      carat inside brackets ([ ]), it negates the\
+      specified characters (matches characters that\
+      are not inside the brackets)\
+\
+    - a dollar sign ($), which signifies the end of\
+      a line in an expression\
+\
+    - parentheses ( ), which causes characters enclosed\
+      in them to be treated as a single unit when you\
+      construct complex expressions\
+\
+The following examples describe various ways you can use\
+the available regular expression commands:\
+\
+To locate occurrences of strings that start with a "c", and\
+have one character separating the "c" from a "t", use the\
+period ("."). For example:\
+\
+    c.t\
+\
+This matches such strings as "cat", "cut", and\
+"catamaran".  Note that the search command locates strings\
+even if they are part of a larger string.\
+\
+To search for a string that may have no characters or many\
+characters, use the asterisk ("*").  For example:\
+\
+    T*r\
+\
+This matches such strings as "Tour", "Trend", "Tighter",\
+and "This door".\
+\
+To locate strings that have at least one character, but\
+possibly more, use the plus-sign ("+"). For example:\
+\
+    T+r\
+\
+This matches such strings as "Tour", "Tighter", and "This\
+door".  You also can match multiple occurrences of a\
+character.  For example:\
+\
+    Te+\
+\
+This matches such patterns as "Teeth" and "Tea".\
+\
+The following examples illustrate the difference between\
+the plus-sign and an asterisk in pattern matching. A\
+plus-sign matches at least one occurrence of a character.\
+For example:\
+\
+    Te+\
+\
+This matches such strings as "Te", "Tee", "Teee", and so\
+forth.  An asterisk matches no occurrences as well as\
+single and multiple occurrences.  For example:\
+\
+    Te*\
+\
+This matches "T", "Te", "Tee", "Teee", and so forth.\
+\
+Use square brackets ("[" and "]") to to specify a series of\
+characters, such as any pattern that contains the string\
+letters "x", "y", or "z".  For example:\
+\
+    [xyz]\
+\
+You can specify a range of characters with the square\
+brackets.  The following example locates the patterns\
+"catA", "catB", "catC", and "catD" in a file:\
+\
+    cat[A-D]\
+\
+You can negate the meaning of the sequence inside square\
+brackets by using the carat ("^").  For example:\
+\
+    cat[^A-D]\
+\
+This locates expressions that begin with "cat" but do not\
+contain the letters "A" through "D".\
+\
+The following expression finds the patterns "cat0", "cat1",\
+"cat2", and so forth, up to "cat9":\
+\
+    cat[0-9]\
+\
+You can search for multiple patterns by joining together\
+pieces of an expression with a pipe (|). For example:\
+\
+    cat[A-D]|cat[1-2][0-9]\
+\
+This finds "catA", "catB", "catC", "catD", and "cat10"\
+through "cat29".\
+\
+If you want to search for a pattern that starts at the\
+beginning of a line, start the expression with a carat\
+(^).  For example:\
+\
+    ^This is the\
+\
+To locate a pattern that is at the end of a line, place a\
+dollar sign ($) at the end of the expression. For example:\
+\
+    age of Aquarius.$\
+\
+Use parentheses to group characters.  For example:\
+\
+    (Te|Too)th\
+\
+This matches both the patterns "Teeth" and "Tooth".\
+\
+To match special characters, precede them with a backslash\
+(\). For example, to search for a carat:\
+\
+    \^\
+\
+Use the backslash in front of any of the special characters\
+"*", "-", "[", "]", ".", "^", "$", "(", ")", and "+".\
+\e
+
+HELP_TAG_FILE_TAG
+Tag file command
+Available from: Tag File menu\
+\
+This command tags all files in a node.  To execute the\
+command, enter the File window.  Press F3 and "t". All\
+files in the node are tagged, indicated by a plus sign (+)\
+next to each filename in the File window.\
+\e
+
+HELP_TAG_FILE_UNTAG
+Untag file command
+Available from: Tag File menu\
+\
+This command untags all files in a node.  To execute the\
+command, enter the File window.  Press F3 and "u". All\
+files in the node are untagged.\
+\e
+
+HELP_TAG_FILE_VIEW
+View tagged file command
+Available from: Tag File menu\
+\
+This command views all tagged files.  It is almost\
+identical to the View command available from the File menu,\
+except that you can view multiple, tagged files.  You can\
+choose from the tagged files by using F5 and F6.\
+\
+Use the View tagged files command to view the contents of\
+tagged files.  The View command displays the files in a\
+variety of formats.\
+\
+When you examine a file with view, you are placed in the\
+View window.  At the top of the screen, you see the name of\
+the file.  In the top, right-hand corner, you see the\
+display mode:  ASCII, Dump, or Hex.  You also see whether\
+or not Mask is on.  An asterisk (*) indicates that Keep\
+mode is on.\
+\
+In the middle of the screen, you see the top portion of the\
+file.  You can scroll down through the file using the arrow\
+keys.  At the bottom of the screen, you see a list of\
+commands.\
+\
+At the bottom of the View window, you see the available\
+View commands:\
+\
+    - Edit: Edits the current file, placing you in the\
+      default editor.\
+\
+    - Quit: Exits the View window and you return to ${PGM}.\
+\
+    - Search: Searches for a pattern in the file.\
+\
+    - Ascii: Views the current file in ASCII format. Use\
+      this for plain text files.\
+\
+    - Dump: Views printable characters in a file without\
+      any line formatting.\
+\
+    - Hex: Views a file as hexadecimal bytes. Use this for\
+      files that contain a large number of non-displayable\
+      characters, such as binary (program) files.\
+\
+    - Keep mode: Prevents ${PGM} from automatically\
+      selecting a display format based on a file's\
+      contents. Use this to view a series of files in one\
+      particular format.\
+\
+      When Keep mode is on, you see an asterisk in the top,\
+      right-hand corner of the screen, next to the other\
+      mode indicators.\
+\
+    - Mask: Masks the eighth bit. Some programs use the\
+      eighth (or high) bit to hold information. In this\
+      case, you may see odd symbols or characters displayed\
+      instead of plain text.  Use this command to command\
+      to turn off the high bit for viewing.\
+\
+    - Wrap: Selects Wordwrap format.  Use this command to\
+      display files that are mostly ASCII characters, but\
+      contain some non-displayable characters. For example,\
+      many files created with word processing programs are\
+      displayed in Wordwrap format.\
+\
+    - Arrows: The up- and down-arrow keys scroll through\
+      the file.\
+\
+    - F5: Selects the previous file in a list of tagged\
+      files.\
+\
+    - F6: Selects the next file in a list of tagged files.\
+\
+    - F9: Searches for the previous occurrence of the\
+      pattern you selected with the Search command in the\
+      current file.\
+\
+    - F10: Searches for the next occurrence of the pattern\
+      you selected with the Search command in the current\
+      file.\
+\
+    - ?: Displays information about the file, such as its\
+      name, size in bytes, the date and time it was last\
+      modified, access permissions, owner, and group\
+      affiliation.\
+\e
+
+HELP_TAG_FILE_EXEC
+Tag Execute file command (eXec)
+Available from: Tag File menu\
+\
+The Tag eXec command runs a system command on all\
+the tagged files in the current directory.  To execute the\
+command, enter the File window.  Press F3 and "x".\
+\
+You are prompted to enter the name of the command.  For\
+example, to search for the string "Ralph" in all tagged\
+files, you can use the "grep" command:\
+\
+    grep Ralph\
+\
+You see the output of the "grep" command.  Press any key to\
+return to ${PGM}.\
+\e
+
+#
+# Alt file commands
+#
+HELP_ALT_FILE_COPY
+Alt file copy command
+Available from: Alt File menu\
+\
+This command copies all tagged files to another node,\
+keeping the directory structure.  To execute the command,\
+enter the File window.  Press F4 and "c", or Alt-c.\
+\
+You are prompted for a new filename.  If you are copying a\
+single file and want to rename it, enter the new filename.\
+If you are copying a number of tagged files, press Enter to\
+keep the same name.\
+\
+Next, you are prompted for a destination directory.  Type\
+the directory name, or press F2 to pick a new directory.\
+If you press F2, you see a directory window.  Use the arrow\
+keys to highlight a destination directory, then press\
+Enter.  Press Enter again to start copying files.\
+\e
+
+HELP_ALT_FILE_INVERT
+Alt invert file command
+Available from: Alt File menu\
+\
+This command inverts the tag status of selected files.\
+You can use the following criteria to select files:\
+\
+    \lHELP_TAG_INODE:Inode number\l\
+    \lHELP_TAG_LINKS:Link count\l\
+    \lHELP_TAG_SIZE :File size\l\
+    \lHELP_TAG_PERMS:Permissions\l\
+    \lHELP_TAG_OWNER:Owner\l\
+    \lHELP_TAG_GROUP:Group\l\
+    \lHELP_TAG_DATE :Date\l\
+    \lHELP_TAG_NODE :Node\l\
+    \lHELP_TAG_TYPE :Type\l\
+\e
+
+HELP_ALT_FILE_TAG
+Alt tag file command
+Available from: Alt File menu\
+\
+This command tags selected files.  You can use the\
+following criteria to select files:\
+\
+    \lHELP_TAG_INODE:Inode number\l\
+    \lHELP_TAG_LINKS:Link count\l\
+    \lHELP_TAG_SIZE :File size\l\
+    \lHELP_TAG_PERMS:Permissions\l\
+    \lHELP_TAG_OWNER:Owner\l\
+    \lHELP_TAG_GROUP:Group\l\
+    \lHELP_TAG_DATE :Date\l\
+    \lHELP_TAG_NODE :Node\l\
+    \lHELP_TAG_TYPE :Type\l\
+\e
+
+HELP_ALT_FILE_UNTAG
+Alt untag file command
+Available from: Alt File menu\
+\
+This command untags selected files.  You can use the\
+following criteria to select files:\
+\
+    \lHELP_TAG_INODE:Inode number\l\
+    \lHELP_TAG_LINKS:Link count\l\
+    \lHELP_TAG_SIZE :File size\l\
+    \lHELP_TAG_PERMS:Permissions\l\
+    \lHELP_TAG_OWNER:Owner\l\
+    \lHELP_TAG_GROUP:Group\l\
+    \lHELP_TAG_DATE :Date\l\
+    \lHELP_TAG_NODE :Node\l\
+    \lHELP_TAG_TYPE :Type\l\
+\e
+
+HELP_ALT_FILE_COPYTAGS
+Merge tags command
+Available from: Alt File menu\
+\
+This command merges the tags from one file window\
+to another in the split window display.\
+\e
+
+HELP_ALT_FILE_RESOLVE
+Resolve symbolic link command
+Available from: Alt File menu\
+\
+This command will resolve a symbolic link into whatever\
+it is pointing to.  If it is pointing to a directory,\
+it will be removed from the file window and placed in\
+the directory window.\
+\e
+
+#
+# Regular autoview commands
+#
+HELP_REG_AV_SEARCH
+Search for text command
+This command searchs the file for a given text string.\
+\
+Not only can you search for simple text strings, but you\
+can also construct complex search patterns, called "regular\
+expressions". A regular expression uses wildcard characters\
+and other commands with a specific syntax to locate\
+patterns that are beyond the capabilities of simple\
+wildcard substitutions.\
+\
+Available regular expression commands are\
+\
+    - a period (.), which matches any single character\
+\
+    - an asterisk (*), which matches any any number of\
+      characters, including no characters at all\
+      (e.g., zero or more characters)\
+\
+    - a plus sign (+), which matches any characters, but\
+      always at least one character (e.g., one or more\
+      characters)\
+\
+    - brackets ([ ]), which match on of the characters\
+      enclosed enclosed in the brackets (for example\
+      "[abcd]"), or a range of characters (for example\
+      "[a-d]")\
+\
+    - a minus sign (-), which specifies a range of\
+      characters when used inside brackets ([ ])\
+\
+    - the pipe character (|), which separates multiple\
+      expressions.\
+\
+    - a carat (^), which signifies the beginning\
+      of a line in an expression;  if you place the\
+      carat inside brackets ([ ]), it negates the\
+      specified characters (matches characters that\
+      are not inside the brackets)\
+\
+    - a dollar sign ($), which signifies the end of\
+      a line in an expression\
+\
+    - parentheses ( ), which causes characters enclosed\
+      in them to be treated as a single unit when you\
+      construct complex expressions\
+\
+The following examples describe various ways you can use\
+the available regular expression commands:\
+\
+To locate occurrences of strings that start with a "c", and\
+have one character separating the "c" from a "t", use the\
+period ("."). For example:\
+\
+    c.t\
+\
+This matches such strings as "cat", "cut", and\
+"catamaran".  Note that the search command locates strings\
+even if they are part of a larger string.\
+\
+To search for a string that may have no characters or many\
+characters, use the asterisk ("*").  For example:\
+\
+    T*r\
+\
+This matches such strings as "Tour", "Trend", "Tighter",\
+and "This door".\
+\
+To locate strings that have at least one character, but\
+possibly more, use the plus-sign ("+"). For example:\
+\
+    T+r\
+\
+This matches such strings as "Tour", "Tighter", and "This\
+door".  You also can match multiple occurrences of a\
+character.  For example:\
+\
+    Te+\
+\
+This matches such patterns as "Teeth" and "Tea".\
+\
+The following examples illustrate the difference between\
+the plus-sign and an asterisk in pattern matching. A\
+plus-sign matches at least one occurrence of a character.\
+For example:\
+\
+    Te+\
+\
+This matches such strings as "Te", "Tee", "Teee", and so\
+forth.  An asterisk matches no occurrences as well as\
+single and multiple occurrences.  For example:\
+\
+    Te*\
+\
+This matches "T", "Te", "Tee", "Teee", and so forth.\
+\
+Use square brackets ("[" and "]") to to specify a series of\
+characters, such as any pattern that contains the string\
+letters "x", "y", or "z".  For example:\
+\
+    [xyz]\
+\
+You can specify a range of characters with the square\
+brackets.  The following example locates the patterns\
+"catA", "catB", "catC", and "catD" in a file:\
+\
+    cat[A-D]\
+\
+You can negate the meaning of the sequence inside square\
+brackets by using the carat ("^").  For example:\
+\
+    cat[^A-D]\
+\
+This locates expressions that begin with "cat" but do not\
+contain the letters "A" through "D".\
+\
+The following expression finds the patterns "cat0", "cat1",\
+"cat2", and so forth, up to "cat9":\
+\
+    cat[0-9]\
+\
+You can search for multiple patterns by joining together\
+pieces of an expression with a pipe (|). For example:\
+\
+    cat[A-D]|cat[1-2][0-9]\
+\
+This finds "catA", "catB", "catC", "catD", and "cat10"\
+through "cat29".\
+\
+If you want to search for a pattern that starts at the\
+beginning of a line, start the expression with a carat\
+(^).  For example:\
+\
+    ^This is the\
+\
+To locate a pattern that is at the end of a line, place a\
+dollar sign ($) at the end of the expression. For example:\
+\
+    age of Aquarius.$\
+\
+Use parentheses to group characters.  For example:\
+\
+    (Te|Too)th\
+\
+This matches both the patterns "Teeth" and "Tooth".\
+\
+To match special characters, precede them with a backslash\
+(\). For example, to search for a carat:\
+\
+    \^\
+\
+Use the backslash in front of any of the special characters\
+"*", "-", "[", "]", ".", "^", "$", "(", ")", and "+".\
+\e
+
+HELP_REG_AV_ASCII
+Ascii text display command
+This command displays the text in ASCII format.  This is\
+the default for plain-text files.  You see the word "ASCII"\
+when Ascii mode is on.\
+\e
+
+HELP_REG_AV_DUMP
+Dump text display command
+This command displays the text in dump format, which is\
+unformatted.  Unprintable characters are displayed as\
+periods (.).  You see the word "DUMP" when dump mode is\
+on.\
+\e
+
+HELP_REG_AV_HEX
+Hex text display command
+This command displays the text in hexadecimal format.  You\
+see the word "HEX" when Hex mode is on.\
+\e
+
+HELP_REG_AV_KEEP
+Keep current display format command
+This command is used to keep the display format the same\
+from file to file.  The default is to automatically change\
+the display mode depending upon the type of file.  When\
+Keep mode is on, you see an asterisk (*) next to the other\
+mode indicator (e.g., "ASCII").\
+\e
+
+HELP_REG_AV_MASK
+Mask text command
+This command is used to mask off unprintable characters and\
+just display a dot "." instead.  This is most useful in\
+Ascii mode.\
+\e
+
+HELP_REG_AV_WRAP
+Wrap text display command
+This command is used to display the text in wordwrap, which\
+is typically used by word processing programs.\
+\e
+
+HELP_REG_AV_SRCH_NEXT
+Search for next occurrence of text command
+This command, F10, is used to search forward for the next\
+occurrence of a text string.\
+\e
+
+HELP_REG_AV_SRCH_PREV
+Search for previous occurrence of text command
+This command, F9, is used to search backward for the\
+previous occurrence of a text string.\
+\e
+
+HELP_REG_AV_SRCH_FWD
+Search forward for text command
+This command is used to search forward for a text string.\
+\e
+
+HELP_REG_AV_SRCH_BCK
+Search backward for text command
+This command is used to search backward for a text string.\
+\e
+
+HELP_REG_AV_TABWIDTH
+Tab width command
+This command toggles the tab width in the display between\
+4 and 8 spaces per tab.\
+\e
+
+#
+# Regular View (aka Fullview) commands
+#
+HELP_REG_FV_NEXTFILE
+Next file command (F6)
+This command skips to the next file to display.\
+(Available with the View Tagged Files command only).\
+\e
+
+HELP_REG_FV_PREVFILE
+Previous file command (F5)
+This command skips to the previous file to display.\
+(Available with the View Tagged Files command only).\
+\e
+
+#
+# Attribute sub commands
+#
+HELP_ATTR_PERMS
+Permissions
+\
+When you change the permissions of a file or directory,\
+you can allow or deny access to yourself (owner), those\
+users with the same group-ID as you (group), and other\
+users on the system (other).  You see this prompt:\
+\
+                     ugs rwx rwx rwx\
+  Enter permissions: 000 110 100 100\
+\
+The cursor starts at the first set of "rwx" characters.\
+In each set, "r" indicates read access, "w" indicates\
+write access, and "x" indicates permission to execute the\
+file (or enter a directory).  The first "rwx" set\
+corresponds to your permissions, the second corresponds\
+to those users in your group, and the third corresponds\
+to all other users on the system.\
+\
+The number "1" means access is granted, and "0" means\
+access is denied. In the above example, the owner of the\
+file can read and write the file, users in the owner's\
+group can also read and write the file, and noone else on\
+the system can access the file.  These permissions are\
+typical of files that are not executable programs\
+\
+To change the permissions, enter the appropriate number,\
+either "1" or "0".  The cursor advances to the next\
+position.  You can move back to a previous selection using\
+the left arrow key.\
+\
+Directory permissions might look something like this:\
+\
+    ugs rwx rwx rwx\
+    000 111 101 101\
+\
+This allows the user complete access to the directory,\
+and gives the group and others on the system the ability\
+to enter this directory and read files in it.\
+\
+The group of characters "ugs" control the set user-ID bit\
+(u), the set group-ID bit (g), and the sticky bit (s) of an\
+executable program.  If the set user-ID bit is on (set to\
+"1"), the program runs with the effective user-ID of the\
+owner. If the set group-ID bit is on, it runs with the\
+effective group-ID bit of the owner.  If the sticky bit is\
+on, the program stays resident in memory after the first\
+time it is executed.  Do not change these bits unless you\
+are sure you know what you are doing.\
+\e
+
+HELP_ATTR_OWNER
+Owner
+Every file and directory on the system has an owner.\
+Typically, the account that created the file owns the\
+file.  However, you can give away ownership of a file to\
+another account.\
+\
+You can change the ownership of any file that you already\
+own.  Once you assign ownership of a file to another user,\
+you cannot regain ownership unless you are the super user\
+(root).  If you are the super user (root), you can change\
+the ownership of any file on the system.\
+\
+When you assign ownership of a file, you can enter either\
+an account name, or a user-ID number.  If you enter an\
+account name, that account must already exist on the system.\
+\
+You can assign ownership of a file to a user-ID number\
+instead of an account name.  If that user-ID number is in\
+use on the system, you see the account that corresponds to\
+the number when you examine the file's attributes.  If the\
+user-ID number is not used by any account on the system,\
+all you see for an owner is the number when you examine a\
+file's attributes.\
+\e
+
+HELP_ATTR_GROUP
+Group
+Every file and directory on the system has a group\
+affiliation. Typically, this affiliation is the same as\
+that of the account that created the file or directory.\
+However, you can reassign the group affiliation of a file.\
+another account.\
+\
+You can change the group affiliation of any file or\
+directory that you own.  As long as you own the file, you\
+can repeatedly reassign the group affiliation.  If you are\
+the super user (root), you can change the group affiliation\
+of any file or directory on the system.\
+\
+When you assign group affiliation to a file or directory,\
+you can enter either a group name, or a group-ID number.\
+If you enter a group name, that group must already exist on\
+the system.\
+\
+You can change the group affiliation of a file to a\
+group-ID number instead of an account name.  If that\
+group-ID number is in use on the system, you see the group\
+that corresponds to the number when you examine the file's\
+attributes.  If the group-ID number is not used by any\
+group on the system, all you see for a group affiliation is\
+the number when you examine a file's attributes.\
+\e
+
+HELP_ATTR_DATE
+Date
+The date of a file or directory is when it was created or\
+last modified.  For a directory, the modification date is\
+updated when a file is added or deleted to the directory.\
+For a file, the modification date is updated when you\
+change the contents of the file.  Renaming a file or\
+directory does not affect its date.\
+\
+You can set the date of any file you own to any specific\
+date, with some exceptions.\
+\
+The following are valid ways to specify a new date for a\
+file:\
+\
+    November 26, 1991\
+    Nov. 26, 91\
+    Nov. 26\
+    Nov 26 91\
+    11-26\
+    11/26\
+    11/26/91\
+    11 26 1991\
+    11-26-1991\
+\
+If you use one of these methods, the exact time is set to\
+the beginning of the day specified, which is 12:00 A.M.\
+\
+You can also set the date to any day of the week:\
+"monday", "tuesday", "wednesday", "thursday", "friday",\
+"saturday", or "sunday".  If you specify a day of the week\
+by itself, the new date is either the next day of the week,\
+or today if you specify the current day.\
+\
+You can use the parameters "next" and "last" along with the\
+names of the days of the week. For example:\
+\
+    next monday\
+    last tuesday\
+\
+You can also specify:\
+\
+    yesterday\
+    today\
+    tomorrow\
+    now\
+\
+The "yesterday", "today", and "tomorrow" parameters set the\
+current date but always specify the time of the file to be\
+12:00 AM. The parameter "now" sets the date and time to the\
+current date and time.\
+\
+If you specify an invalid date, you see this error\
+message:\
+\
+    Invalid date string.  Press ANY KEY to continue\
+\
+If you cannot change the date of a file because you do not\
+have permission to do so, you see this error message:\
+\
+    Can't change date. (Not owner) Press ANY KEY to continue\
+\
+Note:  You cannot set the date of any file or directory\
+prior to January 1, 1970.  This is because of the internal\
+method that the system uses to keep track of time.\
+\e
+
+#
+# Alt Invert/Tag/Untag sub-commands
+#
+HELP_TAG_INODE
+Tag files by inode
+You can select files by their inode number.  You can select\
+files with inodes that are greater than (>), less than (<)\
+or equal to (=) a particular number.\
+\e
+
+HELP_TAG_LINKS
+Tag files by link count
+This command is used to select files by their link count.\
+You can select files that have more than (>), less than\
+(<), or a specific number (=) of links.\
+\e
+
+HELP_TAG_SIZE
+Tag files by file size
+This command selects files by their size.  You can select\
+files that are larger than (>), smaller than (<), or equal\
+to (=) a particular size in bytes.\
+\e
+
+HELP_TAG_PERMS
+Tag files by permissions
+This command selects files by their permissions.  You see a\
+prompt like this:\
+\
+                     ugs rwx rwx rwx\
+  Enter permissions: 000 000 000 000\
+\
+You can select specific permissions by turning the bits on\
+(1), or off (0).  The default is all permissions off.  You\
+can use the minus sign (-) to indicate that it does not\
+matter if a particular permission but is on or off.\
+\
+For example, this pattern tags all files that are readable\
+by all users on the system, but have any other combination\
+of permissions:\
+\
+    ugs rwx rwx rwx\
+    000 --- --- 1--\
+\e
+
+HELP_TAG_OWNER
+Tag files by owner
+This command selects files and directories by their owner.\
+Enter the name of the account (owner), or enter a user-ID\
+number.\
+\e
+
+HELP_TAG_GROUP
+Tag files by group
+This command selects files and directories by their group\
+affiliation.  Enter the name of the group, or enter a\
+group-ID number.\
+\e
+
+HELP_TAG_DATE
+Tag files by date
+This command selects files and directories by date.  You\
+can select files and directories with dates that are\
+greater than (>), less than (<), or equal to (=) a\
+particular date.\
+\e
+
+HELP_TAG_NODE
+Tag files by sub-node (subdirectory)
+This command selects all files in a sub-node.  Press F2 to\
+open a directory window and use the arrow keys to select a\
+particular directory branch to tag.  Press Enter to select\
+the directory, and press Enter again to tag all the files\
+in that directory and all directories below it.\
+\e
+
+HELP_TAG_TYPE
+Tag files by file type
+This command selects files by file type.  You can select\
+the following types:\
+    Regular files\
+    Block special files\
+    Character special files (raw devices)\
+    FIFO files\
+    Named special files (if supported)\
+    Symbolic links (if supported)\
+    Sockets (if supported)\
+\e
+
+#
+# Node sub-commands
+#
+HELP_NODE_RELOG
+Relog a node
+When you choose relog, you can select one of your existing\
+nodes to relog.\
+\
+The nodes you have logged are displayed in order, one at a\
+time.  You see the first node you logged and are prompted\
+whether or not to relog it.  To relog that node press "y".\
+To skip that node and see the next node, press "n".\
+\e
+
+HELP_NODE_NEW
+Log a new node
+You are prompted to type the name of a node to log.  Enter\
+the name of the node and press Enter.  The node is logged,\
+and it becomes the current node.  To view another logged\
+node, press the < or > key.\
+\e
+
+HELP_NODE_ARCHIVE
+Archive a backup file
+This is to log an archive file in either bar, tar, or\
+cpio format.  You are prompted to enter the device or file\
+to log, A description of the archive, and the archive type.\
+The archive is then logged and becomes the current node.\
+To view another logged node, press the < or > key.\
+\e
+
+#
+# Print sub-commands
+#
+HELP_PRINT_PATH
+Print pathnames
+This prints out all pathnames in the node, sending the\
+output to the default printer.\
+\e
+
+HELP_PRINT_TREE
+Print directory tree
+This prints out the directory tree as it is displayed,\
+sending the output to the default printer.\
+\e
+
+HELP_PRINT_CAT
+Print catalog of tagged files
+This prints out a list of all tagged files in the node, in\
+the format they are displayed.\
+\e
+

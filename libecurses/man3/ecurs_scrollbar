@@ -1,0 +1,44 @@
+Curses Library Functions ecurs_scrollbar
+
+
+
+NAME
+     ecurs_scrollbar - Display a scrollbar in a window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int scrollbar(WINDOW *brdr_win, WINDOW *win, int type,
+         int cur, int total);
+
+DESCRIPTION
+     scrollbar() will display a scrollbar next to a window in
+     a border-window, as follows:
+
+         SCRLBAR_VL    1    vertical   to left of window
+         SCRLBAR_VR    2    vertical   to right of window
+         SCRLBAR_HT    3    horizontal on top of window
+         SCRLBAR_HB    4    horizontal below window
+
+     The scrollbar will use the "stipple" alternate characters
+     if available, and ascii characters if not. The ascii
+     characters used are "|" and "I" for vertical scrollbars,
+     and "-" and "=" for horizontal scrollbars.
+
+     The position of the "thumb" of the scrollbar is determined
+     by calculating the percentage of cur/total of the width
+     or height of the window.
+
+     If cur is negative, then the scrollbar is removed.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

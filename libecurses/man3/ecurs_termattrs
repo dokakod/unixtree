@@ -1,0 +1,130 @@
+Curses Library Functions ecurs_termattrs
+
+
+
+NAME
+     ecurs_termattrs - curses environment query routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int baudrate(void);
+
+     char erasechar(void);
+
+     char killchar(void);
+
+     char intrchar(void);
+
+     char quitchar(void);
+
+     int has_ic(void);
+
+     int has_il(void);
+
+     int get_window_env(void);
+
+     attr_t termattrs(void);
+
+     char *longname(void);
+
+     char *termname(void);
+
+     char *termtype(void);
+
+     char *get_ttyname(void);
+
+     int get_curr_col(void);
+
+     int get_curr_row(void);
+
+     int get_max_rows(void);
+
+     int get_max_cols(void);
+
+     int get_tab_size(void);
+
+     attr_t get_curr_attr(void);
+
+     attr_t get_orig_attr(void);
+
+DESCRIPTION
+     The baudrate() routine returns the output speed of the
+     terminal. The number returned is in bits per second, for
+     example 9600, and is an integer.
+
+     With the erasechar() routine, the user's current erase
+     character is returned.
+
+     With the killchar() routine, the user's current kill
+     character is returned.
+
+     With the intrchar() routine, the user's current interrupt
+     character is returned.
+
+     With the quitchar() routine, the user's current quit
+     character is returned.
+
+     The has_ic() routine is true if the terminal has insert- and
+     delete-character capabilities.
+
+     The has_il() routine is true if the terminal has insert- and
+     delete-line capabilities, or can simulate them using
+     scrolling regions. This might be used to determine if it
+     would be appropriate to turn on physical scrolling using
+     scrollok().
+
+     The get_window_env() returns TRUE if the display is in a
+     window, and FALSE otherwise.
+
+     The longname() routine returns a pointer to a verbose
+     description of the current terminal.  It is defined only
+     after the call to initscr() or newterm().
+
+     If a given terminal doesn't support a video attribute that
+     an application program is trying to use, curses may
+     substitute a different video attribute for it. The
+     termattrs() function returns a logical OR of all video
+     attributes supported by the terminal. This information is
+     useful when a curses program needs complete control over the
+     appearance of the screen.
+
+     The termname() routine returns the value of the environment
+     variable TERM (truncated to 14 characters).
+
+     The termtype() routine returns the value of the term name
+     used to load the terminal environment (which might not be
+     $TERM).
+
+     The get_ttyname() routine returns the full path of the
+     device used as the display.
+
+     get_curr_row() and get_curr_col() will return the actual
+     position of the cursor on the screen, if known.
+
+     get_max_rows() and get_max_cols() will return the actual
+     size of screen if known.
+
+     get_tab_size() will return the tab-size used for expanding
+     tabs. The default value is 8 spaces.
+
+     get_orig_attr() and get_curr_attr() will return the original
+     and current attributes of the display.
+
+RETURN VALUES
+     longname(), termname(), termtype(), and get_ttyname() return
+     NULL on error.
+
+     get_curr_attr() and get_orig_attr() will return A_UNSET if
+     unknown.
+
+     Routines that return an integer return ERR upon failure and
+     an integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_initscr, ecurs_outopts, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

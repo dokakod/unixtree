@@ -1,0 +1,118 @@
+Curses Library Functions ecurs_mouse
+
+
+
+NAME
+     ecurs_mouse - mouse processing routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int win_mouse(attr_t ptr_attrs, attr_t cmd_attrs);
+
+     int mouse_get_event(void);
+
+     int mouse_hide();
+
+     int mouse_show();
+
+     int mouse_c(void);
+
+     int mouse_x(void);
+
+     int mouse_y(void);
+
+     int mouse_is_in_win(WINDOW *win);
+
+DESCRIPTION
+     These routines provide the ability to process mouse input.
+     If the capabilities "mouse-beg", "mouse-end", and
+     "mouse-input" are not defined, these calls will be ignored.
+
+     ecurses does not, by default, process mouse input. Mouse
+     processing must be enabled by the user. This causes the
+     terminal emulator to start sending mouse-input escape-
+     sequences. Mouse processing must be disabled prior to
+     terminating, or the terminal emulator will continue to
+     send mouse-input sequences, which other programs will
+     probably not understand. ecurses automatically terminates
+     mouse processing when endwin() is called.
+
+     Depending on the terminal emulator, mouse-input may only
+     be sent when a mouse-button is pressed or released, or may
+     be sent whenever the mouse is moved in the window. In either
+     case, when a mouse-event is received, all button-information
+     and mouse-position is queued, and a KEY_MOUSE is returned
+     to the routine that called wgetch(). The user may then
+     dequeue the mouse information and deal with it accordingly.
+
+     ecurses also provided the ability to process mouse-input
+     directly, with no action needed by the calling program.
+     ecurses automatically displays the mouse position on the
+     screen as the mouse is moved, using the specified ptr_attrs.
+     If the character on the screen where the mouse is currently
+     positioned has a character-code, then all characters
+     "surrounding" that character on the same line that have the
+     the same character-code are displayed using the specified
+     cmd_attrs.
+
+     Also, if a left-button click is received when the mouse is
+     positioned over a character with a character-code, that
+     character-code is returned as the key pressed instead of a
+     KEY_MOUSE. Thus, a program can "associate" text on the
+     screen with an automatic key-value to be returned when it is
+     "clicked".
+
+     Mouse processing is initiated with the call to win_mouse().
+     This call is given two attributes. ptr_attrs is the
+     attributes to use to display the current mouse position, and
+     cmd_attrs is used to display "commands" (character sequences
+     with a non-zero character code).
+
+     When a KEY_MOUSE is received, the user can call
+     mouse_event(), which will return the actual event, as
+     follows:
+
+         MOUSE_LBU        left   button up
+         MOUSE_LBD        left   button down
+         MOUSE_LBDBL      left   button double-click
+
+         MOUSE_MBU        middle button up
+         MOUSE_MBD        middle button down
+         MOUSE_MBDBL      middle button double-click
+
+         MOUSE_RBU        right  button up
+         MOUSE_RBD        right  button down
+         MOUSE_RBDBL      right  button double-click
+
+         MOUSE_MOVE       mouse moved
+         MOUSE_DRAG       mouse moved with a button down
+
+         MOUSE_SCROLLUP   mouse-wheel scrolled up
+         MOUSE_SCROLLDN   mouse-wheel scrolled down
+
+     If the mouse has only two buttons, only left and right
+     button events will be reported.
+
+     mouse_x() and mouse_y() return the current position of the
+     mouse.  mouse_c() returns the code at the mouse position.
+
+     mouse_hide() and mouse_show() will hide or show the mouse.
+     When the mouse is hidden, it is still processed.
+
+     mouse_is_in_win() returns TRUE or FALSE, depending on
+     whether the current mouse position is within a given window.
+     This can be used to set "focus", or to ignore mouse events
+     outside of chosen windows.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and
+     an integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

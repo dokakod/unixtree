@@ -1,0 +1,96 @@
+# term definition file for AT386 console
+
+# screen definitions
+
+lines		= 25
+cols		= 80
+auto-margin	= 1
+move-cursor-ti	= "\e[%i%p1%d;%p2%dH"
+move-cursor-tc	= "\e[%i%d;%dH"
+insert-char	= "\e[@"
+delete-char	= "\e[P"
+add-line	= "\e[L"
+delete-line	= "\e[M"
+
+reverse-on	= "\e[7m"
+reverse-off	= "\e[m"
+bold-on		= "\e[1m"
+bold-off	= "\e[m"
+underline-on	= "\e[4m"
+underline-off	= "\e[m"
+
+cursor-on	= "\e[=11;12C"
+cursor-off	= "\e[=12;11C"
+
+alt-char-1-on	= "\e[12m"
+alt-char-1-off	= "\e[10m"
+alt-char-2-on	= "\e[11m"
+alt-char-2-off	= "\e[10m"
+
+# key definitions
+
+up		= "\e[A"
+down		= "\e[B"
+right		= "\e[C"
+left		= "\e[D"
+pgup		= "\e[V"
+pgdn		= "\e[U"
+home		= "\e[H"
+end		= "\e[Y"
+middle		= "\e[G"
+ins		= "\e[@"
+
+f1		= "\eOP"
+f2		= "\eOQ"
+f3		= "\eOR"
+f4		= "\eOS"
+f5		= "\eOT"
+f6		= "\eOU"
+f7		= "\eOV"
+f8		= "\eOW"
+f9		= "\eOX"
+f10		= "\eOY"
+f11		= "\eOZ"
+f12		= "\eOA"
+
+shiftf1		= "\eOp"
+shiftf2		= "\eOq"
+shiftf3		= "\eOr"
+shiftf4		= "\eOs"
+shiftf5		= "\eOt"
+shiftf6		= "\eOu"
+shiftf7		= "\eOv"
+shiftf8		= "\eOw"
+shiftf9		= "\eOx"
+shiftf10	= "\eOy"
+shiftf11	= "\eOz"
+shiftf12	= "\eOa"
+
+# color definitions
+
+black		= "\e[m\e[30m"
+red		= "\e[m\e[31m"
+green		= "\e[m\e[32m"
+yellow		= "\e[m\e[33m"
+blue		= "\e[m\e[34m"
+magenta		= "\e[m\e[35m"
+cyan		= "\e[m\e[36m"
+white		= "\e[m\e[37m"
+
+grey		= "\e[1m\e[30m"
+lt-red		= "\e[1m\e[31m"
+lt-green	= "\e[1m\e[32m"
+lt-yellow	= "\e[1m\e[33m"
+lt-blue		= "\e[1m\e[34m"
+lt-magenta	= "\e[1m\e[35m"
+lt-cyan		= "\e[1m\e[36m"
+lt-white	= "\e[1m\e[37m"
+
+black-bgnd	= "\e[40m"
+red-bgnd	= "\e[41m"
+green-bgnd	= "\e[42m"
+yellow-bgnd	= "\e[43m"
+blue-bgnd	= "\e[44m"
+magenta-bgnd	= "\e[45m"
+cyan-bgnd	= "\e[46m"
+white-bgnd	= "\e[47m"

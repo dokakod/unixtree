@@ -1,0 +1,26 @@
+# Telnet VT100 Emulator
+
+# The following three entries are the bare minimum needed
+
+lines		= 24
+cols		= 80
+move-cursor-ti	= "\e[%i%p1%d;%p2%dH"
+move-cursor-tc	= "\e[%i%d;%dH"
+
+kfunc		= "\eOP"
+kalt		= "\eOQ"
+kctrl		= "\eOR"
+kshft		= "\eOS"
+
+up		= "\e[A"
+down		= "\e[B"
+right		= "\e[C"
+left		= "\e[D"
+
+home		= "\e[H"
+end		= "\e[24;1H"
+pgdn		= "\e[G"
+pgup		= "\e[I"
+
+ins		= "\e[1"
+del		= "\xFF"

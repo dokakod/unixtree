@@ -1,0 +1,792 @@
+
+
+
+User Commands                                               XT(1)
+
+
+
+Name
+     xt - The UnixTree file management utility.
+
+Syntax
+     xt [ +/- options] [node]
+
+Description
+     UnixTree is a full-screen, interactive file management  pro-
+     gram.   With  UnixTree,  you can view directories in a tree-
+     like display, and change the way that files and  directories
+     are  displayed.   UnixTree  also provides extensive file and
+     directory management commands, as well as context-sensitive,
+     online help.
+
+     To run UnixTree, enter:
+
+          xt
+
+     When you start xt,  the  program  searches  the  filesystem,
+     beginning  at  a  specific point, and logs information about
+     the files and directories below that point.  This collection
+     of information is called a node.
+
+     If you do not specify a node on the command  line  when  you
+     start  xt,  the program logs the default node, which is your
+     home directory unless otherwise changed.  You  can  override
+     this  default  by  setting  the XTNODE environment variable.
+     See the section "Environment Variables" for more information
+     about available UnixTree environment variables.
+
+     On-line, context-sensitive help is  available  at  any  time
+     within UnixTree by pressing F1. See the section "Help" for a
+     description of the help system.
+
+Options
+     There are several options available  on  the  command  line,
+     which you can either turn on or turn off.  To turn an option
+     on, specify it with a plus sign (+), for example:
+
+          xt +n
+
+     To turn it off, specify it with a minus sign (-), for  exam-
+     ple:
+
+          xt -n
+
+     Available options are:
+
+     a    This option causes UnixTree to start up with the Appli-
+          cations Menu.  (See the upcoming section, "Applications
+          Menu").
+
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    1
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     c    This option controls whether alternate  character  sets
+          are to be used to display the line-drawing characters.
+
+     k    If you turn on the  k  option,  UnixTree  automatically
+          resolves symbolic links at logging time.  If it is off,
+          symbolic links are are logged  as  such.   By  default,
+          this option is turned off.
+
+     m    When you turn on the m option, UnixTree continues  log-
+          ging  a  node  even when it crosses a mount point for a
+          mounted filesystem.  By default, this option is  turned
+          on and mounted sub-directories are logged.
+
+     n    This option  controls  whether  or  not  UnixTree  logs
+          remote  (network)  filesystems.   If  n is on, UnixTree
+          logs only local filesystems and does  not  log  network
+          filesystems.  By default, this option is turned on.
+
+     r    This runs UnixTree in read-only mode.   In  this  mode,
+          you  cannot  change  or  delete any files in any of the
+          nodes you log.  By default, this option is turned off.
+
+     v    This option tells UnixTree to just display the  current
+          version & release and exit.
+
+     w    This option controls whether UnixTree should run  in  a
+          separate  window.  If  you  are  not  running in an X11
+          environment,  this  option  cannot  be   honored.   The
+          separate window allows full use of color and the mouse.
+
+     x    If this option is turned on, then  any  current  check-
+          point  file  will  be  loaded  instead  of  logging the
+          default node. This option  is  ignored  if  a  node  is
+          specified  on the command line or if no checkpoint file
+          is found.
+
+     e <dir>
+          This option names a directory which is to be  "skipped"
+          when  logging a node in automatic mode. All directories
+          encountered with this name are not logged. This is use-
+          ful,  for example, when logging a source tree which has
+          SCCS sub-directories, but you  are  not  interested  in
+          seeing  them.  The  "-e SCCS" option will skip all such
+          directories.  This option may appear more than once  to
+          skip multiple directories.
+
+     l [ a | m ]
+          The l option sets the logging mode.  It takes one other
+          argument,  either  a  for  automatic  logging, or m for
+          manual logging.  By default, manual logging is  on,  so
+          that  when  you  log  a  node only the first-level sub-
+          directory is  logged.   In  automatic  mode,  all  sub-
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    2
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+          directories are logged when you start UnixTree.
+
+     t <term>
+          This option specifies the terminal type of the display.
+          By default, this value is taken from the $TERM environ-
+          ment variable (or the $XTTERM environment  variable  if
+          present).
+
+     You can turn any option on or off.  To turn  on  an  option,
+     use  a plus sign (+) along with the option.  To turn it off,
+     use a minus sign (-).
+
+     Note that options which take an argument  can  be  specified
+     with either a "-" or a "+".
+
+     See the sections "Configuration" and "Environment Variables"
+     for more information about configuring UnixTree.
+
+Help
+     UnixTree provides a context-sensitive, online  help  system.
+     Help is available at any time by pressing F1.
+
+     The help system is a series of linked topics, one topic  per
+     screen.   On  the higher-level screens there are highlighted
+     keywords.  You select highlighted keywords with the Tab key.
+     If  you  press  Enter,  you  see a help screen that provides
+     further information about the topic.
+
+     At the top-level of the help system is an index of the three
+     general areas of the help system:
+
+     Using Context Sensitive Help
+          This provides a general description of the help system,
+          including  how  to  select  topics  and  how  to scroll
+          through the topic screens.
+
+     Keyboard Functions
+          A description of the basic keyboard functions,  includ-
+          ing how to move around UnixTree .
+
+     Commands
+          Descriptions of all UnixTree commands and  how  to  use
+          them.
+
+     To go to the index at any time within the help system, press
+     i.
+
+Configuration
+     UnixTree has a  built-in,  menu-driven  Configuration  Tool,
+     available  from  the  Directory  Window by pressing Alt-F10.
+     With the Configuration Tool,  you  can  change  any  of  the
+     options  described  above,  and  many  other  aspects of the
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    3
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     program, including screen colors and the behavior of various
+     prompts.   You can also use the Configuration Tool to change
+     such defaults as the start-up node, printer, editor, viewer,
+     and certain aspects of printing.
+
+     By default, changes you make to the  UnixTree  configuration
+     are  stored  in  the file xt.rc in your UnixTree home direc-
+     tory.  You can also save changes  to  another  filename  for
+     testing  purposes.  System-wide changes can be placed in the
+     file xt.rc in the UnixTree system directory.
+
+Terminal Definitions
+     In order to make  full  use  of  UnixTree  with  a  specific
+     character-based  terminal,  you  may  have to supplement the
+     standard terminal definition, or create an UnixTree terminal
+     definition  file.   An  UnixTree  terminal  definition  file
+     describes keyboard and screen capabilities, and its name  is
+     composed of the terminal name and a .trm suffix.  The termi-
+     nal name must be whatever is assigned in the TERM or  XTTERM
+     variables.   For  example,  this terminal definition file is
+     for an ANSI terminal, "ansi":
+
+          ansi.trm
+
+     When UnixTree starts, it uses the following rules to process
+     a terminal definition:
+
+     1.   Load any internal, UnixTree default definitions.
+
+     2.   If $TERM or $XTTERM are defined, look up  the  terminal
+          type  in  the termcap or terminfo database and load the
+          appropriate entry.
+
+     3.   Look  for  a  file  called  $TERM.trm  or  $XTTERM.trm.
+          Search the path specified by the $XTPATH variable.  For
+          each directory in this path, both that directory and  a
+          trm sub-directory is searched.
+
+     4.   If either  $TERM.trm  or  $XTTERM.trm  exist,  use  the
+          information  in those files to augment previous defini-
+          tions.
+
+     5.   Look for a user.trm file, and, if  found,  load  it  to
+          augment previous definitions.
+
+     Note that the XTTERM  variable  takes  precedence  over  the
+     standard TERM variable.
+
+     There are two parts to a .trm file, although the  lines  may
+     be  in  any  order  in the file.  The first part defines the
+     keyboard and the second part defines the screen.
+
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    4
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     A .trm file is a plain-text file that contains  only  print-
+     able characters.  The syntax for keyboard definitions is:
+
+          key-name  =  "encoded sequence"
+          key-name  =  name
+
+     For screen definitions:
+
+          ability-name  =  "encoded sequence"
+
+     If your terminal does not have a complete  set  of  function
+     keys or other important keys, you can define alternate keys-
+     trokes in the .trm file.  This is done  with  the  following
+     variables:
+
+     Kfunc
+          Alternate function key
+
+     Kalt
+          Alternate Alt key
+
+     Kctrl
+          Alternate Ctrl key
+
+     Kshift
+          Alternate Shift key
+
+     By default, the Kfunc variable is defined as  Ctl-].   Unix-
+     Tree does not define Kalt, Kctrl, and Kshift by default.
+
+     To change one of the alternate key mappings, redefine it  in
+     the .trm file.  For example:
+
+          Kfunc  =  "^v"
+
+     This defines the alternate function key as Ctl-v.  Note that
+     in the file you do not place a Ctl-v, but rather a carat (^)
+     and the letter "v".
+
+     Along with the Kfunc, Kalt, Kshift, and Kctrl keys, you  use
+     one of the following keys:
+
+     u    Up-arrow
+
+     d    Down-arrow
+
+     l    Left-arrow
+
+     r    Right-arrow
+
+     h    Home
+
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    5
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     e    End
+
+     p    Page Up
+
+     n    Page Down
+
+     x    Escape (Esc)
+
+     w    Refresh screen
+
+     q    Print Screen (print current screen to printer)
+
+     a    Alt (Kalt)
+
+     c    Ctrl (Kctrl)
+
+     s    Shift (Kshift)
+
+     k    Caps Lock
+
+     m    Num Lock
+
+     ^x   <control-x>
+
+     For example, to obtain a ^M (control-m):
+
+          ^M or ^m
+
+     1-0 - +
+          Function keys F1 through F12.
+
+     For example, to obtain the function key ALT F10:
+
+          Ctl-] a Ctl-] 0
+
+     For more information about terminal configuration and termi-
+     nal definitions, see the file TERMFILES in the UnixTree sys-
+     tem directory.
+
+Environment Variables
+     UnixTree uses the following environment variables:
+
+     XTHOME
+          This is the default user's home UnixTree directory.  If
+          not specified, the default is "~/.xt".
+
+     XTPATH
+          This is a list of directories  that  UnixTree  searches
+          for  configuration files.  The default path is .:<Unix-
+          Tree home directory>:<UnixTree system directory> .
+
+     XTNODE
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    6
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+          This is the default node to log when the user  runs  xt
+          and  no  node  is  specified  on  the command line.  If
+          XTNODE is not set to a specific value, the default node
+          is the user's home directory.  You can override this by
+          specifying a node to log on the command line  when  you
+          run xt.
+
+     XTTERM
+          This variable contains the terminal type to use.  If it
+          is  not  explicitly set, the value of the standard TERM
+          variable is used.  If XTTERM is  explicitly  set,  that
+          value  overrides TERM. Note that the "-t <term>" option
+          will override this.
+
+     XTPRINTER
+          Either a printer name or a system command to  use  when
+          sending output to the printer.  If not set, the default
+          printer will be used.  If it starts with a "|",  it  is
+          assumed  to  be a command to be executed.  If it starts
+          with a ">", it is assumed to be a filename to write to.
+          For example:
+
+          "laser"
+          "| lp -dlaser"
+          "> printer.txt"
+
+     XTEDITOR
+          System command to execute when you choose the  UnixTree
+          edit command.  For example:
+
+          /bin/vi
+
+     XTHEXEDITOR
+          System command to execute when you choose the  UnixTree
+          hex-edit command.  For example:
+
+          /usr/bin/hexedit
+
+     If this variable is not explicitly set,  UnixTree  uses  its
+     own, internal hex-edit engine.
+
+     XTVIEWER
+          The viewer command to use  when  examining  files.   If
+          this  variable is not explicitly set, UnixTree uses its
+          own, internal viewer.
+
+     XTDIFF
+          The diff command to use when comparing files.  If  this
+          variable  is not explicitly set, UnixTree uses its own,
+          internal diff engine.
+
+
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    7
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     XTINIT
+          The initialization file to use instead of the  standard
+          xt.rc  file.   This  may  be a full pathname, or just a
+          filename (in which case it will be looked  for  in  the
+          XTPATH).   This option can be used to test a new confi-
+          guration file.
+
+     XTMAGIC
+          The list of magic files to use in  querying  file  con-
+          tents.   The  default  magic  path  is  <UnixTree  home
+          dir>/magic:<UnixTree system dir>/magic:/etc/magic.
+
+     These  configuration  variables  (with  the   exception   of
+     $XTINIT)  can be modified by changing the configuration set-
+     tings with the Configuration Tool.
+
+Applications Menu
+     UnixTree provides a mechanism by which you can build a  cus-
+     tom  menu  of  commands,  called the Applications Menu.  The
+     Applications Menu is set up in the file xt.mnu,  which  con-
+     tains extensive comments that describe its format and how to
+     configure the file.
+
+     The Applications menu is useful for  keeping  frequently-run
+     system  programs,  such  as mail, news readers, network com-
+     mands, and so forth.  There can only be  one  system  xt.mnu
+     file  on  the  system, but each user may have his own xt.mnu
+     file in his UnixTree home or current directory.
+
+UnixTree Commands
+     This section provides a brief description of basic  UnixTree
+     commands.
+
+
+     Moving Around the Windows
+
+     The following keys move the cursor:
+
+     Arrow keys
+          Pressing the cursor (arrow) keys moves you from item to
+          item within a window.
+
+     PgDn Moves the cursor down to the  last  item  in  a  window
+          display.   Subsequent  use  of  Page  Down  scrolls the
+          display to show the next section of elements.
+
+     PgUp Moves the cursor up to the first element  in  a  window
+          display.  Subsequent use of Page Up scrolls the display
+          to show the previous section of elements.
+
+     Home Moves the cursor directly to  the  first  item  of  the
+          entire list.
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    8
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     End  Moves the cursor directly  to  the  last  item  of  the
+          entire list.
+
+     Space Bar
+          Acts like a Down Arrow when scrolling within a window.
+
+     Additional cursor controls in the directory window are:
+
+     Up Arrow
+          Scrolls  sequentially  up  the  directory   list   tree
+          display.
+
+     Down Arrow
+          Scrolls  sequentially  down  the  directory  list  tree
+          display.
+
+     Right Arrow
+          Moves the cursor down the  current  path  to  the  last
+          sub-directory.
+
+     Left Arrow
+          Moves the cursor to the parent of  the  current  direc-
+          tory.
+
+     Tab  Moves the cursor down to the next directory on the same
+          level as the current directory, within the same branch.
+          (This key performs a different  operation  in  a  split
+          window display.)
+
+     Backspace
+          Moves the cursor up to the next directory on  the  same
+          level as the current directory, within the same branch.
+
+     An additional cursor control in a split display is:
+
+     Tab  Activates the next window in a split display.
+
+     Additional cursor controls in file windows are:
+
+     Right Arrow
+          Moves the cursor one column to the right.
+
+     Left Arrow
+          Moves the cursor one column to the left.
+
+     Node Selection Keys
+
+     These keys select different nodes that you log:
+
+     > and .
+          In Directory windows,  press  greater  than  (>)  or  a
+          period  (.)  to select the next node in the sequence of
+
+
+
+Nanosoft            Last change: 2002 Jan 03                    9
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+          previously logged nodes.
+
+     < and ,
+          In Directory windows, press less than (<) or comma  (,)
+          to  select  the  prior  node  in the sequence of logged
+          nodes.
+
+
+          Function Key Commands
+
+     F1   Brings up the help system.
+
+     F2   Displays the Destination Directory Window  and  prompts
+          you  for  the  destination  path.  F2 is available only
+          with the Copy, Move, and Graft commands.
+
+     F3   Selects the Tag command menu.
+
+     F4   Selects the Alt command menu.
+
+     F5   Hides a sub-directory tree.  A period (.) in the margin
+          of the Directory window indicates a hidden directory.
+
+     F6   Shows a hidden sub-directory.
+
+     F7   Runs the Autoview command, with which  you  can  browse
+          the contents of files in the current directory.
+
+     F8   Splits the display into two separate areas.
+
+     F10  From the Alt menu, this starts the Configuration Tool.
+
+     ?    Displays a statistics window for a split window.
+
+     Esc  Cancels an operation in progress.
+
+
+          Destination Directory Window Keys
+
+     Cursor keys
+          Selects a path.
+
+     < and >
+          Select  a  different  node  that  has  been  previously
+          logged.
+
+     Enter
+          Selects a destination path and uses it as input to  the
+          destination prompt.
+
+     Esc  Returns to the destination prompt  without  choosing  a
+          directory path.
+
+
+
+Nanosoft            Last change: 2002 Jan 03                   10
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+          Keys for Editing Input Lines
+
+     Home Moves the cursor to the beginning of the line.
+
+     End  Moves the cursor to the end of the line.
+
+     Left Arrow
+          Moves the cursor one position to the left.
+
+     Right Arrow
+          Moves the cursor one position to the right.
+
+     Backspace
+          Deletes one character to the left of the cursor.
+
+     Delete
+          Deletes the character under the cursor.
+
+     Insert
+          Toggles insert mode on and off.
+
+     Down Arrow
+          Erases the entire line and  moves  the  cursor  to  the
+          first position.
+
+     Up Arrow
+          Retrieves the previous entry for that value.
+
+     Miscellaneous commands
+
+     F1   Brings up the help window at any time.
+
+     !    Executes a shell escape.
+
+     @    Refreshes the screen.
+
+     #    Displays the current version.
+
+     $    Displays memory usage.
+
+     %    Prints the contents of the screen (print-screen).
+
+     &    Creates a "clone" of the current program if it is  run-
+          ning  in  a  separate  window.  The  result will be two
+          identical processes, each displaying in its own window.
+
+Examples
+     This example starts xt and logs the node /tmp/work :
+
+          xt /tmp/work
+
+
+
+
+
+Nanosoft            Last change: 2002 Jan 03                   11
+
+
+
+
+
+
+User Commands                                               XT(1)
+
+
+
+     This example logs  the  node  /tmp/work,  and  automatically
+     resolves any symbolic-links:
+
+          xt +k /tmp/work
+
+     This example logs the default node (your home directory)  in
+     manual mode:
+
+          xt -lm
+
+     This example logs the node /work and logs only local and not
+     network directories:
+
+          xt -n /work
+
+     Note that by default the n option is on.
+
+Files
+     The following files  are  located  in  the  UnixTree  system
+     directory:
+
+     xt             UnixTree program.
+     <language>.hlp Language-specific help files.
+     <language>.res Language-specific resource files.
+     xt.dev         Archive device table file.
+     xt.mnu         System applications menu file.
+     xt.rc          System configuration file.
+     xt.fc          System file-color file.
+     magic          System magic file for determining file type.
+     restool        Program for manipulating resource files.
+     sample.rc      Sample configuration file with all defaults.
+     trm/*.trm      System terminal configuration files.
+     man            Man pages directory in "man" format.
+     catman         Man pages directory in "cat" format.
+
+     The following files  are  specific  to  each  user  and  are
+     located in the user's UnixTree home directory:
+
+     xt.rc          User configuration file.
+     xt.fc          User file-color file.
+     xt.mnu         User applications menu file.
+     xt.hst         User history file.
+     xt.ckp         User checkpoint file.
+     magic          User magic file for determining file type.
+     trm/*.trm      User terminal configuration files.
+
+Notes
+     Don't leave $HOME without it!
+
+
+
+
+
+
+
+Nanosoft            Last change: 2002 Jan 03                   12
+
+
+

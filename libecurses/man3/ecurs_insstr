@@ -1,0 +1,60 @@
+Curses Library Functions ecurs_insstr
+
+
+
+NAME
+     ecurs_insstr - insert string before character under the cursor
+     in a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int insstr(char *str);
+
+     int insnstr(char *str, int n);
+
+     int winsstr(WINDOW *win, char *str);
+
+     int winsnstr(WINDOW *win, char *str, int n);
+
+     int mvinsstr(int y, int x, char *str);
+
+     int mvinsnstr(int y, int x, char *str, int n);
+
+     int mvwinsstr(WINDOW *win, int y, int x, char *str);
+
+     int mvwinsnstr(WINDOW *win, int y, int x, char *str, int n);
+
+DESCRIPTION
+     With these routines, a character string (as many characters
+     as will fit on the line) is inserted before the character
+     under the cursor. All characters to the right of the cursor
+     are moved to the right, with the possibility of the
+     rightmost characters on the line being lost. The cursor
+     position does not change (after moving to y, x, if
+     specified). (This does not imply use of the hardware insert
+     character feature.) The four routines with n as the last
+     argument insert at most n characters. If n<=0, then the
+     entire string is inserted.
+
+     If a character in str is a tab, newline, carriage return or
+     backspace, the cursor is moved appropriately within the
+     window. A newline also does a clrtoeol() before moving. Tabs
+     are considered to be at every eighth column. If a character
+     in str is another control character, it is drawn in the ^X
+     notation. Calling winch() after adding a control character
+     (and moving to it, if necessary) does not return the control
+     character, but instead returns the representation of the
+     control character.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_clear, ecurs_inch, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,74 @@
+Curses Library Functions ecurs_addch
+
+
+
+NAME
+     ecurs_addch - add a character (with attributes) to a curses
+     window and advance cursor
+
+SYNOPSIS
+     #include <curses.h>
+
+     int addch(chtype ch);
+
+     int waddch(WINDOW *win, chtype ch);
+
+     int mvaddch(int y, int x, chtype ch);
+
+     int mvwaddch(WINDOW *win, int y, int x, chtype ch);
+
+     int echochar(chtype ch);
+
+     int wechochar(WINDOW *win, chtype ch);
+
+DESCRIPTION
+     With the addch(), waddch(), mvaddch(), and mvwaddch()
+     routines, the character ch is put into the window at the
+     current cursor position of the window and the position of
+     the window cursor is advanced. Its function is similar to
+     that of putchar(). At the right margin, an automatic newline
+     is performed. At the bottom of the scrolling region, if
+     scrollok() is enabled, the scrolling region is scrolled up
+     one line.
+
+     If the text part of ch is a control character, the
+     following actions take place:
+
+         CR    move to (row,0)
+         TAB   insert spaces up to next tab position
+         BS    move to (row,col-1) if not at start-of-line
+         NL    clear the line and move to (row+1,0)
+         FF    clear the window and move to (0,0)
+         VT    move to (row+1,col)
+         BL    beep
+
+     All other control characters are ignored.  Tab positions
+     are considered to be at every eighth column, unless
+     set otherwise. Calling winch() after adding a control
+     character does not return the control character, since no
+     special character was actually put in the window.
+
+     Video attributes can be combined with a character by OR-ing
+     them into the parameter. This results in these attributes
+     also being set. (The intent here is that text, including
+     attributes, can be copied from one place to another using
+     inch() and addch().) (see standout(), predefined video
+     attribute constants, on the ecurs_attr page).
+
+     The echochar() and wechochar() routines are functionally
+     equivalent to a call to addch() followed by a call to
+     refresh(), or a call to waddch followed by a call to
+     wrefresh().
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_attr, ecurs_clear, ecurs_inch, ecurs_outopts,
+     ecurs_refresh, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

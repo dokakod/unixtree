@@ -1,0 +1,115 @@
+#
+# This file contains menu item entries for the applications menu.
+# The rules for this file are rather strict.  Each line in this file may not
+# be longer than 510 characters.  Unpredictable results may follow. A menu
+# entry has the following colon separated fields: category, title, user(s),
+# group(s), tty, terminal, schedule, and command.  Commented lines begin with
+# a '#' in the first column;  comments are ignored.  Note that invalid menu
+# entries become comments.  If a '#' is required in a menu item field, it must
+# be escaped with the '\' character.  To include the escape character '\' in
+# one of the menu item fields, it must be escaped with a '\' also.  If a ':'
+# is required in a menu item field, it also must be escaped with the '\'
+# character.  An empty field is an error.
+#
+# The category field describes the category of command or program a menu
+# entry belongs in.  It can be any string.  Menu entries of the same category
+# are displayed in the user's menu headed by the category.  Some categories
+# might include 'Games', 'Utilities', and 'Communications'.
+#
+# The title field describes the menu entry command or program.  It can be
+# any string.
+#
+# The user(s) field limits the display of the menu item in the user's
+# menu to those user's whose login name matches the users in the
+# user(s) field.  The "*" keyword means everyone.  If there is more than
+# one user, each user is separated by a comma.  A user may be excluded by
+# preceding the user name with the '!' character.  "*",uucp is redundant.
+# !jrp,joe,jrp gives permission to joe and jrp only.  "*",!jrp gives
+# permission to all users except jrp.  jrp,joe,!jrp gives permission to joe
+# only.  The comma  and '!' cannot be escaped by preceeding them with
+# a '\' character.
+#
+# The group(s) field limits the display of the menu item in the user's
+# menu to those user's whose real group matches the groups in the
+# group(s) field.  The "*" keyword means all groups.  If there is more than
+# one group, each group is separated by a comma.  A group may be excluded by
+# preceding the group name with the '!' character.  "*",uucp is redundant.
+# !others,users,others gives permission to users in both the others and users
+# groups.  "*",!others gives permission to users in all groups except for
+# those in the others group.  others,users,!others gives permission to users
+# in the users group only.  The comma  and '!' cannot be escaped by preceeding
+# them with a '\' character.  Note that if a user's name is in the user(s)
+# field and his group is not in the group(s) field, the menu item will not
+# appear in his menu.
+#
+# The tty(s) field limits the display of the menu item in the user's
+# menu to those user's whose login tty matches the ttys in the
+# tty(s) field.  The "*" keyword means all ttys.  If there is more
+# than one tty, each tty is separated by a comma.  A tty may be excluded by
+# preceding the tty name with the '!' character.  "*",tty01 is redundant.
+# !tty01,tty02,tty01 gives permission to users logged on both tty01 and
+# tty02.  "*",!tty01 gives permission to users logged on all ttys except for
+# tty01.  tty01,tty02,!tty01 gives permission to users logged on tty02 only.
+# The comma  and '!' cannot be escaped by preceeding them with a '\' character.
+#
+# The term(s) field limits the display of the menu item in the user's
+# menu to those user's whose termimal ($TERM) matches the terms in the
+# term(s) field.  The "*" keyword means all terms.  If there is more
+# than one term, each term is separated by a comma.  A term may be excluded by
+# preceding the term name with the '!' character.  "*",vt100 is redundant.
+# !vt100,vt102,vt100 gives permission to users logged on both vt100 and
+# vt102.  "*",!vt100 gives permission to users logged on all terms except for
+# vt100.  vt102,vt100,!vt102 gives permission to users logged on vt100 only.
+# A term is represented by the user's $TERM environment variable. The comma
+# and '!' cannot be escaped by preceeding them with a '\' character.
+#
+# The schedule field indicates when the menu item can be displayed in the
+# user's menu.  Note that the user will not be able to
+# later execute the menu entry if the day/time is not within the schedule.
+# The schedule field consists of two subfields: the day of the week and
+# an optional time of day.  The day and time subfields are written with
+# no intervening spaces.  The day subfield is required and is specified
+# using the following keywords:
+#    "*" means the menu item can be executed and displayed on any day.
+#    Wk         means any weekday.  You can also specify individual days
+#               of the week using one or more or the keywords Su, Mo, Tu,
+#               We, Th, Fr, and Sa.
+# Note that *MoWkMo is not invalid, but redundant. SuSaWk is more easily
+# written as "*". The optional time subfield is specified by two
+# 24-hour clock times separated by a dash (-).  For example, 0800-1732 means
+# that a menu item can be executed between 8:00 in the morning and 5:32 in the
+# evening.  This range can span 0000, thus a time subfield of 0700-0500
+# means that a menu entry may be executed from 7:00 in the morning until
+# 5:00 in the morning on the following day.  This also means any time except
+# from 5:01 in the morning to 6:59 in the morning.  Note that this really
+# is interpreted as 0000-0500 and 0700-2359 on the same day.  This is
+# important in the following example:
+#    Wk2300-0700
+# This means 0000-0700 and 2300-2359 on Monday through Friday.  It does
+# not include 0000-0700 Saturday.  If the time subfield is omitted, the
+# menu item may be executed at any time on the day(s) specified.
+#
+# The command field specifies which program or shell command will be
+# executed when the user selects the associated menu item.  The user
+# must have permission to execute the program or all parts of the
+# shell command.  Note that the program or all parts of the shell command
+# must be in the user's $PATH or full paths must be specified.  Three
+# optional subfields may be part of the command string.  The subfield
+# $T will be substituted by any tagged files in a file window;  the
+# subfield $D will be substituted with the current directory;  the
+# subfield $F will be substituted with the current file.  Note that $T
+# and $F may cause the command to fail if there are no tagged files in the
+# file window ($T) or the cursor is not in the file window or there are
+# no files in the file window ($F). $F, $D, and $T may not be escaped.
+#
+EDITORS:Edit new file:*:*:*:*:*:vi
+EDITORS:Edit highlighted file:*:*:*:*:*:vi $D/$F
+EDITORS:Edit all tagged files:*:*:*:*:*:vi $D/$T
+PRINTERS:List printers:*:*:*:*:*:lpstat -p
+PRINTERS:List users print jobs:*:*:*:*:*:lpstat -u `who am i|cut -f1 -d" "`
+UTILITIES:Read News:*:*:*:*:*:rn
+UTILITIES:Read Mail:*:*:*:*:*:mail
+UTILITIES:Korn Shell:*:*:*:*:*:ksh
+UTILITIES:C Shell:*:*:*:*:*:csh
+UTILITIES:Bourne Shell:*:*:*:*:*:sh
+$

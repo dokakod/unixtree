@@ -1,0 +1,175 @@
+# Color screen definition for libxvt
+
+# Screen commands
+
+auto-margin	= 1
+move-cursor-ti	= "\e[%i%p1%d;%p2%dH"
+move-cursor-tc	= "\e[%i%d;%dH"
+clear-screen	= "\e[2J"
+clear-to-eol	= "\e[K"
+clear-to-eos	= "\e[J"
+add-line	= "\e[L"
+delete-line	= "\e[M"
+insert-char	= "\e[@"
+delete-char	= "\e[P"
+
+cursor-on	= "\e[?25h"
+cursor-off	= "\e[?25l"
+
+title-beg	= "\e]0;"
+title-end	= "^G"
+
+alt-chars-ena	= "\e(B\e)0"
+session-end	= "\ec"
+
+# Screen attributes
+
+reverse-on	= "\e[7m"
+reverse-off	= "\e[m"
+
+bold-on		= "\e[1m"
+bold-off	= "\e[m"
+
+underline-on	= "\e[4m"
+underline-off	= "\e[m"
+
+alt-char-1-on	= "^N"
+alt-char-1-off	= "^O"
+
+# extended cmds
+
+icon-open	= "\e[2t"
+icon-close	= "\e[1t"
+
+icon-bits-beg	= "\e_"
+icon-bits-end	= "\e\\"
+
+keymap-on	= "\e[?102h"	# set to 101 if you don't want prs/rls info
+keymap-off	= "\e[?100l"
+
+mouse-on	= "\e[?1004h"
+mouse-off	= "\e[?1004l"
+mouse-input	= "\e[M%i%+ %+ %+ "
+
+# Function keys
+
+f1		= "\eOP"
+f2		= "\eOQ"
+f3		= "\eOR"
+f4		= "\eOS"
+f5		= "\e[15~"
+f6		= "\e[17~"
+f7		= "\e[18~"
+f8		= "\e[19~"
+f9		= "\e[20~"
+f10		= "\e[21~"
+f11		= "\e[23~"
+f12		= "\e[24~"
+
+kp0		= "\e[2~"
+kp1		= "\e[F"
+kp2		= "\e[B"
+kp3		= "\e[6~"
+kp4		= "\e[D"
+kp5		= "\e[E"
+kp6		= "\e[C"
+kp7		= "\e[H"
+kp8		= "\e[A"
+kp9		= "\e[5~"
+delete		= "\e[3~"
+
+shift-press	= "\e[sp!"
+shift-release	= "\e[sr!"
+ctrl-press	= "\e[cp!"
+ctrl-release	= "\e[cr!"
+alt-press	= "\e[ap!"
+alt-release	= "\e[ar!"
+
+# character sets
+
+alt-char-1-set	= "\xb0a"
+alt-char-1-set	= "\xb1a"
+alt-char-1-set	= "\xb2`"
+alt-char-1-set	= "\xb3x"
+alt-char-1-set	= "\xb4u"
+alt-char-1-set	= "\xb5u"
+alt-char-1-set	= "\xb6u"
+alt-char-1-set	= "\xb7k"
+alt-char-1-set	= "\xb8k"
+alt-char-1-set	= "\xb9u"
+alt-char-1-set	= "\xbax"
+alt-char-1-set	= "\xbbk"
+alt-char-1-set	= "\xbcj"
+alt-char-1-set	= "\xbdj"
+alt-char-1-set	= "\xbej"
+alt-char-1-set	= "\xbfk"
+alt-char-1-set	= "\xc0m"
+alt-char-1-set	= "\xc1v"
+alt-char-1-set	= "\xc2w"
+alt-char-1-set	= "\xc3t"
+alt-char-1-set	= "\xc4q"
+alt-char-1-set	= "\xc5n"
+alt-char-1-set	= "\xc6t"
+alt-char-1-set	= "\xc7t"
+alt-char-1-set	= "\xc8m"
+alt-char-1-set	= "\xc9l"
+alt-char-1-set	= "\xcav"
+alt-char-1-set	= "\xcbw"
+alt-char-1-set	= "\xcct"
+alt-char-1-set	= "\xcdq"
+alt-char-1-set	= "\xcen"
+alt-char-1-set	= "\xcfv"
+alt-char-1-set	= "\xd0v"
+alt-char-1-set	= "\xd1w"
+alt-char-1-set	= "\xd2w"
+alt-char-1-set	= "\xd3m"
+alt-char-1-set	= "\xd4m"
+alt-char-1-set	= "\xd5l"
+alt-char-1-set	= "\xd6l"
+alt-char-1-set	= "\xd7n"
+alt-char-1-set	= "\xd8n"
+alt-char-1-set	= "\xd9j"
+alt-char-1-set	= "\xdal"
+alt-char-0-set	= "\xdbx"
+alt-char-0-set	= "\xdcx"
+alt-char-0-set	= "\xddx"
+alt-char-0-set	= "\xdex"
+alt-char-0-set	= "\xdfx"
+
+# color data
+
+black		= "\e[22;30m"
+red		= "\e[22;31m"
+green		= "\e[22;32m"
+yellow		= "\e[22;33m"
+blue		= "\e[22;34m"
+cyan		= "\e[22;36m"
+white		= "\e[22;37m"
+magenta		= "\e[22;35m"
+
+grey		= "\e[1;30m"
+lt-red		= "\e[1;31m"
+lt-green	= "\e[1;32m"
+lt-yellow	= "\e[1;33m"
+lt-blue		= "\e[1;34m"
+lt-magenta	= "\e[1;35m"
+lt-cyan		= "\e[1;36m"
+lt-white	= "\e[1;37m"
+
+black-bgnd	= "\e[25;40m"
+red-bgnd	= "\e[25;41m"
+green-bgnd	= "\e[25;42m"
+yellow-bgnd	= "\e[25;43m"
+blue-bgnd	= "\e[25;44m"
+magenta-bgnd	= "\e[25;45m"
+cyan-bgnd	= "\e[25;46m"
+white-bgnd	= "\e[25;47m"
+
+grey-bgnd	= "\e[5;40m"
+lt-red-bgnd	= "\e[5;41m"
+lt-green-bgnd	= "\e[5;42m"
+lt-yellow-bgnd	= "\e[5;43m"
+lt-blue-bgnd	= "\e[5;44m"
+lt-magenta-bgnd	= "\e[5;45m"
+lt-cyan-bgnd	= "\e[5;46m"
+lt-white-bgnd	= "\e[5;47m"

@@ -1,0 +1,9 @@
+#	archive device table
+#
+#	 device     		block   size	tape	desc
+
+#	default device
+archive=/dev/rfd0		18	1440	n	# 3.5 1.44M floppy
+
+archive0=/dev/rfd0		18	1440	n	# 3.5 1.44M floppy
+archive1=/dev/rmt/0		20	59000	y	# 600' cartridge tape

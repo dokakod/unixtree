@@ -1,0 +1,55 @@
+Curses Library Functions ecurs_exec
+
+
+
+NAME
+     ecurs_exec - Execute a sub-task or shell
+
+SYNOPSIS
+     #include <curses.h>
+
+     int win_exec_argv(const char *dir, char **argv,
+         int interactive, char *msgbuf);
+
+     int win_exec_cmd(const char *dir, const char *cmd,
+         int interactive, char *msgbuf);
+
+DESCRIPTION
+     These routines enable the user to execute a sub-task or
+     shell.  win_exec_argv() specifies the command in "argv"
+     format (with argv[0] being the command name), and
+     win_exec_cmd() specifies the command as a string.
+
+     If interactive is TRUE, then stderr will be passed to
+     the sub-task unchanged. If interactive is FALSE, then
+     stderr will be set to point to an error file to capture
+     any error messages from the sub-task.
+
+     If dir is not NULL or empty, the routines will change
+     the current directory to dir prior to the execution. The
+     current directory of the calling program is not changed.
+
+     If the command specified to win_exec_cmd() is NULL or
+     empty, then a shell will be run. The actual command to
+     execute will be taken from $SHELL.
+
+RETURN VALUES
+     These routines will return ERR if they could not execute
+     the specified command, and the exit code from the command
+     if it could.
+
+     If msgbuf is not NULL, it will contain any error message
+     from the command if the command exited with a non-zero
+     exit code.
+
+SEE ALSO
+     ecurs_initscr, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+
+     These routines do NOT reset the ecurses environment. It is
+     assumed that the user will call endwin() prior to calling
+     these routines.
+

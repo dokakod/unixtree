@@ -1,0 +1,48 @@
+Curses Library Functions ecurs_scanw
+
+
+
+NAME
+     ecurs_scanw - convert formatted input from a curses widow
+
+SYNOPSIS
+     #include <curses.h>
+
+     int scanw(char *fmt, ...);
+
+     int wscanw(WINDOW *win, char *fmt, ...);
+
+     int mvscanw(int y, int x, char *fmt, ...);
+
+     int mvwscanw(WINDOW *win, int y, int x, char *fmt, ...);
+
+     int vwscanw(WINDOW *win, char *fmt, va_list args);
+
+DESCRIPTION
+     The scanw(), wscanw(), and mvscanw() routines correspond to
+     scanf() (see scanf(3C)). The effect of these routines is as
+     though wgetstr() were called on the window, and the
+     resulting line used as input for the scan. Fields which do
+     not map to a variable in the fmt field are lost.
+
+     The vwscanw() routine is similar to vwprintw() in that it
+     performs a wscanw() using a variable argument list. The
+     third argument is a va_list, a pointer to a list of
+     arguments, as defined in <stdarg.h>.
+
+RETURN VALUES
+     vwscanw() returns ERR on failure and an integer equal to
+     the number of fields scanned on success.
+
+     Applications may interrogate the return value from the
+     scanw, wscanw(), mvscanw(), and mvwscanw() routines to
+     determine the number of fields which were mapped in the
+     call.
+
+SEE ALSO
+     ecurs_getstr, ecurs_printw, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

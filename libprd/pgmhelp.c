@@ -1,0 +1,363 @@
+/*------------------------------------------------------------------------
+ *	This routine is the interface between the main code
+ *	and the help engine.
+ */
+#include "libprd.h"
+
+struct cmd_state
+{
+	int		sub_mode;
+	int		cmd;
+	int		sub_cmd;
+	int		help_index;
+};
+
+static const struct cmd_state cmds_dir[] =
+{
+	{ m_reg,	0,							0, HELP_CMDS_REG_DIR },
+	{ m_reg,	CMDS_COMMON_ATTRS,			0, HELP_REG_DIR_ATTRS },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_DATE,  HELP_ATTR_DATE },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_OWNER, HELP_ATTR_OWNER },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_GROUP, HELP_ATTR_GROUP },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_PERMS, HELP_ATTR_PERMS },
+	{ m_reg,	CMDS_REG_DIR_COMPARE,		0, HELP_REG_DIR_COMPARE },
+	{ m_reg,	CMDS_COMMON_DELETE,			0, HELP_REG_DIR_DELETE },
+	{ m_reg,	CMDS_COMMON_EDIT,			0, HELP_REG_DIR_EDIT },
+	{ m_reg,	CMDS_COMMON_FILESPEC,		0, HELP_REG_DIR_FILESPEC },
+	{ m_reg,	CMDS_REG_DIR_GLOBAL,		0, HELP_REG_DIR_GLOBAL },
+	{ m_reg,	CMDS_COMMON_INVERT,			0, HELP_REG_DIR_INVERT },
+	{ m_reg,	CMDS_REG_DIR_LINK,			0, HELP_REG_DIR_LINK },
+	{ m_reg,	CMDS_REG_DIR_MKDIR,			0, HELP_REG_DIR_MKDIR },
+	{ m_reg,	CMDS_COMMON_NODE,			0, HELP_REG_DIR_NODE },
+	{ m_reg,	CMDS_COMMON_NODE,			CMDS_NODE_RELOG, HELP_NODE_RELOG },
+	{ m_reg,	CMDS_COMMON_NODE,			CMDS_NODE_NEW,   HELP_NODE_NEW },
+	{ m_reg,	CMDS_COMMON_NODE,			CMDS_NODE_ARCHIVE,
+												HELP_NODE_ARCHIVE },
+	{ m_reg,	CMDS_COMMON_PRINT,			0, HELP_REG_DIR_PRINT },
+	{ m_reg,	CMDS_COMMON_PRINT,			CMDS_PRINT_PATH, HELP_PRINT_PATH },
+	{ m_reg,	CMDS_COMMON_PRINT,			CMDS_PRINT_TREE, HELP_PRINT_TREE },
+	{ m_reg,	CMDS_COMMON_PRINT,			CMDS_PRINT_CAT,  HELP_PRINT_CAT },
+	{ m_reg,	CMDS_COMMON_QUIT,			0, HELP_REG_DIR_QUIT },
+	{ m_reg,	CMDS_COMMON_RENAME,			0, HELP_REG_DIR_RENAME },
+	{ m_reg,	CMDS_REG_DIR_SHOWALL,		0, HELP_REG_DIR_SHOWALL },
+	{ m_reg,	CMDS_COMMON_TAG,			0, HELP_REG_DIR_TAG },
+	{ m_reg,	CMDS_COMMON_UNTAG,			0, HELP_REG_DIR_UNTAG },
+	{ m_reg,	CMDS_REG_DIR_AVAILABLE,		0, HELP_REG_DIR_AVAILABLE },
+	{ m_reg,	CMDS_COMMON_EXEC,			0, HELP_REG_DIR_EXEC },
+	{ m_reg,	CMDS_REG_DIR_HIDE,			0, HELP_REG_DIR_HIDE },
+	{ m_reg,	CMDS_REG_DIR_SHOW,			0, HELP_REG_DIR_SHOW },
+	{ m_reg,	CMDS_REG_DIR_RELOG,			0, HELP_REG_DIR_RELOG },
+	{ m_reg,	CMDS_REG_DIR_LOG_RECURS,	0, HELP_REG_DIR_LOG_RECURS },
+	{ m_reg,	CMDS_REG_DIR_UNLOG,			0, HELP_REG_DIR_UNLOG },
+
+	{ m_tag,	0,							0, HELP_CMDS_TAG_DIR },
+	{ m_tag,	CMDS_TAG_DIR_GLOBAL,		0, HELP_TAG_DIR_GLOBAL },
+	{ m_tag,	CMDS_COMMON_INVERT,			0, HELP_TAG_DIR_INVERT },
+	{ m_tag,	CMDS_TAG_DIR_SHOWALL,		0, HELP_TAG_DIR_SHOWALL },
+	{ m_tag,	CMDS_COMMON_TAG,			0, HELP_TAG_DIR_TAG },
+	{ m_tag,	CMDS_COMMON_UNTAG,			0, HELP_TAG_DIR_UNTAG },
+
+	{ m_alt,	0,							0, HELP_CMDS_ALT_DIR },
+	{ m_alt,	CMDS_ALT_DIR_COMPACT,		0, HELP_ALT_DIR_COMPACT },
+	{ m_alt,	CMDS_COMMON_DIRDISP,		0, HELP_ALT_DIR_DIRDISP },
+	{ m_alt,	CMDS_COMMON_FILEDISP,		0, HELP_ALT_DIR_FILEDISP },
+	{ m_alt,	CMDS_COMMON_INVERT,			0, HELP_ALT_DIR_INVERT },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_ALT_DIR_GRAFT,			0, HELP_ALT_DIR_GRAFT },
+	{ m_alt,	CMDS_COMMON_NODE,			0, HELP_ALT_DIR_NODE },
+	{ m_alt,	CMDS_COMMON_NODE,			CMDS_NODE_RELOG, HELP_NODE_RELOG },
+	{ m_alt,	CMDS_COMMON_NODE,			CMDS_NODE_NEW,   HELP_NODE_NEW },
+	{ m_alt,	CMDS_COMMON_NODE,			CMDS_NODE_ARCHIVE,
+												HELP_NODE_ARCHIVE },
+	{ m_alt,	CMDS_ALT_DIR_PRUNE,			0, HELP_ALT_DIR_PRUNE },
+	{ m_alt,	CMDS_COMMON_QUIT,			0, HELP_ALT_DIR_QUIT },
+	{ m_alt,	CMDS_ALT_DIR_RELEASE,		0, HELP_ALT_DIR_RELEASE },
+	{ m_alt,	CMDS_ALT_DIR_SORT,			0, HELP_ALT_DIR_SORT },
+	{ m_alt,	CMDS_COMMON_TAG,			0, HELP_ALT_DIR_TAG },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			0, HELP_ALT_DIR_UNTAG },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_ALT_DIR_HIDE,			0, HELP_ALT_DIR_HIDE },
+	{ m_alt,	CMDS_ALT_DIR_SHOW,			0, HELP_ALT_DIR_SHOW },
+	{ m_alt,	CMDS_ALT_DIR_CONFIG,		0, HELP_ALT_DIR_CONFIG },
+	{ 0,		0,							0, 0 }
+};
+
+static const struct cmd_state cmds_file[] =
+{
+	{ m_reg,	0,							0, HELP_CMDS_REG_FILE },
+	{ m_reg,	CMDS_COMMON_ATTRS,			0, HELP_REG_FILE_ATTRS },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_DATE,  HELP_ATTR_DATE },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_OWNER, HELP_ATTR_OWNER },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_GROUP, HELP_ATTR_GROUP },
+	{ m_reg,	CMDS_COMMON_ATTRS,			CMDS_ATTR_PERMS, HELP_ATTR_PERMS },
+	{ m_reg,	CMDS_REG_FILE_BACKUP,		0, HELP_REG_FILE_BACKUP },
+	{ m_reg,	CMDS_COMMON_COPY,			0, HELP_REG_FILE_COPY },
+	{ m_reg,	CMDS_COMMON_DELETE,			0, HELP_REG_FILE_DELETE },
+	{ m_reg,	CMDS_COMMON_DIFF,			0, HELP_INDEX_BASE },
+	{ m_reg,	CMDS_COMMON_EDIT,			0, HELP_REG_FILE_EDIT },
+	{ m_reg,	CMDS_REG_FILE_EXTRACT,		0, HELP_REG_FILE_EXTRACT },
+	{ m_reg,	CMDS_COMMON_FILESPEC,		0, HELP_REG_FILE_FILESPEC },
+	{ m_reg,	CMDS_COMMON_GOTO1,			0, HELP_REG_FILE_GOTO },
+	{ m_reg,	CMDS_COMMON_INVERT,			0, HELP_REG_FILE_INVERT },
+	{ m_reg,	CMDS_REG_FILE_LINK,			0, HELP_REG_FILE_LINK },
+	{ m_reg,	CMDS_REG_FILE_MOVE,			0, HELP_REG_FILE_MOVE },
+	{ m_reg,	CMDS_COMMON_NODE,			0, HELP_REG_FILE_NODE },
+	{ m_reg,	CMDS_COMMON_NODE,			CMDS_NODE_RELOG, HELP_NODE_RELOG },
+	{ m_reg,	CMDS_COMMON_NODE,			CMDS_NODE_NEW,   HELP_NODE_NEW },
+	{ m_reg,	CMDS_COMMON_NODE,			CMDS_NODE_ARCHIVE,
+												HELP_NODE_ARCHIVE },
+	{ m_reg,	CMDS_REG_FILE_OPEN,			0, HELP_REG_FILE_OPEN },
+	{ m_reg,	CMDS_COMMON_PRINT,			0, HELP_REG_FILE_PRINT },
+	{ m_reg,	CMDS_COMMON_QUIT,			0, HELP_REG_FILE_QUIT },
+	{ m_reg,	CMDS_COMMON_RENAME,			0, HELP_REG_FILE_RENAME },
+	{ m_reg,	CMDS_REG_FILE_RESTORE,		0, HELP_REG_FILE_RESTORE },
+	{ m_reg,	CMDS_COMMON_TAG,			0, HELP_REG_FILE_TAG },
+	{ m_reg,	CMDS_COMMON_UNTAG,			0, HELP_REG_FILE_UNTAG },
+	{ m_reg,	CMDS_COMMON_VIEW,			0, HELP_REG_FILE_VIEW },
+	{ m_reg,	CMDS_COMMON_EXEC,			0, HELP_REG_FILE_EXEC },
+
+	{ m_tag,	0,							0, HELP_CMDS_TAG_FILE },
+	{ m_tag,	CMDS_COMMON_ATTRS,			0, HELP_TAG_FILE_ATTRS },
+	{ m_tag,	CMDS_COMMON_ATTRS,			CMDS_ATTR_DATE,  HELP_ATTR_DATE },
+	{ m_tag,	CMDS_COMMON_ATTRS,			CMDS_ATTR_OWNER, HELP_ATTR_OWNER },
+	{ m_tag,	CMDS_COMMON_ATTRS,			CMDS_ATTR_GROUP, HELP_ATTR_GROUP },
+	{ m_tag,	CMDS_COMMON_ATTRS,			CMDS_ATTR_PERMS, HELP_ATTR_PERMS },
+	{ m_tag,	CMDS_TAG_FILE_BACKUP,		0, HELP_TAG_FILE_BACKUP },
+	{ m_tag,	CMDS_COMMON_COPY,			0, HELP_TAG_FILE_COPY },
+	{ m_tag,	CMDS_COMMON_DELETE,			0, HELP_TAG_FILE_DELETE },
+	{ m_tag,	CMDS_TAG_FILE_EXTRACT,		0, HELP_TAG_FILE_EXTRACT },
+	{ m_tag,	CMDS_TAG_FILE_BATCH,		0, HELP_TAG_FILE_BATCH },
+	{ m_tag,	CMDS_COMMON_INVERT,			0, HELP_TAG_FILE_INVERT },
+	{ m_tag,	CMDS_TAG_FILE_LINK,			0, HELP_TAG_FILE_LINK },
+	{ m_tag,	CMDS_TAG_FILE_MOVE,			0, HELP_TAG_FILE_MOVE },
+	{ m_tag,	CMDS_TAG_FILE_COMPARE,		0, HELP_TAG_FILE_COMPARE },
+	{ m_tag,	CMDS_COMMON_PRINT,			0, HELP_TAG_FILE_PRINT },
+	{ m_tag,	CMDS_COMMON_RENAME,			0, HELP_TAG_FILE_RENAME },
+	{ m_tag,	CMDS_TAG_FILE_SEARCH,		0, HELP_TAG_FILE_SEARCH },
+	{ m_tag,	CMDS_COMMON_TAG,			0, HELP_TAG_FILE_TAG },
+	{ m_tag,	CMDS_COMMON_UNTAG,			0, HELP_TAG_FILE_UNTAG },
+	{ m_tag,	CMDS_COMMON_VIEW,			0, HELP_TAG_FILE_VIEW },
+	{ m_tag,	CMDS_COMMON_EXEC,			0, HELP_TAG_FILE_EXEC },
+
+	{ m_alt,	0,							0, HELP_CMDS_ALT_FILE },
+	{ m_alt,	CMDS_COMMON_COPY,			0, HELP_ALT_FILE_COPY },
+	{ m_alt,	CMDS_COMMON_DIRDISP,		0, HELP_ALT_DIR_DIRDISP },
+	{ m_alt,	CMDS_COMMON_FILEDISP,		0, HELP_ALT_DIR_FILEDISP },
+	{ m_alt,	CMDS_COMMON_INVERT,			0, HELP_ALT_FILE_INVERT },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_COMMON_NODE,			0, HELP_ALT_DIR_NODE },
+	{ m_alt,	CMDS_COMMON_NODE,			CMDS_NODE_RELOG, HELP_NODE_RELOG },
+	{ m_alt,	CMDS_COMMON_NODE,			CMDS_NODE_NEW,   HELP_NODE_NEW },
+	{ m_alt,	CMDS_COMMON_NODE,			CMDS_NODE_ARCHIVE,
+												HELP_NODE_ARCHIVE },
+	{ m_alt,	CMDS_ALT_FILE_RELEASE,		0, HELP_ALT_DIR_RELEASE },
+	{ m_alt,	CMDS_COMMON_QUIT,			0, HELP_ALT_DIR_QUIT },
+	{ m_alt,	CMDS_ALT_FILE_SORT,			0, HELP_ALT_DIR_SORT },
+	{ m_alt,	CMDS_COMMON_TAG,			0, HELP_ALT_FILE_TAG },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			0, HELP_ALT_FILE_UNTAG },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_ALT_FILE_COPYTAGS,		0, HELP_ALT_FILE_COPYTAGS },
+	{ m_alt,	CMDS_ALT_FILE_RESOLVE,		0, HELP_ALT_FILE_RESOLVE },
+	{ 0,		0,							0, 0 }
+};
+
+static const struct cmd_state cmds_av[] =
+{
+	{ m_reg,	0,							0, HELP_CMDS_REG_AV },
+	{ m_reg,	CMDS_WIN_ASCII,				0, HELP_REG_AV_ASCII },
+	{ m_reg,	CMDS_WIN_DUMP,				0, HELP_REG_AV_DUMP },
+	{ m_reg,	CMDS_WIN_HEX,				0, HELP_REG_AV_HEX },
+	{ m_reg,	CMDS_WIN_KEEP,				0, HELP_REG_AV_KEEP },
+	{ m_reg,	CMDS_WIN_MASK,				0, HELP_REG_AV_MASK },
+	{ m_reg,	CMDS_WIN_WRAP,				0, HELP_REG_AV_WRAP },
+	{ m_reg,	CMDS_WIN_TABWIDTH,			0, HELP_REG_AV_TABWIDTH },
+
+	{ m_reg,	CMDS_COMMON_DIFF,			0, HELP_INDEX_BASE },
+	{ m_reg,	CMDS_COMMON_EDIT,			0, HELP_REG_FILE_EDIT },
+	{ m_reg,	CMDS_COMMON_FILESPEC,		0, HELP_REG_FILE_FILESPEC },
+	{ m_reg,	CMDS_COMMON_GOTO1,			0, HELP_REG_FILE_GOTO },
+	{ m_reg,	CMDS_COMMON_INVERT,			0, HELP_REG_FILE_INVERT },
+	{ m_reg,	CMDS_VIEW_SRCH_NEXT,		0, HELP_REG_AV_SRCH_NEXT },
+	{ m_reg,	CMDS_VIEW_SRCH_PREV,		0, HELP_REG_AV_SRCH_PREV },
+	{ m_reg,	CMDS_COMMON_QUIT,			0, HELP_REG_FILE_QUIT },
+	{ m_reg,	CMDS_COMMON_RENAME,			0, HELP_REG_FILE_RENAME },
+	{ m_reg,	CMDS_VIEW_SRCH_FWD,			0, HELP_REG_AV_SRCH_FWD },
+	{ m_reg,	CMDS_VIEW_SRCH_BCK,			0, HELP_REG_AV_SRCH_BCK },
+	{ m_reg,	CMDS_COMMON_TAG,			0, HELP_REG_FILE_TAG },
+	{ m_reg,	CMDS_COMMON_UNTAG,			0, HELP_REG_FILE_UNTAG },
+	{ m_reg,	CMDS_COMMON_VIEW,			0, HELP_REG_FILE_VIEW },
+
+	{ m_tag,	0,							0, HELP_CMDS_TAG_AV },
+	{ m_tag,	CMDS_COMMON_INVERT,			0, HELP_TAG_FILE_INVERT },
+	{ m_tag,	CMDS_TAG_FILE_SEARCH,		0, HELP_TAG_FILE_SEARCH },
+	{ m_tag,	CMDS_COMMON_TAG,			0, HELP_TAG_FILE_TAG },
+	{ m_tag,	CMDS_COMMON_UNTAG,			0, HELP_TAG_FILE_UNTAG },
+	{ m_tag,	CMDS_COMMON_VIEW,			0, HELP_TAG_FILE_VIEW },
+
+	{ m_alt,	0,							0, HELP_CMDS_ALT_AV },
+	{ m_alt,	CMDS_COMMON_INVERT,			0, HELP_ALT_FILE_INVERT },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_INVERT,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_COMMON_TAG,			0, HELP_ALT_FILE_TAG },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_TAG,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			0, HELP_ALT_FILE_UNTAG },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_DATE,  HELP_TAG_DATE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_INODE, HELP_TAG_INODE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_LINKS, HELP_TAG_LINKS },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_SIZE,  HELP_TAG_SIZE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_PERMS, HELP_TAG_PERMS },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_OWNER, HELP_TAG_OWNER },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_GROUP, HELP_TAG_GROUP },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_NODE,  HELP_TAG_NODE },
+	{ m_alt,	CMDS_COMMON_UNTAG,			CMDS_TAG_TYPE,  HELP_TAG_TYPE },
+	{ 0,		0,							0, 0 }
+};
+
+static const struct cmd_state cmds_fv[] =
+{
+	{ m_reg,	0,							0, HELP_CMDS_REG_FV },
+	{ m_reg,	CMDS_WIN_ASCII,				0, HELP_REG_AV_ASCII },
+	{ m_reg,	CMDS_WIN_DUMP,				0, HELP_REG_AV_DUMP },
+	{ m_reg,	CMDS_WIN_HEX,				0, HELP_REG_AV_HEX },
+	{ m_reg,	CMDS_WIN_KEEP,				0, HELP_REG_AV_KEEP },
+	{ m_reg,	CMDS_WIN_MASK,				0, HELP_REG_AV_MASK },
+	{ m_reg,	CMDS_WIN_WRAP,				0, HELP_REG_AV_WRAP },
+	{ m_reg,	CMDS_WIN_TABWIDTH,			0, HELP_REG_AV_TABWIDTH },
+
+	{ m_reg,	CMDS_COMMON_EDIT,			0, HELP_REG_FILE_EDIT },
+	{ m_reg,	CMDS_COMMON_QUIT,			0, HELP_REG_FILE_QUIT },
+	{ m_reg,	CMDS_VIEW_SRCH_NEXT,		0, HELP_REG_AV_SRCH_NEXT },
+	{ m_reg,	CMDS_VIEW_SRCH_PREV,		0, HELP_REG_AV_SRCH_PREV },
+	{ m_reg,	CMDS_VIEW_SRCH_FWD,			0, HELP_REG_AV_SRCH_FWD },
+	{ m_reg,	CMDS_VIEW_SRCH_BCK,			0, HELP_REG_AV_SRCH_BCK },
+	{ m_reg,	CMDS_VIEW_NEXTFILE,			0, HELP_REG_FV_NEXTFILE },
+	{ m_reg,	CMDS_VIEW_PREVFILE,			0, HELP_REG_FV_PREVFILE },
+	{ m_reg,	CMDS_COMMON_VIEW,			0, HELP_REG_FILE_VIEW },
+	{ 0,		0,							0, 0 }
+};
+
+/*------------------------------------------------------------------------
+ *	This routine figures out the correct help index
+ *	based on the current state of program's global variables.
+ */
+static int figure_index (void)
+{
+	const struct cmd_state *p;
+	const struct cmd_state *q;
+
+	if (gbl(scr_in_hexedit))
+		return (HELP_INDEX_BASE);
+	else if (gbl(scr_in_fullview))
+		p = cmds_fv;
+	else if (gbl(scr_in_autoview))
+		p = cmds_av;
+	else if (gbl(scr_in_diffview))
+		return (HELP_INDEX_BASE);
+	else if (gbl(scr_cur)->command_mode == m_dir)
+		p = cmds_dir;
+	else
+		p = cmds_file;
+
+	for (q=p; q->help_index; q++)
+	{
+		if (gbl(scr_cur)->cmd_sub_mode == q->sub_mode &&
+			gbl(scr_cur_cmd)      == q->cmd &&
+			gbl(scr_cur_sub_cmd)  == q->sub_cmd)
+		{
+			return (q->help_index);
+		}
+	}
+
+	return (p->help_index);
+}
+
+/*------------------------------------------------------------------------
+ *	This routine is called asyncronously whenever
+ *	the F1 (HELP) key is depressed.
+ */
+int do_help (int key, void *data)
+{
+	int save_y;
+	int save_x;
+	int hindex;
+
+	if (! gbl(scr_in_help))
+	{
+		save_y = getcury(stdscr);
+		save_x = getcurx(stdscr);
+
+		hindex = figure_index();
+		help_topic(hindex);
+
+		wmove(stdscr, save_y, save_x);
+		touchwin(stdscr);
+		wrefresh(stdscr);
+	}
+
+	return (0);
+}

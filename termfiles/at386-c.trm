@@ -1,0 +1,32 @@
+# term definition file for AT386 console (color)
+
+term		= "at386-m"
+
+# color definitions
+
+black		= "\e[m\e[30m"
+red		= "\e[m\e[31m"
+green		= "\e[m\e[32m"
+yellow		= "\e[m\e[33m"
+blue		= "\e[m\e[34m"
+magenta		= "\e[m\e[35m"
+cyan		= "\e[m\e[36m"
+white		= "\e[m\e[37m"
+
+grey		= "\e[1m\e[30m"
+lt-red		= "\e[1m\e[31m"
+lt-green	= "\e[1m\e[32m"
+lt-yellow	= "\e[1m\e[33m"
+lt-blue		= "\e[1m\e[34m"
+lt-magenta	= "\e[1m\e[35m"
+lt-cyan		= "\e[1m\e[36m"
+lt-white	= "\e[1m\e[37m"
+
+black-bgnd	= "\e[40m"
+red-bgnd	= "\e[41m"
+green-bgnd	= "\e[42m"
+yellow-bgnd	= "\e[43m"
+blue-bgnd	= "\e[44m"
+magenta-bgnd	= "\e[45m"
+cyan-bgnd	= "\e[46m"
+white-bgnd	= "\e[47m"

@@ -1,0 +1,165 @@
+Curses Library Functions ecurs_attr
+
+
+
+NAME
+     ecurs_attr - curses character and window attribute control routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int attroff(int attrs);
+
+     int wattroff(WINDOW *win, int attrs);
+
+     int attron(int attrs);
+
+     int wattron(WINDOW *win, int attrs);
+
+     int attrget();
+
+     int wattrget(WINDOW *win);
+
+     int attrset(int attrs);
+
+     int wattrset(WINDOW *win, int attrs);
+
+     int standget(void);
+
+     int wstandget(WINDOW *win);
+
+     int standset(chtype a);
+
+     int wstandset(WINDOW *win, chtype a);
+
+     int standout(void);
+
+     int wstandout(WINDOW *win);
+
+     int standend(void);
+
+     int wstandend(WINDOW *win);
+
+     int setcolor(WINDOW *win, int fg, int bg);
+
+     int getattrs(WINDOW *win);
+
+     int getbkgd(WINDOW *win);
+
+     int getcode(WINDOW *win);
+
+     int getstmode(WINDOW *win);
+
+     int setbkgd(WINDOW *win, chtype a);
+
+     int setcode(WINDOW *win, int code);
+
+     int setstmode(WINDOW *win, int bf);
+
+     int setcolor(WINDOW *win, int fg, int bg);
+
+DESCRIPTION
+     All of these routines manipulate the current attributes of
+     the named window. Routines which don't have a WINDOW
+     argument affect stdscr. The current attributes of a window
+     are applied to all characters that are written into the
+     window with waddch(), waddstr(), and wprintw(). Attributes
+     are a property of the character, and move with the
+     character through any scrolling and insert/delete
+     line/character operations. To the extent possible on the
+     particular terminal, they are displayed as the graphic
+     rendition of characters put on the screen.
+
+     The routine attrset() sets the current attributes of the
+     given window to attrs. The routine attroff() turns off the
+     named attributes without turning any other attributes on or
+     off. The routine attron() turns on the named attributes
+     without affecting any others.
+
+  Attributes
+     The following video attributes, defined by <curses.h>, can
+     be passed to the routines attron(), attroff(), and
+     attrset(), or OR-ed with the characters passed to addch().
+
+     Since attributes may be color (which are NOT bit-masks) or
+     mono (which are bit-masks), it is recommended to use the
+     attrset() routine, rather than the attron() & atttroff()
+     routines.
+
+     The default standout mode for a mono display is A_REVERSE,
+     and the default standout mode for a color display is the
+     reverse of the original screen attributes if it can be
+     determined, or lt-white/black if in a window or black/white
+     if not.
+
+     You can specify the attributes to be used by standout() by
+     calling standset(attrs). You can query whether the display
+     has color capabilities with the call has_colors()
+     (See ecurs_color).
+
+  Monochrome Attributes
+     A_NORMAL              Normal (no attributes set)
+     A_REVERSE             Reverse video
+     A_STANDOUT            same as A_REVERSE
+     A_UNDERLINE           Underline
+     A_BOLD                Extra bright or bold
+     A_BLINK               Blinking
+     A_DIM                 Half bright
+     A_INVIS               Invisible
+     A_PROTECT             Protected
+
+  Common Attributes
+     A_ALTCHARSET          Alternate character set
+
+  Color Attributes
+     A_CLR(fg,bg)          Macro for color attribute
+
+  Getting and Setting Attributes
+     A_CHARTEXT            Bit-mask to extract the character
+     A_CHARCODE            Bit-mask to extract the character-code
+     A_ATTRIBUTES          Bit-mask to extract the attributes
+
+     A_GETTEXT(ch)         Macro to get text part of a chtype
+     A_GETCODE(ch)         Macro to get code part of a chtype
+     A_GETATTR(ch)         Macro to get attr part of a chtype
+
+     A_SETTEXT(ch,c)       Macro to set text part of a chtype
+     A_SETCODE(ch,k)       Macro to set code part of a chtype
+     A_SETATTR(ch,a)       Macro to set attr part of a chtype
+
+     A_SETC(ch,c)          Macro to set chtype ch to char c
+     A_SETK(ch,k)          Macro to set chtype ch to code k
+     A_SETA(ch,a)          Macro to set chtype ch to attr a
+
+     A_SETCA(ch,c,a)       Macro to set chtype ch to char c &
+                           attr a
+     A_SETCAK(ch,c,a,k)    Macro to set chtype ch to char c,
+                           code k, and attr a
+
+  Extracting Attribute Values
+     A_MONO                Bit-mask of mono   attributes
+     A_COMMON              Bit-mask of common attributes
+     A_COLOR               Bit-mask of color  attributes
+     A_FG_BITS             Bit-mask of color foreground
+     A_BG_BITS             Bit-mask of color background
+
+     A_FG_CLRVAL(a)        Macro to convert fg attr to color num
+     A_BG_CLRVAL(a)        Macro to convert bg attr to color num
+
+     A_FG_CLRVAL(fg)       Macro to convert color num to fg attr
+     A_BG_CLRVAL(bg)       Macro to convert color num to bg attr
+
+     A_UNSET               Value of unset attribute
+
+RETURN VALUES
+     Get routines return the appropriate value, set routines
+     return OK.
+
+SEE ALSO
+     ecurs_addch, ecurs_addstr, ecurs_color, ecurs_printw,
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,17 @@
+# Program info strings
+
+m_pgm_package	"${PKG}"
+m_pgm_program	"${PGM}"
+m_pgm_varprfx	"${PRF}"
+m_pgm_slogan	"Don't leave $HOME without it!"
+m_pgm_vendor	"${VND}"
+m_pgm_copyrte	"Copyright (c) 2005 ${VND}"
+m_pgm_emladdr	"${EMA}"
+m_pgm_wwwaddr	"${WWW}"
+m_pgm_ftpaddr	"${FTP}"
+m_pgm_version	"${VER}"
+m_pgm_release	"${REL}"
+m_pgm_build	"${BLD}"
+m_pgm_bldr_nam	"${BNM}"
+m_pgm_bldr_ema	"${BEM}"
+m_pgm_bldr_env	"${BNV}"

@@ -1,0 +1,89 @@
+Curses Library Functions ecurs_getyx
+
+
+
+NAME
+     ecurs_getyx - get & set curses cursor and window coordinates
+
+SYNOPSIS
+     #include <curses.h>
+
+     int getyx(WINDOW *win, int y, int x);
+
+     int getcuryx(WINDOW *win, int y, int x);
+
+     int getparyx(WINDOW *win, int y, int x);
+
+     int getbegyx(WINDOW *win, int y, int x);
+
+     int getmaxyx(WINDOW *win, int y, int x);
+
+     int setyx(WINDOW *win, int y, int x);
+
+     int setcuryx(WINDOW *win, int y, int x);
+
+     int setparyx(WINDOW *win, int y, int x);
+
+     int setbegyx(WINDOW *win, int y, int x);
+
+     int setmaxyx(WINDOW *win, int y, int x);
+
+     int getcury(WINDOW *win, int y);
+
+     int getcurx(WINDOW *win, int x);
+
+     int getpary(WINDOW *win, int y);
+
+     int getparx(WINDOW *win, int x);
+
+     int getbegy(WINDOW *win, int y);
+
+     int getbegx(WINDOW *win, int x);
+
+     int getmaxy(WINDOW *win, int y);
+
+     int getmaxx(WINDOW *win, int x);
+
+     int setcury(WINDOW *win, int y);
+
+     int setcurx(WINDOW *win, int x);
+
+     int setpary(WINDOW *win, int y);
+
+     int setparx(WINDOW *win, int x);
+
+     int setbegy(WINDOW *win, int y);
+
+     int setbegx(WINDOW *win, int x);
+
+     int setmaxy(WINDOW *win, int y);
+
+     int setmaxx(WINDOW *win, int x);
+
+DESCRIPTION
+     With the getyx() macro, the cursor position of the window is
+     placed in the two integer variables y and x.
+
+     With the getparyx() macro, if win is a subwindow, the
+     beginning coordinates of the subwindow relative to the
+     parent window are placed into two integer variables, y
+     and x. Otherwise, -1 is placed into y and x.
+
+     Like getyx(), the getbegyx() and getmaxyx() macros store
+     the current beginning coordinates and size of the specified
+     window.
+
+RETURN VALUES
+     The set macros all return OK, the get macros return the
+     appropriate values.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+
+     Note that all of these interfaces are macros and that "&"
+     should not be specified before the variables y and x.
+

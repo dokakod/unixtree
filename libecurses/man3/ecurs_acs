@@ -1,0 +1,65 @@
+Curses Library Functions ecurs_acs
+
+
+
+NAME
+     ecurs_acs - alternate character sets
+
+SYNOPSIS
+     #include <curses.h>
+
+     int box_chr(int c, int type);
+
+     int wbox_chr(WINDOW *win, int c, int type);
+
+     int blk_chr(int c);
+
+     int wblk_chr(WINDOW *win, int c);
+
+     int blk_ltr(int y, int x, int b, int c, int t);
+
+     int wblk_ltr(WINDOW *win, int y, int x, int b, int c,
+         int t);
+
+     int blk_str(int y, int x, const char *str, int t);
+
+     int wblk_str(WINDOW *win, int y, int x, const char *str,
+         int t);
+
+DESCRIPTION
+     box_chr() and wbox_chr() will display a character in the
+     specified alternate-char set at the current window position.
+     If the type specified is not available, the ascii
+     character-set will be used.
+
+     blk_chr() and wblk_chr() will display the character in the
+     block-letter character set. It is equivalent to using
+     box_chr() with a type of BLOCK.
+
+     blk_ltr() and wblk_ltr() will draw a block letter with the
+     specified coordinate as the upper-left corner of the letter.
+     If the character is not alpha or numeric, blanks are
+     displayed. If it is possible to use the block-characters,
+     they will be used. Otherwise, the letter will be displayed
+     using c. If c is zero, then a default character will be
+     used.
+
+     blk_str() and wblk_str() will display a string of characters
+     as block letters starting at the specified line and the
+     specified column.  if x is negative, then the string is
+     centered. If t is TRUE, then each letter will be displayed
+     using its own value if block-characters are not available.
+
+     See ecurs_border for a description of type and c.
+
+RETURN VALUES
+     These routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_border, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,80 @@
+# WYSE 30 terminal in native mode
+
+# screen commands
+
+lines		= 24
+cols		= 80
+auto-margin	= 1
+move-cursor-ti	= "\e=%p1%' '%+%c%p2%' '%+%c"
+move-cursor-tc	= "\e=%+ %+ "
+clear-screen	= "\e;"
+clear-to-eol	= "\eT"
+clear-to-eos	= "\eY"
+add-line	= "\eE"
+delete-line	= "\eR"
+insert-char	= "\eQ"
+delete-char	= "\eW"
+
+session-beg	= ""
+session-end	= ""
+
+# function keys (actually FUNC <number>)
+
+f1		= "^A1^M"
+f2		= "^A2^M"
+f3		= "^A3^M"
+f4		= "^A4^M"
+f5		= "^A5^M"
+f6		= "^A6^M"
+f7		= "^A7^M"
+f8		= "^A8^M"
+f9		= "^A9^M"
+f10		= "^A0^M"
+f11		= "^A-^M"
+f12		= "^A=^M"
+
+# special keys
+
+up		= "^K"
+down		= "^J"
+left		= "^H"
+right		= "^L"
+
+home		= "^^"
+end		= "^A^^^M"
+pgup		= "^A^K^M"
+pgdn		= "^A^J^M"
+
+# pseudo-keys (actually function keys)
+
+kshft		= "^A@^M"
+kctrl		= "^AA^M"
+kalt		= "^AB^M"
+refresh		= "^AC^M"
+print-screen	= "^AD^M"
+snap		= "^AE^M"
+num-lock	= "^AF^M"
+caps-lock	= "^AG^M"
+
+# screen attributes
+# Actually write protect mode since display attributes use
+# magic cookies.
+
+reverse-on	= "\e)"
+reverse-off	= "\e("
+underline-on	= "\e)"
+underline-off	= "\e("
+bold-on		= "\e)"
+bold-off	= "\e("
+
+# setup graphic-set chars
+
+alt-char-1-on	= "\eH^B"
+alt-char-1-off	= "\eH^C"
+
+alt-char-1-set	= "\xb0?\xb1?\xb2?\xb36\xb49\xb59\xb69\xb73"
+alt-char-1-set	= "\xb83\xb99\xba6\xbb3\xbc5\xbd5\xbe5\xbf3"
+alt-char-1-set	= "\xc01\xc1=\xc20\xc34\xc4:\xc58\xc64\xc74"
+alt-char-1-set	= "\xc81\xc92\xca=\xcb0\xcc4\xcd:\xce8\xcf="
+alt-char-1-set	= "\xd0=\xd10\xd20\xd31\xd41\xd52\xd62\xd78"
+alt-char-1-set	= "\xd88\xd95\xda2\xdb7\xdc7\xdd7\xde7\xdf7"

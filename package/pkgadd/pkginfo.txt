@@ -1,0 +1,12 @@
+# ------------------------------------------------------------------------
+# This file contains all info about the package
+#
+PKG="${PKG}"
+VERSION="${VER}.${REL}"
+NAME="${PKG} File Management Utility"
+CATEGORY="applications"
+CLASSES="none"
+VENDOR="${VND}"
+EMAIL="${EMA}"
+PSTAMP="${BLD}"
+BASEDIR=${INS}

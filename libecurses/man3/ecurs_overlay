@@ -1,0 +1,44 @@
+Curses Library Functions ecurs_overlay
+
+
+
+NAME
+     ecurs_overlay - overlap and manipulate overlapped curses windows
+
+SYNOPSIS
+     #include <curses.h>
+
+     int overlay(WINDOW *srcwin, WINDOW *dstwin);
+
+     int overwrite(WINDOW *srcwin, WINDOW *dstwin);
+
+     int copywin(WINDOW *srcwin, WINDOW *dstwin, int sminrow,
+         int smincol, int dminrow, int dmincol, int dmaxrow,
+         int dmaxcol, int overlay);
+
+DESCRIPTION
+     The overlay() and overwrite() routines overlay srcwin on top
+     of dstwin. scrwin and dstwin are not required to be the same
+     size; only text where the two windows overlap is copied. The
+     difference is that overlay() is non-destructive (blanks are
+     not copied) whereas overwrite() is destructive.
+
+     The copywin() routine provides a finer granularity of
+     control over the overlay() and overwrite() routines. Like
+     in the prefresh() routine, a rectangle is specified in the
+     destination window, (dminrow, dmincol) and (dmaxrow,
+     dmaxcol), and the upper-left-corner coordinates of the
+     source window, (sminrow, smincol). If the argument overlay
+     is true, then copying is non-destructive, as in overlay().
+
+RETURN VALUES
+     Routines that return an integer return ERR upon failure and
+     an integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_pad, ecurs_refresh, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

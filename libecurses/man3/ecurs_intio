@@ -1,0 +1,42 @@
+Curses Library Functions ecurs_intio
+
+
+
+NAME
+     ecurs_intio - Read & write binary data to a stream
+
+SYNOPSIS
+     #include <curses.h>
+
+     unsigned short get_2byte(FILE *fp);
+
+     int put_2byte(FILE *fp, unsigned short s);
+
+     unsigned int get_4byte(FILE *fp);
+
+     int put_4byte(FILE *fp, unsigned int l);
+
+DESCRIPTION
+     These routines will read & write 2-byte and 4-byte binary
+     words from the specified stream. It is assumed that the
+     stream is in "standard" format (little-endian), so the
+     files are platform-independent. The words presented or
+     returned will be converted to/from "local" format.
+
+RETURN VALUES
+     The read routines will return EOF if no data is present,
+     and the binary value read if sucessful.
+
+     The write routines will return ERR if unsuccessful and
+     OK if successful.
+
+SEE ALSO
+     ecurs_util, ecurs_scrdump, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+
+     These routines are used by getwin() and putwin() in reading
+     and writing windows to a file.
+

@@ -1,0 +1,17 @@
+#	archive device table
+#
+#	device     		block   size	tape	desc
+
+#	default device
+archive=/dev/rfd0135ds18	18	1440	n	# drive 0  3.5   1.44M
+
+archive0=/dev/rfd048ds9		9	360	n	# drive 0  5.25  360K
+archive1=/dev/rfd148ds9		9	360	n	# drive 1  5.25  360K
+archive2=/dev/rfd096ds15	15	1200	n	# drive 0  5.25  1.2M
+archive3=/dev/rfd196ds15	15	1200	n	# drive 1  5.25  1.2M
+archive4=/dev/rfd0135ds9	9	720	n	# drive 0  3.5   720K
+archive5=/dev/rfd1135ds9	9	720	n	# drive 1  3.5   720K
+archive6=/dev/rfd0135ds18	18	1440	n	# drive 0  3.5   1.44M
+archive7=/dev/rfd1135ds18	18	1440	n	# drive 1  3.5   1.44M
+archive8=/dev/rct0		20	15000	y	# 150' cartridge tape
+archive9=/dev/rctmini		20	0	y	# cassette tape

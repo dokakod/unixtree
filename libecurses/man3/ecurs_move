@@ -1,0 +1,39 @@
+Curses Library Functions ecurs_move
+
+
+
+NAME
+     ecurs_move - move curses window cursor
+
+SYNOPSIS
+     #include <curses.h>
+
+     int move(int y, int x);
+
+     int wmove(WINDOW *win, int y, int x);
+
+     int mvcur(int old_y, int old_x, int new_y, int new_x);
+
+DESCRIPTION
+     With these routines, the cursor associated with the window
+     is moved to line y and column x. This routine does not move
+     the physical cursor of the terminal until refresh() is
+     called. The position specified is relative to the upper
+     left-hand corner of the window, which is (0,0).
+
+     The mvcur() routine positions the actual cursor on the
+     display to the new coordinates, if different from the
+     old coordinates. If the old coordinates are not known
+     (such as after a "shell-escape"), specify (-1,-1).
+
+RETURN VALUES
+     These routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_refresh, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

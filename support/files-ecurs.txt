@@ -1,0 +1,82 @@
+The following files are in this distribution for libecurses:
+
+Libraries:
+
+	lib/libcurses.a		The ecurses library
+	lib/libform.a		The form    library
+	lib/libmenu.a		The menu    library
+	lib/libpanel		The panel   library
+	lib/libxvt.a		The xvt     library
+
+Headers:
+	include/curses.h	The header for the ecurses library.
+
+	include/term.h		The header for low-level terminfo routines.
+				Not needed for normal curses use.
+
+	include/termcap.h	The header for low-level termcap routines.
+				Not needed for normal curses use.
+
+	include/form.h		The header for the form library.
+				Not needed for normal curses use.
+
+	include/menu.h		The header for the menu library.
+				Not needed for normal curses use.
+
+	include/panel.h		The header for the panel library.
+				Not needed for normal curses use.
+
+	include/eti.h		A copy of the system eti.h header.
+				This is included by menu.h & form.h.
+				It is included in case your system does
+				not have this header.
+				Not needed for normal curses use.
+
+	include/libxvt.h	The header for the xvt library.
+				Only needed if using the XVT library.
+
+	include/sysmem.h	A header for the malloc-interface used by
+				these libraries.  It is made available for
+				users who want to add malloc-debugging to their
+				programs (A Good Thing To Do).
+
+	include/sysopt.h	A header which defines replacement routines for
+				getopt(), which is not available on all systems.
+				This is provided for portability purposes,
+				although it also provides extended capabilities.
+
+	include/syssig.h	A header for our signal interface, which
+				provides signal routines with a user-defined
+				data pointer.
+
+	include/systhread.h	A header for our interface for threads and
+				mutexes.  This is provided for portability
+				purposes, since different OSes implement
+				them differently.
+
+Man pages:
+	man/man3/ecurses	Top-level man page for the ecurses library.
+
+	man/man3/ecurs_*	Supplemental man pages for all sections.
+
+	man/man3/ecurs-funcs.sh	A script to create function entries for all
+				functions, linking them to their respective
+				section entry:
+
+					ecurs-funcs.sh -a	create entries
+					ecurs-funcs.sh -d	delete entries
+
+term-files:
+	trm/*.trm		Term-files for various terminal types.
+
+Text files:
+
+	LICENSE			License stuff
+	COPYING			The GNU General Public License
+	FILES			This file
+	TERMFILES		A text file documenting term-files
+
+--------------------------------------------------------------------------
+Email comments to: ${EMA}
+${PKG} home: ${WWW}
+${SLG}

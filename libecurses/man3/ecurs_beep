@@ -1,0 +1,35 @@
+Curses Library Functions ecurs_beep
+
+
+
+NAME
+     ecurs_beep - curses bell and screen flash routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int beep(void);
+
+     int flash(void);
+
+DESCRIPTION
+     The beep() and flash() routines are used to signal the
+     terminal user. The routine beep() sounds the audible alarm
+     on the terminal, if possible; if that is not possible, it
+     flashes the screen (visible bell), if that is possible. The
+     routine flash() flashes the screen, and if that is not
+     possible, sounds the audible signal. If neither signal is
+     possible, nothing happens. Nearly all terminals have an
+     audible signal (bell or beep), but only some can flash the
+     screen.
+
+RETURN VALUES
+     These routines always return OK.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,58 @@
+# term definition file for Wyse 60 terminals
+#
+# This Wyse 60 term file uses the dim character attribute as the normal
+# character output. This is so that the normal character attribute appears
+# as highlighted. This is to compensate for the fact that the Wyse 60 does
+# not have a highlight character attribute.
+
+# screen definitions
+
+lines		= 24
+cols		= 80
+move-cursor-ti	= "\e=%p1%' '%+%c%p2%' '%+%c"
+move-cursor-tc	= "\e=%+ %+ "
+add line	= "\EE"
+delete line	= "\ER"
+clear screen	= "^Z"
+clear to eol	= "\ET"
+clear to eos	= "\EY"
+
+session-beg	= "\ecB0\ec@1A\ecD\eGp"
+session-end	= "\ecD\eG0"
+alt-char-1-on	= "\ecC1\ecE"
+alt-char-1-off	= "\ecD"
+
+reverse on	= "\eG4"
+reverse off	= "\eGp"
+bold on		= "\eG0"
+bold off	= "\eGp"
+underline on	= "\eG8"
+underline off	= "\eGp"
+dim on		= "\eGp"
+dim off		= "\eGp"
+
+# key definitions
+
+up		= "^K"
+down		= "^J"
+left		= "^H"
+right		= "^L"
+pgup		= "\EJ"
+pgdn		= "\EK"
+home		= "^^"
+end		= "\ET"
+ins		= "\Er"
+del		= "\eW"
+
+f1		= "^A@^M"
+f2		= "^AA^M"
+f3		= "^AB^M"
+f4		= "^AC^M"
+f5		= "^AD^M"
+f6		= "^AE^M"
+f7		= "^AF^M"
+f8		= "^AG^M"
+f9		= "^AH^M"
+f10		= "^AI^M"
+f11		= "^AJ^M"
+f12		= "^AK^M"

@@ -1,0 +1,2879 @@
+This file documents the syntax, content, and use of "term-files".
+
+0.	Table of Contents
+
+	1.	Introduction
+
+	2.	Locating term-files at run-time
+
+	3.	Syntax of a term-file
+
+	4.	Content of a term-file
+
+		1.	Miscellaneous entries
+		2.	Terminal capabilities
+		3.	Attribute capabilities
+		4.	Color capabilities
+		5.	Alternate character-set capabilities
+		6.	Output character-set translation
+		7.	Output character-set translation (ACS notation)
+		8.	Input  character-set translation
+		9.	Mouse capabilities
+		10.	Function-key definitions
+
+	5.	Special keys
+
+		1.	KFUNC summary
+
+	6.	Appendixes
+
+		1.	Contents of a window save-file
+		2.	IBM PC alternate characters
+		3.	Key names and codes
+		4.	Parameterized strings
+
+1.	Introduction
+
+	The "ecurses" (extended-curses) library uses "term-files"
+	to describe extended capabilities for a specified terminal type.
++++PGM+++
+	This library is used by the ${PKG} program.
+---PGM---
+
+	A "term-file" is a text file describing the capabilities of a
+	terminal.  It is used in conjunction with the "standard"
+	terminal database provided by the operating system (either
+	"termcap" or "terminfo").
+
+	The standard in Unix is to query the environment variable $TERM
+	for the name of the terminal being used.  This variable is
+	then used to query either the "termcap" or "terminfo" database
+	for terminal capabilities.  The "ecurses" library then also
+	looks for the file "$TERM.trm", which can describe additional
+	capabilities.
+
+	If a $TERM.trm file is found, its contents are used to augment/
+	override any entries already loaded from the termcap/terminfo
+	database.  It is permissible to reference a term-type which has
+	no termcap/terminfo entry, or which has no term-file for it.
+	The rule is that there must be at least one or the other or both
+	present.
+
+2.	Locating term-files at run-time
+
+	The "ecurses" library will look for a term-file according to the
+	following rules:
+
+	1.	The default name of the term-file to use is "$TERM.trm".
+
+		A program may override this default if desired.
++++PGM+++
+
+		For example, the ${PKG} program will reference the
+		environment variable $${PRF}TERM if present, and
+		$TERM if it is not present.
+---PGM---
+
+	2.	The library will search a "path" for a term-file.  The
+		default path is taken from the environment variable
+		$TERMPATH.  If no such variable is found, then $PATH
+		is used.
+
+		Note that a program may override this default path
+		selection by specifying its own path.
++++LIB+++
+		The "ecurses" call to specify a term-path is set_term_path().
+---LIB---
++++PGM+++
+
+		For example, the ${PKG} program will, by default, use
+		the path
+
+			".:~/.${PGM}:<${PGM}-install-directory>"
+
+		unless overridden by the presence of the $${PRF}PATH
+		environment variable.
+---PGM---
+
+	3.	For each directory in the path, the library will look
+		for the specified term-file in that directory, and then
+		in a "trm" sub-directory of that directory.
+
+		Thus, if the path searched is ".:/usr/lib:/usr/local",
+		then the following directories will be searched:
+
+			.
+			./trm
+			/usr/lib
+			/usr/lib/trm
+			/usr/local
+			/usr/local/trm
+
+		The first term-file encountered will be the one used.
++++PGM+++
+
+		Thus, the default directories searched by ${PKG} are:
+
+			.
+			./trm
+			~/.${PGM}
+			~/.${PGM}/trm
+			<${PGM}-install-directory>
+			<${PGM}-install-directory>/trm
+
+		The ${PKG} installation will install all delivered term-files
+		into the directory <${PGM}-install-directory>/trm.
+---PGM---
+
+	4.	The sequence is repeated, looking for "user.trm".
+
+	Notes:
+
+	1.	The default mode is to "auto-detect" whether the "terminfo"
+		or "termcap" database is present for querying.  These
+		databases are used to load initial defaults for terminal
+		capabilities.
+
+	2.	These databases are located as follows:
+
+		1.	termcap database
+
+			This is a text file containing all defined terminal
+			entries. The default location of this file is
+			/etc/termcap. This location can be overridden by
+			specifying a different path in the environment
+			variable TERMCAP. If this variable does not contain
+			an absolute pathname, it is ignored.
+
+			If the TERMCAP environment variable contains the
+			string "none", then this database will not be
+			queried.
+
+		2.	terminfo database
+
+			This is a collection of "compiled" entries stored
+			in the path <directory>/?/name, where the sub-
+			directory is the first letter of the term name and
+			the filename is the term name.  For example, the
+			terminfo entry for "sun" would be found in the
+			file <directory>/s/sun.
+
+			The directories searched for terminfo entries are:
+
+				/usr/share/lib/terminfo	("std" SVR4 location)
+				/usr/lib/terminfo	("alt" SVR4 location)
+				/usr/share/terminfo	(linux location)
+
+			This can be overridden by specifying a top-level
+			directory name in the environment variable TERMINFO.
+
+			If the TERMINFO environment variable contains the
+			string "none", then this database will not be
+			queried.
+
+		3.	In "auto-detect" mode, the "terminfo" database is
+			queried first, and, if that query fails, then the
+			"termcap" database is queried.
+
+		4.	See "Appendix 4 - Parameterized strings" for a
+			discussion of parameterized strings in the terminal
+			databases and term-files.
+
+3.	Syntax of a term-file
+
+	A term-file is a text file. All lines must obey the following rules:
+
+	1.	All blank lines are ignored.
+
+	2.	All comment lines are ignored.  A comment line is a
+		line which starts with a "#" ";" or "*".
+
+		Note that comments may also be included on data lines.
+		Any "#", "*", or ";" not enclosed in quotes indicate the
+		start of a comment which is stripped off prior to parsing.
+
+	3.	White-space and case is ignored, except within quotes.
+
+	4.	All other lines must be in the form:
+
+			 entry = <value> comment
+
+		The name for "entry" is case-insensitive, and
+		white-space, "-", and "_" is ignored.
+
+		The "value" part may be enclosed in double-quotes, to
+		facilitate the inclusion of white-space.
+
+		Thus, the following lines are equivalent:
+
+			maxcolors=16
+			max-colors=16
+			max-colors = 16
+			Max-Colors = 16
+			MAX-COLORS = 16
+			max-colors = "16"
+			max colors = 16  # maximum number of colors
+
+	6.	Text in the "value" part may contain "escaped-characters",
+		as follows:
+
+			^C		-> "control-C" for any alpha "C"
+			^?		-> DEL (0x7f)
+			^^		-> carat ('^')
+			\xhh		-> the hex value 0xhh
+			\ddd		-> the octal value 0ddd
+			\e or \E	-> ESC (0x1b)
+			\n		-> NL  (0x0a)
+			\r		-> CR  (0x0d)
+			\t		-> TAB (0x09)
+			\f		-> FF  (0x0c)
+			\s		-> space (' ')
+			\\		-> backslash ('\')
+
+	7.	For some entries, it is valid to have no value specified
+		after the "=".  This will result in "turning off" or
+		"deleting" that capability.
+
+		Note that the entry <name=> and <name=""> have two very
+		different meanings.  The entry <name=> indicates that
+		the named entry is "turned-off" or "not-present", where
+		the entry <name=""> indicates the named entry is present
+		and has an empty value.
+
+		Those entries which may have an empty value are so noted.
+
+4.	Content of a term-file
+
+	All data lines (non-blank & non-comment lines) fall into one
+	of the following categories:
+
+	1.	Miscellaneous entries
+	2.	Terminal capabilities
+	3.	Attribute capabilities
+	4.	Color capabilities
+	5.	Alternate character-set capabilities
+	6.	Output character-set translation
+	7.	Output character-set translation (ACS notation)
+	8.	Input  character-set translation
+	9.	Mouse capabilities
+	10.	Function-key definitions
+
+	Each category is described in the following sections.
+
+	Entries are of three types:
+
+		boolean		These describe a on/off value.  Values
+				can be "on"/"yes"/"true" for ON, and
+				"off"/"no"/"false" for OFF.  If a numeric
+				value is provided, zero is interpreted as OFF,
+				and a non-zero value is interpreted as ON.
+
+		numeric		These provide a numeric value for a given
+				capability.  All values given must be
+				greater than zero.
+
+		string		These describe "escape-sequences" sent or
+				received.  A string value may be "",
+				which indicates the capability is present
+				but nothing needs to be sent, or is may be
+				empty (nothing after the =), which will
+				"delete" that capability.  This is used to
+				"turn off" a capability previously loaded
+				(usually from a database entry).
+
+4.1.	Content - Miscellaneous entries
+
+	The following miscellaneous entries are defined:
+
+	term = value
+
+		Names another term type to be referenced.
+		This causes "<value>" entries from the database being used
+		and the term-file "<value>.trm" to be loaded at this point.
+
+		This can be used load "standard" entries which are augmented
+		by this file.
+
+		For example, you may have a term-type of "foo", which has no
+		color, and a term-type of "foo-color", which is the same,
+		but also has color capabilities.  Then the "foo-color.trm"
+		file could just have the line "term=foo", followed by all
+		the color definitions.
+
+		There may be more than one "term=name" line in a
+		term-file, and a referenced term-file may also contain
+		"term=name" entries.
+
+		Note that any "cyclic" references (such as foo.trm
+		containing "term=bar" and bar.trm containing "term=foo")
+		is considered an error.
+
+	desc = "description"
+
+		This entry just contains a description of the
+		terminal.  It is informational only.
++++LIB+++
+
+		Any description provided here will be returned
+		by the "ecurses" function longname().
+---LIB---
+
+		If a "desc" entry is not provided, the default
+		value will be the same as the basename of the
+		term-file ($TERM by default).
+
+	debug = n
+
+		This entry is used to "debug" a term-file.
+
+		The debug-levels currently supported are:
+
+			0	No debugging.  This is the default.
+
+			1	Display an unknown term-file line as
+				an error.  The default is to ignore
+				unknown entries.
+
+			>1	Display on stderr all subsequent lines
+				as they are read in.
+
+	db-type = <terminal-database-type>
+
+		This entry specifies what database-type the entries
+		in this term-file conform to.  Valid values are:
+
+			termcap		Entries are in "termcap"  format
+			terminfo	Entries are in "terminfo" format
+
+		This entry *should* be specified to inducate the format
+		of parameterized entries in this file.
+
+		If this entry is not specified, it is assumed that all
+		entries conform to the database-type which was initially
+		loaded.  If no database entry was found or loaded for this
+		term type, then an error is issued since it cannot be
+		determined at run-time what format is in use.
+
+		Note that the default terminal database-type can be changed
+		at run-time.
+
++++PGM+++
+		The ${PKG} option to set the default database-type is
+		-T <database-type>, where <database-type> can be:
+---PGM---
++++LIB+++
+		The "ecurses" call to set the default database-type is
+		set_term_db("<database-type>"), where <database-type> can be:
+---LIB---
+
+			auto		Auto-detect which database to use
+			all		Load info from all databases
+			terminfo	Use the "terminfo" database
+			termcap		Use the "termcap"  database
+			termfiles	Use term-files only (no database query)
+
+		The default value for database-type is "auto".
+
+		Note that the term-file loaded may change the database-type
+		from the type which was loaded.
+
+4.2.	Content - terminal capabilities
+
+	The terminal capabilities entries describe "escape-sequences" sent
+	to the screen and other capabilities.
+
+	Many of these entries have equivalent termcap/terminfo entries.
+	If a termcap/terminfo entry is present, then that name will be
+	looked-up in the appropriate database prior to processing any
+	term-file entries.
+
+	The following table describes all of these entries, along with
+	any termcap/terminfo names which apply.
+
+	Numeric entries
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	cols		N	co	cols		# columns on screen.
+							(default is from system)
+							[See notes #1 & #2]
+
+	lines		N	li	lines		# lines on screen.
+							(default is from system)
+							[See notes #1 & #2]
+
+	tabsize		N	-	-		# spaces for tab-stops.
+							(default is 8)
+							[See note #1]
+
+	prefix-interval	N	-	-		# ms to wait for more
+							chars when processing
+							an escape-sequence.
+							(default is 500)
+							[See note #3]
+
+	Boolean entries
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	auto-margin	B	am	am		TRUE if screen will
+							"wrap" from the last
+							column of a line to
+							the first column of the
+							next line.
+							(default is OFF)
+
+	ins-final-char	B	-	-		TRUE if the char at
+							the last column of the
+							last row needs to be
+							inserted instead of
+							being written to
+							avoid scrolling.
+							(default is ON)
+
+	Parameterized entries
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	move-cursor	S	-	-		(generic)
+	move-cursor-ti	S	-	cup		(terminfo)
+	move-cursor-tc	S	cm	-		(termcap)
+							esc-seq to move the
+							cursor.
+
+							This entry is
+							REQUIRED to be found.
+
+							This is a parameterized
+							entry.  [See note #5]
+
+	String entries
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	add-line	S	al	il1		esc-seq to "insert" a
+							blank line above the
+							current cursor position.
+
+							If not present, the
+							functionality will be
+							simulated by software.
+
+	delete-line	S	dl	dl1		esc-seq to "delete" the
+							line the cursor is on.
+
+							If not present, the
+							functionality is
+							simulated by software.
+
+	insert-char	S	ic	ich1		esc-seq to "insert" a
+							character at the current
+							cursor position.
+
+							If not present, then if
+							"need-ins-final" is
+							TRUE, no character will
+							be written in the
+							bottom-right corner of
+							the screen.
+
+	delete-char	S	dc	dch1		esc-seq to "delete" the
+							character at the current
+							cursor position.
+
+							If not present, the
+							functionality will be
+							simulated by software.
+
+	bell		S	bl	bel		esc-seq to "ring" the
+							bell.
+
+							If not present, a ^G
+							(0x07) will be used.
+
+	visible-bell	S	vb	flash		esc-sequence to "flash"
+							the screen.
+
+							If not present, the
+							"bell" sequence will
+							be used.
+
+	clear-screen	S	cl	clear		esc-seq to clear the
+							screen and move the
+							cursor to (0,0).
+
+							If not present, the
+							functionality will be
+							simulated by software.
+
+	clear-to-eol	S	ce	el		esc-seq to clear the
+							line from the current
+							cursor position to
+							the end of the line.
+
+							If not present, the
+							functionality will be
+							simulated by software.
+
+	clear-to-eos	S	cd	ed		esc-seq to clear the
+							screen from the current
+							cursor position to the
+							bottom-right of the
+							screen.
+
+							If not present, the
+							functionality will be
+							simulated by software.
+
+	cursor-on	S	ve	cnorm		esc-seq to make the
+							cursor visible.
+
+							If not present, any
+							request to turn on
+							the cursor is ignored.
+
+	cursor-off	S	vi	civis		esc-seq to make the
+							cursor invisible.
+
+							If not present, any
+							request to turn off
+							the cursor is ignored.
+
+	cursor-visible	S	vs	cvvis		esc-seq to make the
+							cursor very visible.
+
+							If not present, any
+							request to set the
+							cursor very visible
+							is ignored.
+
+	session-beg	S	ti	is1		esc-seq sent to
+							initialize the screen.
+
+							If not present, no
+							init string is sent.
+
+	session-end	S	te	rs1		esc-seq sent to
+							uninitialize the screen.
+
+							If not present, no
+							uninit string is sent.
+
+	title-beg	S	ts	tsl		esc-seq to prefix a
+							string to be used for
+							the title of a window.
+							[See note #4]
+
+							If not present, any
+							request to display a
+							title is ignored.
+
+	title-end	S	fs	fsl		esc-seq to postfix a
+							string to be used to
+							use as the title of a
+							window.
+							[See note #4]
+
+							If not present, any
+							request to display a
+							title is ignored.
+
+	icon-close	S	-	-		esc-seq sent to tell
+							the window system to
+							"close" or "iconify"
+							the window.
+
+							Currently, this cmd
+							is unused.
+
+	icon-open	S	-	-		esc-seq sent to tell
+							the window system to
+							"open" or "un-iconify"
+							the window.
+
+							Currently, this cmd
+							is unused.
+
+	icon-bits-beg	S	-	-
+	icon-bits-end	S	-	-		esc-seqs sent before
+							and after icon data.
+
+							If either is not
+							present, any request to
+							send icon data is
+							ignored.
+							[See note #6]
+
+	alt-chars-ena	S	eA	enacs		esc-seq sent to tell
+							the terminal-emulator
+							to enable alt chars.
+
+							If not present, no
+							cmd is sent.
+
+	alt-chars-dis	S	ea	rmacs		esc-seq sent to tell
+							the terminal-emulator
+							to disable alt chars.
+
+							If not present, no
+							cmd is sent.
+
+	keymap-on	S	-	-		esc-seq sent to tell
+							the terminal-emulator
+							to start any keyboard
+							mapping.
+
+							If not present, no
+							cmd is sent.
+
+	keymap-off	S	-	-		esc-seq sent to tell
+							the terminal-emulator
+							to stop any keyboard
+							mapping.
+
+							If not present, no
+							cmd is sent.
+
+	printer-on	S	po	mc5		esc-seq sent to tell
+							the terminal to enter
+							printer pass-thru mode.
+
+							If not present, this
+							capability is not used.
+
+	printer-off	S	pf	mc4		esc-seq sent to tell
+							the terminal to leave
+							printer pass-thru mode.
+
+							If not present, this
+							capability is not used.
+
+	screen-snap	S	-	-		esc-seq sent whenever
+							a "snapshot" of the
+							screen is taken.
+							This is for testing
+							purposes.
+
+							If not present, no
+							cmd is sent.
+
+	Notes:
+
+	1.	The three capabilities "cols", "lines", and "tabsize" are
+		special, in that the user may override them if the program
+		allows overriding of these values.
++++PGM+++
+		(The ${PKG} program allows overriding of these values.)
+---PGM---
++++LIB+++
+
+		The "ecurses" call to allow the user to override these values
+		is use_env(TRUE).
+---LIB---
+
+		If overriding is allowed, then the following environment
+		variables are queried, and, if found, will override the
+		default value:
+
+			LINES		specifies number of lines on screen
+
+			COLUMNS		specifies number of rows  on screen
+
+			TABSIZE		specifies number of spaces for tabstops
++++LIB+++
+					(Used if a tab character is written to
+					a window via waddch().)
+---LIB---
+
+		Any combination of these variables may be specified.
++++PGM+++
+
+		Note that the ${PKG} program imposes a minimum window size
+		of 24 rows and 80 columns, and will exit with an error if
+		the window is smaller than this.
+---PGM---
+
+	2.	The default value for "cols" and "lines" is taken from
+		the database and/or term-file.  However, if the operating
+		system supports it, the terminal is queried to get the
+		actual window size.  If this information is present, it
+		will override the original default.
+
+	3.	The numeric value "prefix-interval" specifies the number
+		of milli-seconds to wait for subsequent characters if the
+		characters so far read in match the start of any function-key
+		sequence.  If no more chars are read in before the specified
+		interval expires, then all characters so far read in are simply
+		presented as individual key-strokes.
++++LIB+++
+
+		Note that the "ecurses" call notimeout(win,TRUE) will cause
+		the timer to not be set when reading input from that window.
+		(The default for a window is FALSE.)
+
+		Also, the "ecurses" call keypad(win,FALSE) tells the low-level
+		keyboard-input routine to not process escape-sequences but
+		just return raw characters when reading input from that window.
+		In this case, the timer is not set when reading keyboard input.
+		(The default for a window is TRUE.)
+---LIB---
+
+		Note also, that, although this time is specified in milli-
+		seconds, the resolution of the read-timer is in tenths
+		of a second.  Any value specified is rounded up to the
+		next tenth of a second.
+
+	4.	The two entries for displaying a window title, "title-beg"
+		and "title-end" must BOTH be specified in order to enable
+		this capability.  The actual output sent to the terminal
+		is "<title-beg>string<title-end>".  There is no capability
+		for a <here-is-a-title-of-n-chars> entry.
+
+	5.	Parameterized entries are "evaluated" using program-provided
+		parameters.  For example, the "move-cursor" string is
+		evaluated using the row & column number to move to.
+
+		The syntax of parameterized strings is specific to whether
+		the termcap or terminfo "evaluation" routines are used.
+		Therefore, you must be careful to specify any parameterized
+		string value according to which type of database is used or
+		use the database-specific entry for that string.
+
+		For example, the entry to specify cursor positioning is
+		"move-cursor". The "terminfo" version of this entry is
+		"move-cursor-ti", and the "termcap" version of this entry is
+		"move-cursor-tc".
+---PGM---
+
+		The ${PKG} source contains parameterized entries for both
+		"terminfo" & "termcap" syntaxes.
++++PGM+++
+
+		See "Appendix 4 - Parameterized strings" for a discussion of
+		parameterized strings in the terminal databases and term-files.
+
+	6.	Icon data is sent after the "icon-bits-beg" string and
+		before the "icon-bits-end" string.  The icon data describes
+		the bitmap for an icon of "width" by "height" bits.  The
+		"width" and "height" cannot be larger than 64, and *should*
+		be a multiple of 8.  Notice that the actual pixel data is
+		if (height) lines of (width / 8) bytes.
+
+		The icon data is encoded as follows:
+
+			width		one byte  encoded as (width  + ' ')
+			height		one byte  encoded as (height + ' ')
+			data		two bytes encoded as:
+						((b >> 4)    + ' ')
+						((b  & 0x0f) + ' ')
+
+		Note that all binary data is encoded to produce printable
+		characters.
+
+4.3.	Content - Attribute capabilities
+
+	The attribute capability entries describe "escape-sequences" sent
+	to the screen to set terminal attributes.
+	All of these entries have equivalent termcap/terminfo entries,
+	although some of them apply to more than one attribute.
+
+	If a particular entry is not present, nothing is sent to the terminal
+	if that attribute is requested.
+
+	The following table describes all of these entries, along with
+	any termcap/terminfo names which apply.
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	reverse-on	S	so	smso		turn on  reverse
+	reverse-off	S	se	rmso		turn off reverse
+
+	underline-on	S	us	smul		turn on  underline
+	underline-off	S	ue	rmul		turn off underline
+
+	bold-on		S	md	bold		turn on  bold
+	bold-off	S	me	sgr0		turn off bold
+
+	blink-on	S	mb	blink		turn on  blink
+	blink-off	S	me	sgr0		turn off blink
+
+	dim-on		S	mh	dim		turn on  dim
+	dim-off		S	me	sgr0		turn off dim
+
+	invisible-on	S	mk	invis		turn on  invisible
+	invisible-off	S	me	sgr0		turn off invisible
+
+	protected-on	S	mp	prot		turn on  protected
+	protected-off	S	me	sgr0		turn off protected
+
+4.4.	Content - Color capabilities
+
+	The color capability entries describe "escape-sequences" sent
+	to the screen to set terminal attributes.
+	Many of these entries have equivalent termcap/terminfo entries.
+
+	If a particular entry is not present, nothing is sent to the terminal
+	if that attribute is requested.  If no color entries are present,
+	then the terminal is marked as "no color available".
++++LIB+++
+	This can be queried with the "ecurses" call has_colors().
+---LIB---
+
+	There are three different mechanisms to specify color capabilities:
+
+		1.	Specify a parameterized escape-sequence to set
+			both the foreground & background values.
+
+		2.	Specify parameterized escape-sequences to set
+			the foreground & background values separately.
+
+		3.	Specify specific escape-sequences for all
+			valid foreground & background colors.
+
+	In addition, a "mapping" of internal color value to external
+	color value can be specified.  The "mapped" values are used
+	as parameters to the parameterized strings.  There are mapping
+	tables for both foreground and background colors.
+
+	The color values and default mappings are as follows:
+
+	color		internal	default		default
+	name		value		fg map		bg map
+	----------	--------	------- 	-------
+	black		0		black		black
+	red		1		blue		blue
+	green		2		green		green
+	yellow		3		cyan		cyan
+	blue		4		red		red
+	magenta		5		magenta		magenta
+	cyan		6		yellow		yellow
+	white		7		white		white
+
+	grey		8		grey		grey
+	lt-red		9		lt-blue		lt-blue
+	lt-green	10		lt-green	lt-green
+	lt-yellow	11		lt-cyan		lt-cyan
+	lt-blue		12		lt-red		lt-red
+	lt-magenta	13		lt-magenta	lt-magenta
+	lt-cyan		14		lt-yellow	lt-yellow
+	lt-white	15		lt-white	lt-white
+
+	The following table describes all of these entries, along with
+	any termcap/terminfo names which apply.
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	max-colors	N	Co	colors		# of defined colors.
+							(default is 16)
+
+	allow-color	B	-	-		TRUE to allow color
+							entries to be used,
+							if any are defined.
+							(default is ON)
+
+	set-color-str	S	-	-		(generic)
+	set-color-str-ti S	-	-		(terminfo)
+	set-color-str-tc S	-	-		(termcap)
+							parameterized esc-seq
+							to send to set both
+							FG & BG colors.
+
+							If set, this entry
+							takes precedence over
+							any other color entry.
+
+	map-color-str	S	-	-		(generic)
+	map-color-str-ti S	-	-		(terminfo)
+	map-color-str-tc S	-	-		(termcap)
+							parameterized esc-seq
+							to send to set both
+							FG & BG colors.
+
+							If set, this entry
+							takes precedence over
+							any other color entry.
+
+							Note that this uses
+							"mapped" color values.
+
+	set_fg		S	-	-		(generic)
+	set_fg-ti	S	-	setf		(terminfo)
+	set_fg-tc	S	Sf	-		(termcap)
+							parameterized esc-seq
+							to send to set the
+							FG color.
+
+	map_fg		S	-	-		(generic)
+	map_fg-ti	S	-	setaf		(terminfo)
+	map_fg-tc	S	AF	-		(termcap)
+							parameterized esc-seq
+							to send to set the
+							FG color.
+
+							Note that this uses
+							"mapped" color values.
+
+	set-bg		S	-	-		(generic)
+	set-bg-ti	S	-	setb		(terminfo)
+	set-bg-tc	S	Sb	-		(termcap)
+							parameterized esc-seq
+							to send to set the
+							BG color.
+
+	map-bg		S	-	-		(generic)
+	map-bg-ti	S	-	setab		(terminfo)
+	map-bg-tc	S	AB	-		(termcap)
+							parameterized esc-seq
+							to send to set the
+							BG color.
+
+							Note that this uses
+							"mapped" color values.
+
+	map-color	S	-	-		Color fg & bg map info.
+	map-fg-color	S	-	-		Color fg map info.
+	map-bg-color	S	-	-		Color bg map info.
+
+							If entries are not
+							present, the default
+							color-fg-map and
+							color-bg-map are used.
+							[See note #2]
+
+	black		S	-	-		seq for FG black
+	blue		S	-	-		seq for FG blue
+	green		S	-	-		seq for FG green
+	cyan		S	-	-		seq for FG cyan
+	red		S	-	-		seq for FG red
+	magenta		S	-	-		seq for FG magenta
+	yellow		S	-	-		seq for FG yellow
+	white		S	-	-		seq for FG white
+	grey		S	-	-		seq for FG grey
+
+	lt-blue		S	-	-		seq for FG lt-blue
+	lt-green	S	-	-		seq for FG lt-green
+	lt-cyan		S	-	-		seq for FG lt-cyan
+	lt-red		S	-	-		seq for FG lt-red
+	lt-magenta	S	-	-		seq for FG lt-magenta
+	lt-yellow	S	-	-		seq for FG lt-yellow
+	lt-white	S	-	-		seq for FG lt-white
+
+	black-bgnd	S	-	-		seq for BG black
+	blue-bgnd	S	-	-		seq for BG blue
+	green-bgnd	S	-	-		seq for BG green
+	cyan-bgnd	S	-	-		seq for BG cyan
+	red-bgnd	S	-	-		seq for BG red
+	magenta-bgnd	S	-	-		seq for BG magenta
+	yellow-bgnd	S	-	-		seq for BG yellow
+	white-bgnd	S	-	-		seq for BG white
+	grey-bgnd	S	-	-		seq for BG grey
+
+	lt-blue-bgnd	S	-	-		seq for BG lt-blue
+	lt-green-bgnd	S	-	-		seq for BG lt-green
+	lt-cyan-bgnd	S	-	-		seq for BG lt-cyan
+	lt-red-bgnd	S	-	-		seq for BG lt-red
+	lt-magenta-bgnd	S	-	-		seq for BG lt-magenta
+	lt-yellow-bgnd	S	-	-		seq for BG lt-yellow
+	lt-white-bgnd	S	-	-		seq for BG lt-white
+
+	Notes:
+
+	1.	If the "color-string" is defined, or "foreground" &
+		"background" is defined, then the value for "max-colors"
+		is set to 16 if not set by the database or the term-file.
+
+		Whenever a color-value is sent via these mechanisms,
+		that value used is modulo(max-colors).  For example,
+		if "max-colors" is set to 8, then setting the color of
+		"lt-red" (12) will result is using "red" (4 = 12 % 8).
+
+		Also, after the value is adjusted by the number of colors,
+		the foreground and background values are both "mapped"
+		before parameterization is done (if mapping).
+
+	2.	Syntax of "map-color", "map-fg-color", and "map-bg-color"
+		entries.
+
+		A "map-xx-color" entry can have either of the following forms:
+
+			map-xx-color = <color-name>:<color-name>
+			map-xx-color = <color-name>:n
+
+		Thus, the following two entries are equivalent:
+
+			map-fg-color = blue:red
+			map-fg-color = blue:4
+
+		These "map-xx-color" entries enable the specifying of arbitrary
+		values for color-values when parameterizing the entries.
+
+		A "map-color" entry uses the same syntax, but the entry
+		applies to both foreground & background maps.
+
+	3.	Any specific foreground or background entry will take
+		precedence over any "xxx-fg" or "xxx-bg" entry
+		specified.
+
+		The string "xxx-color-str" will always take precedence over
+		any other entry.
+
+	4.	Note that the strings "xxx-color-str", "xxx-fg", and
+		"xxx-bg" are parameterized entries, and thus must
+		be in the appropriate termcap/terminfo syntax.
+
+	5.	If specific foreground or background strings are specified,
+		then the "set" of color definitions must be contiguous from
+		"black" up to the highest color defined.
+
+		For example, if the foreground entry "red" (color number 4)
+		is specified, then all entries from "black" (0) through
+		"red" (4) must be specified.  It is considered an error
+		if a color entry is missing.
+
+		When a foreground or background color is specified, the
+		color value for that color is used modulo(num-fg-colors)
+		or modulo(num-bg-colors).
+
+4.5.	Content - Alternate character-set capabilities
+
+	The "ecurses" library supports the concept of different character
+	sets for both "regular" characters and "alternate" characters.
+
+	Both character sets comprise the set of all 256 characters from
+	0x00 to 0xff.  It is possible to specify the "font" each character
+	belongs in (See section 4.6 - Output character set translation).
+
+	The "regular" character set comprises all the normal characters,
+	but the user may have to switch the terminal into different modes
+	to display international characters, etc.
+
+	The "alternate" character set is normally comprised of the
+	"line-drawing" characters.  These can actually be any characters,
+	but the "ecurses" library assumes that they correspond to the
+	characters found in the IBM PC character set.
+
+	If any character (either "reg" or "alt") is in font "n", and
+	the escape-sequences for "xxx-char-n-on" & "xxx-char-n-off" are
+	not present, then no switching of character sets is done, and
+	the character is displayed as a normal character.
+
+	The following table describes all of these entries, along with
+	any termcap/terminfo names which apply.
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	allow-alt-chars	B	-	-		TRUE to allow the use
+							of alt-chars if the
+							capability is defined.
+							(default is ON)
+
+	reg-char-1-on	S	-	-
+	reg-char-2-on	S	-	-
+	reg-char-3-on	S	-	-
+	reg-char-4-on	S	-	-		esc-seq to turn on
+							reg-char-set-n
+
+	reg-char-1-off	S	-	-
+	reg-char-2-off	S	-	-
+	reg-char-3-off	S	-	-
+	reg-char-4-off	S	-	-		esc-seq to turn off
+							reg-char-set-n
+
+	alt-char-1-on	S	as	smacs
+	alt-char-2-on	S	-	-
+	alt-char-3-on	S	-	-
+	alt-char-4-on	S	-	-		esc-seq to turn on
+							alt-char-set-n
+
+	alt-char-1-off	S	ae	rmacs
+	alt-char-2-off	S	-	-
+	alt-char-3-off	S	-	-
+	alt-char-4-off	S	-	-		esc-seq to turn off
+							alt-char-set-n
+
+	Notes:
+
+	1.	The "allow-alt-chars" is useful when the termcap/terminfo
+		entry for a terminal indicates that functionality but you
+		know that it really cannot display those characters.  This
+		usually happens if you are in an X11 window and have no
+		control over the display font being used.
+
++++LIB+++
+		The "ecurses" call to switch this value is set_valid_acs(bf).
+---LIB---
+
+	2.	Standard curses only defines a single alternate-character-set
+		capability.  The ability to define multiple sets is an
+		extension by "ecurses".
+
++++LIB+++
+	3.	A program can query the ability of the terminal to display
+		a certain alternate-character.  The "ecurses" call to do
+		this is get_valid_acs(c).
+---LIB---
+
+4.6.	Content - Output character set translation
+
+	There are two character sets defined: the "regular" character
+	set, and the "alternate" character set.  Each set comprises the
+	set of characters from 0x00 to 0xff.
+
+	In each set, every character belongs in a "font", which indicates
+	which escape-sequence is to be used to turn on and off the terminal
+	display mode for that character.  The fonts are:
+
+		0	No escape-sequence is needed
+		1	Use "xxx-char-1-on" and "xxx-char-1-off"
+		2	Use "xxx-char-2-on" and "xxx-char-2-off"
+		3	Use "xxx-char-3-on" and "xxx-char-3-off"
+		4	Use "xxx-char-4-on" and "xxx-char-4-off"
+
+	The default fonts for all characters are:
+
+		Reg chars	All chars are in font 0
+
+		Alt chars	0x00-0x1f are font 2
+				0x20-0x7f are font 0
+				0x80-0xff are font 1
+
+	Any character (either "reg" or "alt") can be set to be in a
+	particular font AND be translated to another character.  The
+	term-file entries to do this are:
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	reg-char-0-set	S	-	-
+	reg-char-1-set	S	-	-
+	reg-char-2-set	S	-	-
+	reg-char-3-set	S	-	-
+	reg-char-4-set	S	-	-		Specify reg char is
+							in font n and convert
+
+	alt-char-0-set	S	-	-
+	alt-char-1-set	S	-	-
+	alt-char-2-set	S	-	-
+	alt-char-3-set	S	-	-
+	alt-char-4-set	S	-	-		Specify alt char is
+							in font n and convert
+
+	The syntax of these lines is:
+
+		xxx-char-n-set = <old-char><new-char>...
+
+	The chars specified (after the "=") are specified in pairs:
+	the original character and the new character.  There may be
+	more than one pair specified.  If an odd number of characters
+	are specified, the last character is ignored.  If no translation
+	of the character is wanted (just a font change is to be done),
+	then the original and the new character should be the same.
+
+	For example, assume that you know that you do not have any
+	alternate character set available, and you want to draw
+	vertical and horizontal lines on the screen.
+
+	The "standard" alternate character for a vertical line (in
+	the IBM character set) is 0xb3, and the "standard" alternate
+	character for a horizontal line is 0xc4.  In this case, you
+	would want to use the '|' character for the vertical line, and
+	the '-' character for the horizontal line.  The term-file
+	entries for this would be:
+
+		alt-char-0-set = \xb3|
+		alt-char-0-set = \xc4-
+
+	or
+
+		alt-char-0-set = \xb3|\xc4-
+
+	This tells "ecurses" that these characters are to be translated to
+	the other character and that no escape-sequence is needed to set
+	the mode for these characters.
+
+	Notes:
+
+	1.	Don't forget that "ecurses" supports four different
+		line-drawing character sets:
+
+			SVSH	single vertical single horizontal
+			SVDH	single vertical double horizontal
+			DVSH	double vertical single horizontal
+			DVDH	double vertical double horizontal
++++PGM+++
+
+		The ${PKG} program makes use of these various sets.
+---PGM---
+
+		Thus, if your terminal only supports the "standard"
+		SVSH line-drawing character set, be sure to "map"
+		all the other sets.
+
+		For example, if you are using an "xterm" window
+		(which supports the VT100 alt-char-set), the
+		following deals with the upper-left-corner glyph:
+
+			VT100 char to send:	'l'
+
+			SVSH ul-corner:		0xda
+			SVDH ul-corner:		0xd5
+			DVSH ul-corner:		0xd6
+			DVDH ul-corner:		0xc9
+
+		Thus, you would want the term-file entry:
+
+			alt-char-1-set = \xdal\xd5l\xd6l\xc9l
+
+		This would translate all four line-drawing characters
+		for the upper-left-corner to the only ul-corner glyph
+		available.
+
+	2.	See "Appendix 2 - IBM PC alternate characters" for a
+		list of the characters processed.
+
+4.7.	Content - Output character set translation (ACS notation)
+
+	There is an alternate method for specifying the translation
+	of alternate character set characters, but this method does
+	NOT change the current font of the character.
+
+	The term-file notation for this is:
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	vt100-char-set	S	ac	acsc		mapping pairs of
+							<vt100-char><pc-char>
+
+	The syntax of these lines is:
+
+		vt100-char-set = <vt100-char><pc-char>...
+
+	This does the same functionality as the entries in Section 4.6,
+	but it maps VT100 characters to the PC character to use.
+	Entries specified with this notation will ALWAYS be output
+	as an alternate character, using whatever font that character is in.
+
+	The "vt100-char" specified here is NOT a normal character, but
+	is the VT100 representation of specific alternate characters.
+	The "pc-char" is the actual character sent.
+
+	The list of such characters is as follows (note that "ecurses" does
+	not support all VT100 characters, only those which map to characters
+	in the IBM PC character set):
+
+	VT100 name	notation	PC map		description
+	------------	--------	------		----------------------
+	ACS_BLOCK	0		0xdb		solid square block
+	ACS_DIAMOND	`		0xb2		diamond
+	ACS_CKBOARD	a		0xb0		checker board (stipple)
+	ACS_HT		b				'HT' - horizontal tab
+	ACS_FF		c				'FF' - form feed
+	ACS_CR		d				'CR' - carriage return
+	ACS_LF		e				'LF' - line feed
+	ACS_DEGREE	f		0xf8		degree symbol
+	ACS_PLMINUS	g		0xf1		plus/minus
+	ACS_NL		h				'NL' - new line
+	ACS_VT		i				'VT' - vertical tab
+	ACS_LRCORNER	j		0xd9		lower right corner
+	ACS_URCORNER	k		0xbf		upper right corner
+	ACS_ULCORNER	l		0xda		upper left corner
+	ACS_LLCORNER	m		0xc0		lower left corner
+	ACS_PLUS	n		0xc5		plus sign
+	ACS_S1		o		'-'		scan line 1
+	ACS_S3		p		'-'		scan line 3
+	ACS_HLINE	q		0xc4		scan line 5 (horz line)
+	ACS_S7		r		'_'		scan line 7
+	ACS_S9		s		'_'		scan line 9
+	ACS_LTEE	t		0xc3		left tee
+	ACS_RTEE	u		0xb4		right tee
+	ACS_BTEE	v		0xc1		bottom tee
+	ACS_TTEE	w		0xc2		top tee
+	ACS_VLINE	x		0xb3		vertical line
+	ACS_LE		y		0xf3		less than or equal
+	ACS_GE		z		0xf2		greater than or equal
+	ACS_PI		{		0xe3		PI
+	ACS_NE		|				not equal
+	ACS_POUND	}				English pound sign
+	ACS_BULLET	~		0xf9		bullet
+
+4.8.	Content - Input character set translation
+
+	There are times when you may want to convert input characters
+	to a different character set.  This may be due to
+	internationalization needs, or because you have a perverse
+	terminal (such as a "true" vt100).
+
+	To accomplish this, you can use the term-file entry:
+
+		input-char-set = <old-char><new-char>...
+
+	The syntax of this entry is the same as the output translation
+	entries described in Section 4.6.
+
+	By default, the input translation table contains the original
+	characters (0x00 - 0xff).
+
+4.9.	Content - Mouse capabilities
+
+	The "ecurses" library supports the use of the mouse, but this
+	support is dependent on the operating-system and/or the terminal
+	emulator being used.
+
+	By default, mouse support is disabled and any program wanting
+	to access the mouse must initiate mouse processing.  It is
+	imperative that any program which initiates mouse processing
+	must terminate mouse processing when it terminates, or subsequent
+	programs will receive mouse input and will probably not understand
+	it.  (The "ecurses" library will usually automatically terminate
+	mouse processing when it closes.)
+
+	The following table describes all mouse entries, along with
+	any termcap/terminfo names which apply.
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	mouse-buttons	N	-	-		# buttons on the mouse.
+							(default is 3)
+
+	mouse-dblclk	N	-	-		# ms for a double-click.
+							(default is 500)
+
+	mouse-display	B	-	-		TRUE to allow mouse
+							processing if mouse
+							on & off strings are
+							present.
+							(default is ON)
+
+	mouse-on	S	-	-		esc-seq to send to
+							start mouse processing.
+
+							If not present, no
+							mouse processing will
+							be done.
+
+	mouse-off	S	-	-		esc-seq to send to
+							stop mouse processing.
+
+							If not present, no
+							mouse processing will
+							be done.
+
+	mouse-input	S	-	-		esc-seq received to
+							describe mouse activity.
+
+							If not present, no
+							mouse processing will
+							be done.
+
+	Mouse processing is started by sending the "mouse-on" string, and
+	is stopped by sending the "mouse-off" string.  When mouse processing
+	is on, the terminal (or emulator) can then send mouse activity
+	indications via the "mouse_input" string.
+
+	The "mouse-input" string is a parameterized string containing
+	button information and the (x,y) position of the mouse when the
+	event occurred.  When a mouse event is received, this information
+	is enqueued, and a KEY_MOUSE key value is placed on the input queue.
+	The program, when recognizing a KEY_MOUSE input, can then dequeue
+	the mouse-info and deal with it.
+
+	Although the "mouse-input" string is a parameterized string, it
+	does NOT have both termcap & terminfo versions, since it is an
+	input string, not an output string.
+
+	The syntax of the "mouse-input" string is as follows:
+
+	1.	The string is expected to define 3 numeric values:
+
+			button info
+			x-position
+			y-position
+
+		The normal order of these values is (button, x-pos, y-pos)
+		but the x & y values may be reversed if indicated.
+
+	2.	The string can contain any characters for definition,
+		but parameter information is indicated by a '%' as follows:
+
+			%r	Reverse the coordinates:
+				coordinates are (y,x) instead of (x,y)
+
+			%i	All numeric values are incremented:
+				subtract 1 to get actual value.
+
+			%c	The character found at the current
+				position in the string is the
+				binary value to use.
+
+			%d	All numeric digits found starting at
+				the current position in the string
+				are to be converted to the numeric
+				value to use.
+
+			%+	The numeric value to use is the binary
+				value of the character at the current
+				position minus the binary value of the
+				next character in the template.
+
+	3.	If any character in the input string does not match what
+		the "mouse-input" template says should be there, then it
+		is considered not a match and the input string is not
+		recognized as a mouse-input string.
+
+	Examples of "mouse-input" templates:
+
+		"\e[M%i%+ %+ %+ "
+
+			Button, x, and y values are single characters
+			which are offset by a space (0x20) and should be
+			decremented by 1.
+
+		"\e[M%i%d;%d;%dZ"
+
+			Button, x, and y values are numeric values which
+			should be decremented by 1.
+
+	As previously indicated, the ability to process the mouse is a
+	function of the terminal emulator being used.  Since no "terminal"
+	that I am aware of has a mouse, you are limited to either being
+	on a "console" or being in an X11 environment (maybe using telnet).
+
+	Most Unix systems fall into one of two categories:
+
+	1.	Unix on an Intel box, which allows a user to be logged in
+		directly on the console.
+
+	2.	Unix on a workstation (Sun, HP, SGI, etc.), in which
+		the user is always logged into an X11 window environment.
+
+	The low-level I/O functions (and devices) for accessing the mouse
+	at the console level are different enough even on just Intel boxes
+	that it is too difficult to produce any common mouse-processing
+	code from the console level.  Therefore, "ecurses" mouse support is
+	limited to using what is available in an X11 environment.
+
+	In an X11 environment, you can either run a "native" X application,
+	or run a "character" application under the control of a terminal
+	emulator.  A "character" application under the control of a terminal
+	emulator is limited, however, to only using what mouse capabilities
+	are provided by that emulator, since it has control of the mouse.
+
+	There are two different modes in which mouse information is
+	sent to the application and what that information represents:
+
+		1.	Provide mouse information ONLY when a mouse button
+			is pressed or released.
+
+			The "button" information provided at that time
+			is as follows:
+
+				0	Left   button is down
+				1	Middle button is down
+				2	Right  button is down
+				3	A button was released, but no
+					indication of which one is given.
+
+		2.	Provide mouse information whenever the
+			mouse is moved or when a button is pressed
+			or released.
+
+			The button information provided at that time
+			is a bit-mask as follows:
+
+				0x01	left   button is down
+				0x02	middle button is down
+				0x04	right  button is down
+				0x08	scroll-wheel moved up
+				0x10	scroll-wheel moved down
+				0x20	reserved (for + ' ' encoding)
+				0x40	motion-only, no button changed
+				0x80	always 1
+
+			Note that scroll-wheel support is dependent on
+			the X server being used.
+
+	The mode of the mouse input is determined by whether bit 7 (0x80)
+	of the button-info is on or not.
+
+	In both cases, the (x,y) information contains the position of
+	the mouse at the time the event took place.
+
+	Currently, only the following terminal emulators provide mouse
+	support to its underlying applications:
+
+		xterm		This program is available on most X11 systems.
+				This program operates in mode 1 (See above).
+
+		aixterm		The xterm program on IBM AIX.
+				This program operates in mode 1 (See above).
+
+		scoterm		The xterm program on SCO OpenServer.
+				This program operates in mode 1 (See above).
++++PGM+++
+
+		pcxterm		This is an xterm clone delivered with ${PGM}
+				which provides full color and mouse support.
+
+				This program operates in mode 2 (See above).
+---PGM---
+
+	Notes:
+
+	1.	If the "mouse-buttons" value is set to 2, then any
+		mouse-button activity for either button 2 or button 3
+		is mapped to be for button 3 (which is considered
+		the "right" button).
+
+	2.	The "mouse-dblclk" value specifies in milli-seconds
+		the interval for detection of a double-click of a
+		mouse button.  If a second click on the same button
+		happens within this interval, then the second event
+		is reported as a double-click rather than a click.
+
+4.10.	Content - Function-key definitions
+
+	The "ecurses" library supports a very rich set of function-key
+	definitions.  These definitions are modeled after the IBM PC
+	keyboard.  This differs from the "standard" curses, which only
+	knows about limited subset of function keys, but defines many
+	keys which are never seen on an IBM PC keyboard.
+
+	The decision to use the IBM PC keyboard as a model is due to the
+	following reasons:
+
+	1.	Many Unix systems are delivered on Intel platforms,
+		which, obviously, use the IBM PC keyboard.
+
+	2.	Most terminal emulators only emulate the subset
+		of keys present on the IBM PC keyboard.
+
+	3.	Most other (non-Intel) Unix vendors have "converted"
+		from specialized keyboards to IBM PC compatible
+		keyboards, although they may add other keys to it.
+
+	4.	The plethora of wierd terminals which are very
+		different from the IBM PC keyboard is lessening,
+		and it is rare to encounter one.  Even most POS
+		(point-of-sale) systems use IBM PC keyboards.
+
+	5.	Most software programs being written today assume the
+		use of function keys provided by the IBM PC keyboard.
+
+	However, unless you are on the "console" of an Intel-based Unix
+	system, you are either using an X11 terminal emulator, telnet, or a
+	terminal, none of which gives you access to the "raw" keycodes.
+
+	Thus, the ability to access the "alt" keys is not available, and
+	the use of "control" keys is limited to alpha characters only
+	(not function keys such as control-f1), and even the use of those
+	can be pre-empted by the terminal or by the operating system.
+	For example, ^C is usually reserved for being the "interrupt"
+	character, ^S and ^Q are used as the x-off and x-on characters,
+	and many terminals (such as the Wyse series) use control chars like
+	^K, ^J, ^H, & ^L to indicate up, down, left, & right arrow keys.
+
+	The result of this is that, although the "ecurses" library defines
+	many function-key values, some may only be input by "simulating"
+	them using "prefix-keys".  (See section 5 - Special keys)
+
+	See "Appendix 3 - Key names and codes" for a list of all defined keys.
+
+	The following keys are defined in the termcap/terminfo database
+	(note that many keys are duplicated):
+
+	term-file		termcap	terminfo
+	name		type	name	name		description
+	------------	----	-------	--------	--------------------
+	f1		S	k1	kf1		F1
+	f2		S	k2	kf2		F2
+	f3		S	k3	kf3		F3
+	f4		S	k4	kf4		F4
+	f5		S	k5	kf5		F5
+	f6		S	k6	kf6		F6
+	f7		S	k7	kf7		F7
+	f8		S	k8	kf8		F8
+	f9		S	k9	kf9		F9
+	f10		S	k0	kf0		F10
+	f10		S	k;	kf10		F10
+	f11		S	F1	kf11		F11
+	f12		S	F2	kf12		F12
+
+	up		S	ku	kcuu1		up-arrow
+	down		S	kd	kcud1		dn-arrow
+	left		S	kl	kcub1		lf-arrow
+	right		S	kr	kcuf1		rt-arrow
+	home		S	kh	khome		home
+	end		S	ke	kend		end
+	pgup		S	kP	kpp		page-up
+	pgdn		S	kN	knp		page-dn
+
+	backspace	S	kb	kbs		backspace
+	delete		S	kD	kdch1		delete
+	insert		S	ki	ki		insert
+
+	home		S	K1	ka1		KP upper left
+	end		S	K4	kc1		KP lower left
+	pgup		S	K3	ka3		KP upper right
+	pgdn		S	K5	kc3		KP lower right
+
+	There are two different methods for defining a function-key
+	sequence:
+
+		<key-name> = "esc-seq"
+		define-key = "<key-value>":"esc-sequence"
+
+	Rules for using the <key-name> = "esc-seq":
+
+		1.	The <key-name> must match a name in the above table.
+
+		2.	If the "esc-seq" is not empty, it defines an
+			escape-sequence for that key.
+
+			Note that it MUST be enclosed in quotes.
+
+		3.	If the "esc-seq" is empty (i.e. nothing after the
+			"="), then ALL entries defining that key are deleted.
+
+		4.	If the entry after the "=" is a key-name, then ALL
+			references to that key-name are replaced by the new
+			name.
+
+	The "define-key" mechanism is used to define a key-value for which
+	there is no pre-defined name or value.  An example of this is:
+
+		Assume you want to define a "key-send", which has a
+		hex value of 0x1234, and the escape-sequence for it is
+		"\e[send".
+
+		The entry would look like this:
+
+			define-key = "\x12\x34":"\e[send"
+
+	Notes:
+
+	1.	There may be more than one escape-sequence defining a
+		particular key-name.
+
+	2.	No escape-sequence for a key-name may be contained in
+		a previous definition.  In other words, if the key
+		F1 has been defined as "\e[F1", you cannot define key
+		F10 as "\e[F10", and vice-versa.
+
+	3.	If a duplicate escape-sequence is encountered, the previous
+		key-name defined is changed to be that of the new one.
+
+	4.	If an escape-sequence defining a key MOUSE_* is read in,
+		the mouse-info (button state & position) is queued and
+		a KEY_MOUSE is sent to the program.
++++LIB+++
+
+		The "ecurses" call mouse_get_event() will dequeue the mouse
+		info associated with a KEY_MOUSE and return the actual mouse
+		code for the event.
+---LIB---
+
+5.	Special keys
+
+	In order to completely make available to all terminals the complete
+	set of keys available on an IBM PC keyboard, a number of special keys
+	are defined.  There are also special keys defined to take advantage
+	of special capabilities of the "ecurses" library.
+
+	These "special-keys" are as follows:
+
+		key-name		function
+		---------------		------------------------------
+		KEY_KSHIFT		shift   prefix key
+		KEY_KCTRL		control prefix key
+		KEY_KALT		alt     prefix key
+		KEY_KFUNC		kfunc   prefix key
+
+		KEY_NUM_LOCK		num-lock    pseudo-key
+		KEY_CAPS_LOCK		caps-lock   pseudo-key
+		KEY_SCROLL_LOCK		scroll-lock pseudo-key
+
+		KEY_REFRESH		screen refresh (redraw the screen)
+		KEY_PRINT_SCREEN	screen print   (to default printer)
+		KEY_SNAP		take a screen snap-shot
+		KEY_HELP		help key
+		KEY_MOUSE		mouse input (See Section 4.9)
+
+		KEY_SHIFT_PRESS		shift   key was pressed
+		KEY_SHIFT_RELEASE	shift   key was released
+		KEY_CTRL_PRESS		control key was pressed
+		KEY_CTRL_RELEASE	control key was released
+		KEY_ALT_PRESS		alt     key was pressed
+		KEY_ALT_RELEASE		alt     key was released
+
+	Internal "special-keys":
+
+		KEY_UNKNOWN		unknown key
+		KEY_READ_AGAIN		ignore & read again
+		KEY_WINRESIZE		screen has been resized
+		KEY_TIMER		internal timer expired
+		KEY_SIGNAL		signal was received
+
+	A description of these keys follows:
+
+		KEY_SHIFT		This is a prefix-key which indicates
+					that the next key received should be
+					"shifted".  For example, the sequence
+					KEY_SHIFT KEY_F1 would result in a
+					KEY_SHIFT_F1.
+
+		KEY_CTRL		This is a prefix-key which indicates
+					that the next key received should be
+					made a control key.  For example,
+					the sequence KEY_CTRL KEY_F1 would
+					result in a KEY_CTRL_F1.
+
+		KEY_ALT			This is a prefix-key which indicates
+					that the next key received should be
+					made an alt key.  For example,
+					the sequence KEY_ALT KEY_F1 would
+					result in a KEY_ALT_F1.
+
+		KEY_KFUNC		This is a special prefix-key which
+					can be used to implement any key
+					combination or value.  See below for
+					a summary.
+
+		KEY_NUM_LOCK		This key toggles a "num-lock" indicator
+					which causes any keypad keys to be
+					treated as the numeric equivalent, like
+					the real "num-lock" key.
+
+		KEY_CAPS_LOCK		This key toggles a "caps-lock" indicator
+					which causes subsequent alphabetic keys
+					to be shifted, like the real "caps-lock"
+					key.
+
+		KEY_SCROLL_LOCK		This key toggles a "scroll-lock"
+					indicator, but is currently ignored.
+
+		KEY_REFRESH		This key will cause "ecurses" to
+					redraw the entire screen, ignoring
+					whatever is currently on the screen.
+					This is done by rewriting the contents
+					of "curscr", which contains the current
+					picture of the screen since the last
+					refresh.
+
+					This key is NOT passed to the program
+					which invoked the read, but is
+					"consumed" by "ecurses".
+
+		KEY_PRINT_SCREEN	This key will cause "ecurses" to
+					print the contents of "curscr" to the
+					default printer.  Note that any
+					character attributes are ignored, only
+					the characters are printed.
+
+					This key is NOT passed to the program
+					which invoked the read, but is
+					"consumed" by "ecurses".
+
+		KEY_SNAP		This key causes "ecurses" to take a
+					"snap-shot" of the current screen
+					(curscr) and append it to the file
+					"screen.snp" (in the current directory).
+					This file is a binary file which
+					contains enough information to re-create
+					the screen contents.  See the appendix
+					for the contents of this file.
+
+					The sample program "dispsnap" can be
+					used to view this file.
++++LIB+++
+					This file can also be read by the
+					"ecurses" call getwin().
+---LIB---
+
+					If the string "screen-snap" is defined,
+					then this string will be sent to the
+					terminal when a snap-shot is taken.
+					This can be used to coordinate testing
+					of a program.
+
+					This key is NOT passed to the program
+					which invoked the read, but is
+					"consumed" by "ecurses".
+
+		KEY_HELP		This is a generic "help" key which
+					can be used by a program to initiate
+					any help procedure.  It is not used
+					directly by "ecurses".
+
+		KEY_MOUSE		This key indicates that a mouse
+					event was received.  See Section 4.9
+					for details.
+
+		KEY_SHIFT_PRESS		This key indicates that the shift
+					key was pressed.
+
+		KEY_SHIFT_RELEASE	This key indicates that the shift
+					key was released.
+
+		KEY_CTRL_PRESS		This key indicates that the control
+					key was pressed.
+
+		KEY_CTRL_RELEASE	This key indicates that the control
+					key was released.
+
+		KEY_ALT_PRESS		This key indicates that the alt
+					key was pressed.
+
+		KEY_ALT_RELEASE		This key indicates that the alt
+					key was released.
+
+		KEY_UNKNOWN		This key is internally generated
+					when an invalid key-sequence is read
+					in.  It causes the terminal to "beep",
+					and then is converted to a
+					KEY_READ_AGAIN.
+
+		KEY_READ_AGAIN		This causes "ecurses" to ignore the
+					key and read in the next key or
+					key-sequence.
+
+					This key can be defined by the user to
+					cause invalid key-sequences to be
+					ignored.
+
+		KEY_WINRESIZE		This key is internally generated when
+					"ecurses" gets a signal from the
+					operating system that the window size
+					has changed.
+
+					This key is normally used in an
+					asyncronous-key routine by a program
+					to recognize that all windows should
+					be re-created with a different size.
+
+					If a program does not setup an
+					asyncronous-key routine to handle this
+					key, then it is passed up to the calling
+					routine as a regular key.
++++PGM+++
+
+					The ${PKG} program uses this key
+					to resize its display.
+---PGM---
++++LIB+++
+
+					The "ecurses" call to setup an
+					asyncronous-key callback routine
+					is win_async_key().
+---LIB---
+
+		KEY_TIMER		This key is internally generated when
+					an internal timer is expired.
++++LIB+++
+					This internal timer is setup by using
+					the "ecurses" call win_clock().
+---LIB---
+
+		KEY_SIGNAL		This key is internally generated when
+					a registered signal was received.
+
+5.1.	Special keys - KFUNC summary
+
+	The KFUNC key (KEY_KFUNC) is a special prefix key which can be used
+	to "create" any defined key.  This key can be used to input keys
+	for which there is no particular key which the terminal can send
+	to indicate that key.
+
+	Although the user can define any key sequence to be this key, the
+	key "ctrl-]" (^]) is always internally added to the function-key table
+	to indicate this key.
+
+	The following table summarizes the defined KFUNC sequences:
+
+		key		function-key or action
+		-------		-------------------------------
+		s		KEY_SHIFT (internally processed)
+		c		KEY_CTRL  (internally processed)
+		a		KEY_ALT   (internally processed)
+
+		1-0,-,=		KEY_F1 - KEY_F12
+
+		u		KEY_UP
+		d		KEY_DOWN
+		l		KEY_LEFT
+		r		KEY_RIGHT
+
+		h		KEY_HOME
+		e		KEY_END
+		p		KEY_PGUP
+		n		KEY_PGDN
+
+		b		KEY_BS
+		t		KEY_TAB
+		i		KEY_INSERT
+		x		KEY_ESCAPE
+
+		k		KEY_CAPS_LOCK    (internally processed)
+		m		KEY_NUM_LOCK     (internally processed)
+
+		w		KEY_REFRESH      (internally processed)
+		q		KEY_PRINT_SCREEN (internally processed)
+		z		KEY_SNAP         (internally processed)
+		?		KEY_HELP
+		~		KEY_WINRESIZE    (internally processed)
+
+		^		convert next char to a "ctrl-char" (if alpha)
+
+		!		"shell out" to a shell prompt (using $SHELL)
+		*		restore screen and exit program immediately
+
+		(		start logging key-strokes   to "keys.txt"
+		)		stop  logging key-strokes   to "keys.txt"
+
+		<		start logging key-strokes   to "keys.log"
+		>		stop  logging key-strokes   to "keys.log"
+
+		{		start logging screen output to "scrn.txt"
+		}		stop  logging screen output to "scrn.txt"
+
+		[		start logging screen output to "scrn.log"
+		]		stop  logging screen output to "scrn.log"
+
+	Notes:
+
+	1.	Multiple KFUNC sequences may be combined into a single key.
+		The following are examples:
+
+			"KFUNC a KFUNC 1"	generates a KEY_ALT_F1
+			"KFUNC s F3"		generates a KEY_SHIFT_F3
+
+	2.	There are two different log files for keyboard input
+		("keys.log" and "key.txt") and two different log files for
+		screen output ("scrn.log" and "scrn.txt").
+		They are all written into the current directory.  The contents
+		of these files are:
+
+			keys.log	Raw key strokes, with special keys
+					written as the escape-sequences which
+					were input.
+
+			keys.txt	Each key value is written on a separate
+					line, with special keys written as their
+					name.
+
+			scrn.log	The raw data and escape-sequences which
+					were written to the terminal.
+
+			scrn.txt	Screen output with any escape-sequences
+					written on a separate line as a text
+					description of the function invoked.
+
+		Basically, the "log" files are logs of the raw data, where the
+		"txt" files are text files describing the contents.  The "txt"
+		files can be viewed with a viewer or editor, but the "log"
+		files should be considered as binary files with no line-breaks.
+
+	3.	The KEY_SNAP key causes a "snap-shot" of the current screen
+		contents to be written to the file "screen.snp" in the
+		current directory.  See "Appendix 1 - Contents of a window
+		save-file" for a description of the contents of this file.
+
+6.	Appendixes
+
+	The following provide additional information / tables.
+
+6.1.	Appendix 1 - Contents of a window save-file
+
+	This file is a binary file written as a result of a KEY_SNAP
+	being read in.
++++LIB+++
+	This file is also written as a result of a call to putwin(), and can
+	be read using the call getwin().
+---LIB---
+
+	All words written are four-byte words converted to "standard"
+	representation (little-endian).
+
+		name		value
+		---------	----------------------
+		magic		Magic number (0x03131980)
+
+		maxy		Number of rows in window
+		maxx		Number of cols in window
+		begy		Row-offset from (0,0)
+		begx		Col-offset from (0,0)
+		cury		Current row position
+		curx		Current col position
+		tmarg		Top    scrolling margin
+		bmarg		Bottom scrolling margin
+
+		flags		Window flags
+					0x0001	window is a pad
+					0x0002	window goes to right edge
+					0x0004	window is full width
+					0x0008	window fills the screen
+
+		clear		TRUE if clearok()   set
+		leaveit		TRUE if leaveok()   set
+		scroll		TRUE if scroll()    set
+		immed		TRUE if immedok()   set
+		sync		TRUE if syncok()    set
+		use_keypad	TRUE if keypad()    set
+		use_idc		TRUE if idcok()     set
+		use_idl		TRUE if idlok()     set
+		notimeout	TRUE if notimeout() set
+		stmode		TRUE if wstandout() set
+
+		delay		Current read mode:
+					<0 = block indefinitely
+					 0 = no wait
+					>0 = wait time in milli-seconds
+
+		attrs		Current regular  attributes
+		attro		Current standout attributes
+		code		Current character code
+		bkgd		Current background character
+
+		chars		array of window characters
+				("maxy" rows of "maxx" chtypes)
+
+	Note that a file may contain more than one window in it.
+
+6.2	Appendix 2 - IBM PC alternate characters
+
+	For reference, here is a table of the IBM PC alternate
+	characters (they fill the range 0xb0 - 0xdf):
+
+	Line-drawing characters:
+
+		SVSH ul-corner	0xda
+		SVSH ll-corner	0xc0
+		SVSH ur-corner	0xbf
+		SVSH lr-corner	0xd9
+		SVSH rt-tee	0xb4
+		SVSH lf-tee	0xc3
+		SVSH up-tee	0xc1
+		SVSH dn-tee	0xc2
+		SVSH middle	0xc5
+
+		SVDH ul-corner	0xd5
+		SVDH ll-corner	0xd4
+		SVDH ur-corner	0xb8
+		SVDH lr-corner	0xbe
+		SVDH rt-tee	0xb5
+		SVDH lf-tee	0xc6
+		SVDH up-tee	0xcf
+		SVDH dn-tee	0xd1
+		SVDH middle	0xd8
+
+		DVSH ul-corner	0xd6
+		DVSH ll-corner	0xd3
+		DVSH ur-corner	0xb7
+		DVSH lr-corner	0xbd
+		DVSH rt-tee	0xb6
+		DVSH lf-tee	0xc7
+		DVSH up-tee	0xd0
+		DVSH dn-tee	0xd2
+		DVSH middle	0xd7
+
+		DVDH ul-corner	0xc9
+		DVDH ll-corner	0xc8
+		DVDH ur-corner	0xbb
+		DVDH lr-corner	0xbc
+		DVDH rt-tee	0xb9
+		DVDH lf-tee	0xcc
+		DVDH up-tee	0xca
+		DVDH dn-tee	0xcb
+		DVDH middle	0xce
+
+		SH   horz-line	0xc4
+		DH   horz-line	0xcd
+
+		SV   vert-line	0xb3
+		DV   vert-line	0xba
+
+	Block characters:
+
+		solid  block	0xdb
+		bottom block	0xdc
+		left   block	0xdd
+		right  block	0xde
+		top    block	0xdf
+
+	Stipple characters:
+
+		light  stipple	0xb0
+		normal stipple	0xb1
+		heavy  stipple	0xb2
+
+	Here is the same table in hex order:
+
+		light  stipple	0xb0
+		normal stipple	0xb1
+		heavy  stipple	0xb2
+		SV   vert-line	0xb3
+		SVSH rt-tee	0xb4
+		SVDH rt-tee	0xb5
+		DVSH rt-tee	0xb6
+		DVSH ur-corner	0xb7
+		SVDH ur-corner	0xb8
+		DVDH rt-tee	0xb9
+		DV   vert-line	0xba
+		DVDH ur-corner	0xbb
+		DVDH lr-corner	0xbc
+		DVSH lr-corner	0xbd
+		SVDH lr-corner	0xbe
+		SVSH ur-corner	0xbf
+
+		SVSH ll-corner	0xc0
+		SVSH up-tee	0xc1
+		SVSH dn-tee	0xc2
+		SVSH lf-tee	0xc3
+		SH   horz-line	0xc4
+		SVSH middle	0xc5
+		SVDH lf-tee	0xc6
+		DVSH lf-tee	0xc7
+		DVDH ll-corner	0xc8
+		DVDH ul-corner	0xc9
+		DVDH up-tee	0xca
+		DVDH dn-tee	0xcb
+		DVDH lf-tee	0xcc
+		DH   horz-line	0xcd
+		DVDH middle	0xce
+		SVDH up-tee	0xcf
+
+		DVSH up-tee	0xd0
+		SVDH dn-tee	0xd1
+		DVSH dn-tee	0xd2
+		DVSH ll-corner	0xd3
+		SVDH ll-corner	0xd4
+		SVDH ul-corner	0xd5
+		DVSH ul-corner	0xd6
+		DVSH middle	0xd7
+		SVDH middle	0xd8
+		SVSH lr-corner	0xd9
+		SVSH ul-corner	0xda
+		solid  block	0xdb
+		bottom block	0xdc
+		left   block	0xdd
+		right  block	0xde
+		top    block	0xdf
+
+	Here is the same table shown as boxes:
+
+	da c2 bf	d5 d1 b8	d6 d2 b7	c9 cb bb
+	c3 c5 b4	c6 d8 b5	c7 d7 b6	cc ce b9
+	c0 c1 d9	d4 cf be	d3 d0 bd	c8 ca bc
+
+	  SVSH		  SVDH		  DVSH		  DVDH
+
+	Notes:
+
+	When displaying block letters, "ecurses" uses the
+	bottom-block character (0xdc).
+
+	When displaying scroll bars, "ecurses" uses the
+	light-stipple character (0xb0) for the scroll bar and the
+	heavy-stipple character (0xb2) for the "thumb".
+
+6.3	Appendix 3 - Key names and codes
+
+	The following is a list of all defined keys, their names, and
+	the numeric code for that key.
+
+	Control-character keys:
+
+	key-name	define			code		notes
+	-----------	-------------		------		-------------
+	bs		KEY_BS			0x0008
+	backspace	KEY_BS			0x0008		alias for bs
+	tab		KEY_TAB			0x0009
+	return		KEY_RETURN		0x000d
+	cr		KEY_RETURN		0x000d		alias for return
+	enter		KEY_RETURN		0x000d		alias for return
+	escape		KEY_ESCAPE		0x001b
+	esc		KEY_ESCAPE		0x001b		alias for escape
+	delete		KEY_DELETE		0x007f
+	del		KEY_DELETE		0x007f		alias for delete
+
+	Special keys:
+
+	key-name	define			code		notes
+	-----------	-------------		------		-------------
+	insert		KEY_INSERT		0x0100
+	ins		KEY_INSERT		0x0100		alias for insert
+	end		KEY_END			0x0101
+	down		KEY_DOWN		0x0102
+	pgdn		KEY_PGDN		0x0103
+	left		KEY_LEFT		0x0104
+	middle		KEY_MIDDLE		0x0105
+	right		KEY_RIGHT		0x0106
+	home		KEY_HOME		0x0107
+	up		KEY_UP			0x0108
+	pgup		KEY_PGUP		0x0109
+
+	user1		KEY_USER1		0x010b
+	user2		KEY_USER2		0x010c
+	user3		KEY_USER3		0x010d
+	user4		KEY_USER4		0x010e
+	user5		KEY_USER5		0x010f
+
+	kp0		KEY_KP0			0x0110
+	kp1		KEY_KP1			0x0111
+	kp2		KEY_KP2			0x0112
+	kp3		KEY_KP3			0x0113
+	kp4		KEY_KP4			0x0114
+	kp5		KEY_KP5			0x0115
+	kp6		KEY_KP6			0x0116
+	kp7		KEY_KP7			0x0117
+	kp8		KEY_KP8			0x0118
+	kp9		KEY_KP9			0x0119
+	kpperiod	KEY_KPPERIOD		0x011a
+
+	f1		KEY_F1			0x0120
+	f2		KEY_F2			0x0121
+	f3		KEY_F3			0x0122
+	f4		KEY_F4			0x0123
+	f5		KEY_F5			0x0124
+	f6		KEY_F6			0x0125
+	f7		KEY_F7			0x0126
+	f8		KEY_F8			0x0127
+	f9		KEY_F9			0x0128
+	f10		KEY_F10			0x0129
+	f11		KEY_F11			0x012a
+	f12		KEY_F12			0x012b
+	f13		KEY_F13			0x012c
+	f14		KEY_F14			0x012d
+	f15		KEY_F15			0x012e
+	f16		KEY_F16			0x012f
+
+	shift-end	KEY_SHIFT_END		0x0201
+	shift-down	KEY_SHIFT_DOWN		0x0202
+	shift-pgdn	KEY_SHIFT_PGDN		0x0203
+	shift-left	KEY_SHIFT_LEFT		0x0204
+	shift-middle	KEY_SHIFT_MIDDLE	0x0205
+	shift-right	KEY_SHIFT_RIGHT		0x0206
+	shift-home	KEY_SHIFT_HOME		0x0207
+	shift-up	KEY_SHIFT_UP		0x0208
+	shift-pgup	KEY_SHIFT_PGUP		0x0209
+
+	shift-user1	KEY_SHIFT_USER1		0x020b
+	shift-user2	KEY_SHIFT_USER2		0x020c
+	shift-user3	KEY_SHIFT_USER3		0x020d
+	shift-user4	KEY_SHIFT_USER4		0x020e
+	shift-user5	KEY_SHIFT_USER5		0x020f
+
+	shift-kp0	KEY_SHIFT_KP0		0x0210
+	shift-kp1	KEY_SHIFT_KP1		0x0211
+	shift-kp2	KEY_SHIFT_KP2		0x0212
+	shift-kp3	KEY_SHIFT_KP3		0x0213
+	shift-kp4	KEY_SHIFT_KP4		0x0214
+	shift-kp5	KEY_SHIFT_KP5		0x0215
+	shift-kp6	KEY_SHIFT_KP6		0x0216
+	shift-kp7	KEY_SHIFT_KP7		0x0217
+	shift-kp8	KEY_SHIFT_KP8		0x0218
+	shift-kp9	KEY_SHIFT_KP9		0x0219
+	shift-tab	KEY_SHIFT_TAB		0x021b
+	shift-bs	KEY_SHIFT_BS		0x021c
+	shift-return	KEY_SHIFT_RETURN	0x021d
+	shift-press	KEY_SHIFT_PRESS		0x021e
+	shift-release	KEY_SHIFT_RELEASE	0x021f
+
+	shift-f1	KEY_SHIFT_F1		0x0220
+	shift-f2	KEY_SHIFT_F2		0x0221
+	shift-f3	KEY_SHIFT_F3		0x0222
+	shift-f4	KEY_SHIFT_F4		0x0223
+	shift-f5	KEY_SHIFT_F5		0x0224
+	shift-f6	KEY_SHIFT_F6		0x0225
+	shift-f7	KEY_SHIFT_F7		0x0226
+	shift-f8	KEY_SHIFT_F8		0x0227
+	shift-f9	KEY_SHIFT_F9		0x0228
+	shift-f10	KEY_SHIFT_F10		0x0229
+	shift-f11	KEY_SHIFT_F11		0x022a
+	shift-f12	KEY_SHIFT_F12		0x022b
+	shift-f13	KEY_SHIFT_F13		0x022c
+	shift-f14	KEY_SHIFT_F14		0x022d
+	shift-f15	KEY_SHIFT_F15		0x022e
+	shift-f16	KEY_SHIFT_F16		0x022f
+
+	ctrl-end	KEY_CTRL_END		0x0401
+	ctrl-down	KEY_CTRL_DOWN		0x0402
+	ctrl-pgdn	KEY_CTRL_PGDN		0x0403
+	ctrl-left	KEY_CTRL_LEFT		0x0404
+	ctrl-middle	KEY_CTRL_MIDDLE		0x0405
+	ctrl-right	KEY_CTRL_RIGHT		0x0406
+	ctrl-home	KEY_CTRL_HOME		0x0407
+	ctrl-up		KEY_CTRL_UP		0x0408
+	ctrl-pgup	KEY_CTRL_PGUP		0x0409
+
+	ctrl-user1	KEY_CTRL_USER1		0x040b
+	ctrl-user2	KEY_CTRL_USER2		0x040c
+	ctrl-user3	KEY_CTRL_USER3		0x040d
+	ctrl-user4	KEY_CTRL_USER4		0x040e
+	ctrl-user5	KEY_CTRL_USER5		0x040f
+
+	ctrl-kp0	KEY_CTRL_KP0		0x0410
+	ctrl-kp1	KEY_CTRL_KP1		0x0411
+	ctrl-kp2	KEY_CTRL_KP2		0x0412
+	ctrl-kp3	KEY_CTRL_KP3		0x0413
+	ctrl-kp4	KEY_CTRL_KP4		0x0414
+	ctrl-kp5	KEY_CTRL_KP5		0x0415
+	ctrl-kp6	KEY_CTRL_KP6		0x0416
+	ctrl-kp7	KEY_CTRL_KP7		0x0417
+	ctrl-kp8	KEY_CTRL_KP8		0x0418
+	ctrl-kp9	KEY_CTRL_KP9		0x0419
+	ctrl-tab	KEY_CTRL_TAB		0x041b
+	ctrl-bs		KEY_CTRL_BS		0x041c
+	ctrl-return	KEY_CTRL_RETURN		0x041d
+	ctrl-press	KEY_CTRL_PRESS		0x041e
+	ctrl-release	KEY_CTRL_RELEASE	0x041f
+
+	ctrl-f1		KEY_CTRL_F1		0x0420
+	ctrl-f2		KEY_CTRL_F2		0x0421
+	ctrl-f3		KEY_CTRL_F3		0x0422
+	ctrl-f4		KEY_CTRL_F4		0x0423
+	ctrl-f5		KEY_CTRL_F5		0x0424
+	ctrl-f6		KEY_CTRL_F6		0x0425
+	ctrl-f7		KEY_CTRL_F7		0x0426
+	ctrl-f8		KEY_CTRL_F8		0x0427
+	ctrl-f9		KEY_CTRL_F9		0x0428
+	ctrl-f10	KEY_CTRL_F10		0x0429
+	ctrl-f11	KEY_CTRL_F11		0x042a
+	ctrl-f12	KEY_CTRL_F12		0x042b
+	ctrl-f13	KEY_CTRL_F13		0x042c
+	ctrl-f14	KEY_CTRL_F14		0x042d
+	ctrl-f15	KEY_CTRL_F15		0x042e
+	ctrl-f16	KEY_CTRL_F16		0x042f
+
+	alt-end		KEY_ALT_END		0x0801
+	alt-down	KEY_ALT_DOWN		0x0802
+	alt-pgdn	KEY_ALT_PGDN		0x0803
+	alt-left	KEY_ALT_LEFT		0x0804
+	alt-middle	KEY_ALT_MIDDLE		0x0805
+	alt-right	KEY_ALT_RIGHT		0x0806
+	alt-home	KEY_ALT_HOME		0x0807
+	alt-up		KEY_ALT_UP		0x0808
+	alt-pgup	KEY_ALT_PGUP		0x0809
+
+	alt-user1	KEY_ALT_USER1		0x080b
+	alt-user2	KEY_ALT_USER2		0x080c
+	alt-user3	KEY_ALT_USER3		0x080d
+	alt-user4	KEY_ALT_USER4		0x080e
+	alt-user5	KEY_ALT_USER5		0x080f
+
+	alt-kp0		KEY_ALT_KP0		0x0810
+	alt-kp1		KEY_ALT_KP1		0x0811
+	alt-kp2		KEY_ALT_KP2		0x0812
+	alt-kp3		KEY_ALT_KP3		0x0813
+	alt-kp4		KEY_ALT_KP4		0x0814
+	alt-kp5		KEY_ALT_KP5		0x0815
+	alt-kp6		KEY_ALT_KP6		0x0816
+	alt-kp7		KEY_ALT_KP7		0x0817
+	alt-kp8		KEY_ALT_KP8		0x0818
+	alt-kp9		KEY_ALT_KP9		0x0819
+	alt-tab		KEY_ALT_TAB		0x081b
+	alt-bs		KEY_ALT_BS		0x081c
+	alt-return	KEY_ALT_RETURN		0x081d
+	alt-press	KEY_ALT_PRESS		0x081e
+	alt-release	KEY_ALT_RELEASE		0x081f
+
+	alt-f1		KEY_ALT_F1		0x0820
+	alt-f2		KEY_ALT_F2		0x0821
+	alt-f3		KEY_ALT_F3		0x0822
+	alt-f4		KEY_ALT_F4		0x0823
+	alt-f5		KEY_ALT_F5		0x0824
+	alt-f6		KEY_ALT_F6		0x0825
+	alt-f7		KEY_ALT_F7		0x0826
+	alt-f8		KEY_ALT_F8		0x0827
+	alt-f9		KEY_ALT_F9		0x0828
+	alt-f10		KEY_ALT_F10		0x0829
+	alt-f11		KEY_ALT_F11		0x082a
+	alt-f12		KEY_ALT_F12		0x082b
+	alt-f13		KEY_ALT_F13		0x082c
+	alt-f14		KEY_ALT_F14		0x082d
+	alt-f15		KEY_ALT_F15		0x082e
+	alt-f16		KEY_ALT_F16		0x082f
+
+	alt-0		KEY_ALT_0		0x0830
+	alt-1		KEY_ALT_1		0x0831
+	alt-2		KEY_ALT_2		0x0832
+	alt-3		KEY_ALT_3		0x0833
+	alt-4		KEY_ALT_4		0x0834
+	alt-5		KEY_ALT_5		0x0835
+	alt-6		KEY_ALT_6		0x0836
+	alt-7		KEY_ALT_7		0x0837
+	alt-8		KEY_ALT_8		0x0838
+	alt-9		KEY_ALT_9		0x0839
+
+	alt-a		KEY_ALT_A		0x0841
+	alt-b		KEY_ALT_B		0x0842
+	alt-c		KEY_ALT_C		0x0843
+	alt-d		KEY_ALT_D		0x0844
+	alt-e		KEY_ALT_E		0x0845
+	alt-f		KEY_ALT_F		0x0846
+	alt-g		KEY_ALT_G		0x0847
+	alt-h		KEY_ALT_H		0x0848
+	alt-i		KEY_ALT_I		0x0849
+	alt-j		KEY_ALT_J		0x084a
+	alt-k		KEY_ALT_K		0x084b
+	alt-l		KEY_ALT_L		0x084c
+	alt-m		KEY_ALT_M		0x084d
+	alt-n		KEY_ALT_N		0x084e
+	alt-o		KEY_ALT_O		0x084f
+	alt-p		KEY_ALT_P		0x0850
+	alt-q		KEY_ALT_Q		0x0851
+	alt-r		KEY_ALT_R		0x0852
+	alt-s		KEY_ALT_S		0x0853
+	alt-t		KEY_ALT_T		0x0854
+	alt-u		KEY_ALT_U		0x0855
+	alt-v		KEY_ALT_V		0x0856
+	alt-w		KEY_ALT_W		0x0857
+	alt-x		KEY_ALT_X		0x0858
+	alt-y		KEY_ALT_Y		0x0859
+	alt-z		KEY_ALT_Z		0x085a
+
+	Pseudo keys:
+
+	key-name	define			code		notes
+	-----------	-------------		------		-------------
+	kshift		KEY_KSHIFT		0x1010
+	kctrl		KEY_KCTRL		0x1011
+	kalt		KEY_KALT		0x1012
+	kfunc		KEY_KFUNC		0x1013
+
+	num-lock	KEY_NUM_LOCK		0x1014
+	caps-lock	KEY_CAPS_LOCK		0x1015
+	scroll-lock	KEY_SCROLL_LOCK		0x1016
+
+	refresh		KEY_REFRESH		0x1017
+	print-screen	KEY_PRINT_SCREEN	0x1018
+	prt-screen	KEY_PRINT_SCREEN	0x1018		Alias
+	snap		KEY_SNAP		0x1019
+	help		KEY_HELP		0x101a
+	mouse-input	KEY_MOUSE		0x101b		See Section 4.9
+	win-resize	KEY_WINRESIZE		0x101c
+	timer		KEY_TIMER		0x101d
+	unknown		KEY_UNKNOWN		0x101e
+	read-again	KEY_READ_AGAIN		0x101f
+	signal		KEY_SIGNAL		0x1020
+
+	Mouse keys:
+
+	key-name	define			code		notes
+	-----------	-------------		------		-------------
+	mouse-lbu	MOUSE_LBU		0x4000
+	mouse-lbd	MOUSE_LBD		0x4001
+	mouse-lbdbl	MOUSE_LBDBL		0x4002
+
+	mouse-mbu	MOUSE_MBU		0x4003
+	mouse-mbd	MOUSE_MBD		0x4004
+	mouse-mbdbl	MOUSE_MBDBL		0x4005
+
+	mouse-rbu	MOUSE_RBU		0x4006
+	mouse-rbd	MOUSE_RBD		0x4007
+	mouse-rbdbl	MOUSE_RBDBL		0x4008
+
+	mouse-move	MOUSE_MOVE		0x4009
+	mouse-drag	MOUSE_DRAG		0x400a
+
+	mouse-scrollup	MOUSE_SCROLLUP		0x400b
+	mouse-scrolldn	MOUSE_SCROLLDN		0x400c
+
+	The following keys are converted on input to a "mouse-move" or a
+	"mouse-drag" key:
+
+	mouse-left	MOUSE_LEFT		0x4010		input only
+	mouse-right	MOUSE_RIGHT		0x4011		input only
+	mouse-up	MOUSE_UP		0x4012		input only
+	mouse-down	MOUSE_DOWN		0x4013		input only
+
+	mouse-ul	MOUSE_UL		0x4014		input only
+	mouse-ur	MOUSE_UR		0x4015		input only
+	mouse-dl	MOUSE_DL		0x4016		input only
+	mouse-dr	MOUSE_DR		0x4017		input only
+
+	Note that all "special" keys have a value greater than 256 (0xff).
+	They are in the pattern of (mask | value), where "mask" is
+	one of the following:
+
+		mask		code
+		------		------
+		reg		0x0100
+		shift		0x0200
+		ctrl		0x0400
+		alt		0x0800
+		other		0x1000
+		std-curses	0x2000
+		mouse		0x4000
+
+	and "value" is one of the following:
+
+		value		code
+		-------		------
+		insert		0x0000
+		end		0x0001
+		down		0x0002
+		pgdn		0x0003
+		left		0x0004
+		middle		0x0005
+		right		0x0006
+		home		0x0007
+		up		0x0008
+		pgup		0x0009
+
+		user1		0x000b
+		user2		0x000c
+		user3		0x000d
+		user4		0x000e
+		user5		0x000f
+
+		kp0		0x0010
+		kp1		0x0011
+		kp2		0x0012
+		kp3		0x0013
+		kp4		0x0014
+		kp5		0x0015
+		kp6		0x0016
+		kp7		0x0017
+		kp8		0x0018
+		kp9		0x0019
+		kpperiod	0x001a
+
+		tab		0x001b
+		bs		0x001c
+		return		0x001d
+		press		0x001e
+		release		0x001f
+
+		f1		0x0020
+		f2		0x0021
+		f3		0x0022
+		f4		0x0023
+		f5		0x0024
+		f6		0x0025
+		f7		0x0026
+		f8		0x0027
+		f9		0x0028
+		f10		0x0029
+		f11		0x002a
+		f12		0x002b
+		f13		0x002c
+		f14		0x002d
+		f15		0x002e
+		f16		0x002f
+
+	Thus, a "KEY_F1" is "reg | f1", and a "KEY_ALT_F1" is
+	"alt | f1".  A special key can be queried as to whether it
+	is "regular", "shift", "control", or "alt" by checking the
+	mask part of the key-code.
+
+	Note that although this encoding will support the idea of
+	multiple masks, such as "control-alt-f1" as "ctrl | alt | f1",
+	the "ecurses" library does not translate such keys on input
+	or provide defines for them.
+
+6.4	Appendix 4 - Parameterized strings
+
+	A parameterized string represents an escape sequence which is
+	calculated at run-time from parameters given to it.  The syntax
+	of these strings indicate how the parameters are to be converted,
+	and are different for "terminfo-type" strings and "termcap-type"
+	strings.  The conversion routines are passed the string and
+	two integer parameters "p1" & "p2", which are used to create
+	the actual escape sequence to be output.
+
+	The "ecurses" library uses four parameterized strings, as follows:
+
+	1.	move-cursor	Specifies the command to position the
+				cursor on the screen.
+
+				p1 = row value (0 - #rows-1)
+				p2 = col value (0 - #cols-1)
+
+				Note that this string is always required
+				to be defined.
+
+	2.	foreground	Specifies the command to set the foreground
+				color on the screen.
+
+				If color-mapping is in effect, the values
+				passed to the conversion routine will
+				be the mapped color-values.
+
+				p1 = foreground color
+				p2 = 0
+
+	3.	background	Specifies the command to set the background
+				color on the screen.
+
+				If color-mapping is in effect, the values
+				passed to the conversion routine will
+				be the mapped color-values.
+
+				p1 = background color
+				p2 = 0
+
+	4.	color-string	Specifies the command to set the foreground
+				& background colors on the screen.
+
+				If color-mapping is in effect, the values
+				passed to the conversion routine will
+				be the mapped color-values.
+
+				p1 = background color
+				p2 = foreground color
+
+				Note that if "color-string" is defined,
+				it will take precedence over any "foreground"
+				& "background" entries which may be defined.
+
+	The syntax of a parameterized string is different for "terminfo"
+	strings and "termcap" strings, but they both use the following rules:
+
+	1.	All characters are copied to the output except for
+		"operators".
+
+	2.	A character may be represented by an "escape-sequence"
+		as follows:
+
+		^c	Convert 'c' to 'control-c' ('c' & 0x1f)
+		^^	Convert to '^' (0x5e)
+		\\	Convert to '\' (0x2f)
+		^?	Convert to DEL (0x7f)
+		\e	Convert to ESC (0x1b)
+		\E	Convert to ESC (0x1b)
+		\n	Convert to NL  (0x0a)
+		\r	Convert to CR  (0x0d)
+		\t	Convert to TAB (0x09)
+		\b	Convert to BS  (0x08)
+		\f	Convert to FF  (0x0c)
+		\s	Convert to ' ' (0x20)
+		\ddd	Convert to octal number ddd (1-3 digits)
+			(Result is taken modulo 256)
+
+		Any character with the binary value of 0 (0x00) will
+		be output with the high-bit turned on (0x80).
+
+	3.	An "operator" is identified by a '%' (percent character).
+		The "operators" differ for "terminfo" & "termcap" strings.
+
+	The syntax rules for operators are as follows:
+
+	1.	"termcap" strings
+
+		The operators defined are:
+
+		%%	Output a '%' character.
+
+		%r	Reverse p1 & p2.
+
+		%i	Increment p1 and p2 by 1.
+
+		%.	Output the next parameter as a character.
+			(The parameter counter is incremented).
+
+		%d	Output the next parameter as a number.
+			(The parameter counter is incremented).
+
+		%2	Output the next parameter as a 2-digit number.
+			(The parameter counter is incremented).
+
+		%3	Output the next parameter as a 3-digit number.
+			(The parameter counter is incremented).
+
+		%+	Output the next parameter as a character incremented
+			by the next character.
+			(The parameter counter is incremented).
+
+		Examples:
+
+		Output row & col as two characters incremented by a space,
+		with the col first:
+
+			"\e[%r%+ %+ H"
+
+		Output row & col as numbers incremented by 1:
+
+			"\e[%i%d;%dH"
+
+		Notes:
+
+		1.	Any attempt to output a parameter after the first
+			two parameters is ignored.
+
+		2.	If an invalid operator code is encountered, the '%'
+			and the following character are ignored, and parsing
+			continues with the next character.
+
+	2.	"terminfo" strings
+
+		The parameter mechanism uses a stack with the "operators"
+		manipulating the stack in the manner of Reverse Polish
+		Notation (postfix notation).  Typically, a sequence will
+		"push" one or more parameters onto the stack, operate on
+		them, and then "pop" the result off the stack and output
+		it in some format.
+
+		Operations are in postfix form with the operands in the usual
+		order.  For example, to subtract 5 from the first parameter,
+		one would use the sequence "%p1%{5}%-".
+
+		Operators are as follows:
+
+		-------	constants
+
+		%'c'	char const:	PUSH('c')
+
+		%{n}	decimal const:	PUSH(n)
+
+		-------	arithmetic operators
+
+		%+	add:		PUSH( POP(int2) + POP(int1) )
+
+		%-	subtract:	PUSH( POP(int2) - POP(int1) )
+
+		%*	multiply:	PUSH( POP(int2) * POP(int1) )
+
+		%/	divide:		PUSH( POP(int2) / POP(int1) )
+
+		%m	modulo:		PUSH( POP(int2) % POP(int1) )
+
+		-------	bit operations
+
+		%&	bit-wise AND:	PUSH( POP(int2) & POP(int1) )
+
+		%|	bit-wise OR:	PUSH( POP(int2) | POP(int1) )
+
+		%^	bit-wise XOR:	PUSH( POP(int2) ^ POP(int1) )
+
+		-------	unary operations
+
+		%!	unary NOT:	PUSH( ! POP(int1) )
+
+		%~	unary INVERT:	PUSH( ~ POP(int1) )
+
+		-------	logical operations
+
+		%A	logical AND:	PUSH( POP(int2) && POP(int1) )
+
+		%O	logical OR:	PUSH( POP(int2) || POP(int1) )
+
+		-------	compare operations
+
+		%<	less than:	PUSH( POP(int2)  < POP(int1) )
+
+		%>	greater than:	PUSH( POP(int2)  > POP(int1) )
+
+		%=	equality:	PUSH( POP(int2) == POP(int1) )
+
+		-------	increment all parameters
+
+		%i	increment p[n]:	p[1]++ and p[2]++
+
+		-------	push parameters
+
+		%p[1-2]	push parameter:	PUSH(p[1-2])
+
+		-------	string length (i.e. number of digits)
+
+		%l	string length:	PUSH( strlen(POP()) )
+
+		-------	dynamic variables (a-z)
+
+		%P[a-z]	set dyn var:	VAR[a-z] = POP()
+
+		%g[a-z]	get dyn var:	PUSH( VAR[a-z] )
+
+		-------	static variables (A-Z) - NOT SUPPORTED
+
+		%P[A-Z]	set static var:	POP()
+
+		%g[A-Z]	get static var:	PUSH(0)
+
+		-------	if / then / else / endif
+
+		%?	begin an if
+		%t	begin a  then clause
+		%e	begin an else clause
+		%;	endif
+
+			%? expr %t thenpart %e elsepart %;
+
+			If-then-else.  The else-part (%e) is optional.
+			Tests may be nested (i.e. else-ifs) ala Algol 68:
+				"%? c1 %t b1 %e c2 %t b2 %e c3 %t b3 %e b4 %;"
+			where ci are conditions and bi are bodies.
+			Note that spaces are used here for clarity only.
+
+			For example, output a "0" if p1 is zero, and a "1"
+			if p1 is non-zero (again, spaces are inserted for
+			clarity):
+
+				"%? %p1 %{0} %= %t %'0' %c %e %'1' %c %;"
+
+				or
+
+				"%? %p1 %{0} %= %t 0 %e 1 %;"
+
+		-------	output operations
+
+		%%	Output a '%'.
+
+		%c	Output POP() as a character.
+
+		%[[:]flags][width[.prec]][doxXs]
+
+			Output POP() with printf-like syntax.  The ':'
+			is used if "flags" starts with a '-' in order to
+			differentiate from the "%-" operator, e.g. "%:-4.2d".
+			As in printf, "flags" may be [-+#] and space.
+			If the format type is 's', then the string
+			representation of the numeric value is used.
+
+		Examples:
+
+		Output row & col as two characters incremented by a space,
+		with the col first:
+
+			"\e[%p2%'\s'%+%c%p1%'\s'%+%cH"
+
+		Output row & col as numbers incremented by 1:
+
+			"\e[%i%p1%d;%p2%dH"
+
+		More complex arithmetic is possible using the stack.
+
+		Notes:
+
+ 		1.	"Standard" terminfo syntax also defines operators
+			for "static variables", but those operators are
+			not supported in this implementation.
+
+		2.	"Standard" terminfo syntax also defines up to
+			9 parameters, but in this implementation any
+			references to parameters [3-9] will result in a
+			PUSH(0).
+
+		3.	If an invalid operator code is encountered, the '%'
+			and the following character are ignored, and parsing
+			continues with the next character.
+
+		4.	In this implementation, the maximum depth of the stack
+			is 20 entries.  Pushes onto a full stack are ignored.
+
+		5.	Popping a value when the stack is empty will result
+			in a value of 0.
+
+		6.	The if/then/else/endif mechanism utilizes a separate
+			stack, so it is not possible after an endif to pop a
+			value which was pushed within an if/.../endif
+			(%? ... %;).
+

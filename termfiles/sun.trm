@@ -1,0 +1,69 @@
+# SUN
+
+# Screen commands
+
+auto-margin	= 1
+move-cursor-ti	= "\e[%i%p1%d;%p2%dH"
+move-cursor-tc	= "\e[%i%d;%dH"
+clear-screen	= "^L"
+clear-to-eol	= "\e[K"
+clear-to-eos	= "\e[J"
+add-line	= "\e[L"
+delete-line	= "\e[M"
+insert-char	= "\e[@"
+delete-char	= "\e[P"
+
+# Screen attributes
+
+reverse-on	= "\e[7m"
+reverse-off	= "\e[m"
+
+bold-on		= "\e[1m"
+bold-off	= "\e[m"
+
+underline-on	= "\e[4m"
+underline-off	= "\e[m"
+
+# Setup graphic set chars
+
+# Uncomment the two following lines if you have the
+# pc font as your X11 font.
+# This will take advantage of the line drawing char set.
+
+#alt-char-1-on	= ""
+#alt-char-1-off	= ""
+
+# Function keys
+
+f1		= "\e[224z"
+f2		= "\e[225z"
+f3		= "\e[226z"
+f4		= "\e[227z"
+f5		= "\e[228z"
+f6		= "\e[229z"
+f7		= "\e[230z"
+f8		= "\e[231z"
+f9		= "\e[232z"
+f10		= "\e[233z"
+f11		= "\e[234z"
+f12		= "\e[235z"
+
+# Keypad
+
+kp0		= "\e[247z"
+kp1		= "\e[220z"
+kp2		= "\e[B"
+kp2		= "\e[221z"
+kp3		= "\e[222z"
+kp4		= "\e[D"
+kp4		= "\e[217z"
+kp5		= "\e[218z"
+kp6		= "\e[C"
+kp6		= "\e[219z"
+kp7		= "\e[214z"
+kp8		= "\e[A"
+kp8		= "\e[215z"
+kp9		= "\e[216z"
+kpperiod	= "\e[249z"
+
+kpenter		= "\e[250z"

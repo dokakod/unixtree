@@ -1,0 +1,154 @@
+Installation notes for ${PKG}
+
+--------------------------------------------------------------------------
+The Unix packages are all distributed as compressed tar files.
+To install any of these packages, do the following:
+
+1.	Pick a directory to install ${PKG} in.
+	We recommend /usr/local/${PGM} if you are installing this
+	program for everyone, otherwise use ~/${PGM} for your personal copy.
+
+	Note that to install into /usr/local you may need to have root
+	permission.
+
+2.	Execute the following commands:
+
+	Note: in the following commands,
+	<download-dir>		refers to the directory you downloaded the
+				install package into.
+	<install-package>	refers to the file you downloaded (minus any
+				.Z or .gz extension).
+	<install-dir>		refers to the directory you wish to install in.
+
+	Uncompress the downloaded package:
+
+	$ cd <download-dir>
+	$ uncompress <install-package>.Z
+		or
+	$ gunzip <install-package>.gz
+
+	Install the package:
+
+	$ mkdir -p <install-dir>
+	$ cd <install-dir>
+	$ tar xvf <download-dir>/<install-package>
+
+	Remove the download file if desired:
+
+	$ rm <download-dir>/<install-package>
+
+3.	Add the install directory to your path to make it accessable:
+
+	Users of sh, ksh, bash, or any other sh-like shell:
+
+		$ PATH=$PATH:<install-dir>	export PATH
+
+		You can do this automatically each time you (or anyone)
+		logs in by adding that line to either your personal
+		~/.profile file or to the system-wide /etc/profile file.
+
+	Users of csh, tcsh, or any other csh-like shell:
+
+		% set path=($path <install-dir>)
+
+		You can do this automatically each time you (or anyone)
+		logs in by adding that line to either your personal
+		~/.cshrc file or to the system-wide /etc/cshrc file.
+
+4.	To access the ${PGM} man page, you need to add the appropriate
+	${PKG} man directory to your MANPATH.
+
+	There are two man directories, one for systems whose man program
+	supports "man" format files (like Solaris and HP/ux), and
+	one for other systems whose man program supports "cat" format files.
+
+	For Unix systems which support "man" format pages, use the command:
+
+		$ MANPATH=<install-dir>/man:$MANPATH export MANPATH
+
+		or
+
+		% setenv MANPATH="<install-dir>/man:$MANPATH"
+
+	For other Unix systems, use the command:
+
+		$ MANPATH=<install-dir>/catman:$MANPATH export MANPATH
+
+		or
+
+		% setenv MANPATH="<install-dir>/catman:$MANPATH"
+
+	Note that Unix systems which support "man" format pages always also
+	support "cat" format man pages.
+
+	After this, the command "man ${PGM}" will display the man page for
+	"${PGM}".
+
+	The reason for putting the ${PGM} man directory first in the list
+	is that some Unix systems have an "xt" entry in section 7 (devices),
+	which describes the Xylogics Tape Driver.  So, if the ${PKG}
+	man directory was at the end of the MANPATH, you would have to run
+	"man 1 ${PGM}" (or "man -s1 ${PGM}" on Solaris) to specify the
+	entry in section 1 (commands).
+
+	This command, like the previous PATH addition, can be added to your
+	~/.profile or /etc/profile files (sh & friends) or to your
+	~/.cshrc or /etc/cshrc files (csh & friends).
+
+	You can also just view the file <install-dir>/catman/man1/${PGM}.1
+	using any viewer such as "more" or with an editor such as "vi".
+
+5.	Platform-specific installs
+
+	For Linux users, there is an RPM file which can be used instead of
+	the standard TAR file.  Just use the command "rpm -Uhv <package>.rpm".
+	Note that you must have root permission to use this command.
+
+	For SVR4 users, there are PKGADD files which can be used instead of
+	the standard TAR files.  Just uncompress the appropriate file,
+	and use the command "pkgadd -d <package>.pkg".
+	Note that you must have root permission to use this command.
+
+--------------------------------------------------------------------------
+2.3.x update notes:
+
+If you are updating ${PKG} from version 2.2.x, you may
+want to move your old user-specific files to the new ones (if they exist).
+
+The files which have changed are:
+
+	old file	new file		description
+	-----------	--------------------	----------------
+	~/.${PGM}rc		~/.${PGM}/${PGM}.rc		configuration file
+	~/.${PGM}fc		~/.${PGM}/${PGM}.fc		file-color file
+	~/.${PGM}hs		~/.${PGM}/${PGM}.hst		history file
+
+To do this, execute the following commands:
+
+	$ mkdir ~/.${PGM}
+	$ mv ~/.${PGM}rc ~/.${PGM}/${PGM}.rc	# to update the config file
+	$ mv ~/.${PGM}fc ~/.${PGM}/${PGM}.fc	# to update the file-color file
+	$ mv ~/.${PGM}hs ~/.${PGM}/${PGM}.hst	# to update the history file
+
+--------------------------------------------------------------------------
+3.x update notes:
+
+If you are upgrading from any 2.x to 3.x, you may have to modify your
+personal application menu file (${PGM}.mnu) if you have one.  The keyword
+"any" is no longer recognized.
+
+A command to do this is as follows:
+
+	$ ex ~/.${PGM}/${PGM}.mnu << EOF
+	> set ic
+	> g/\\<any\\>//s/*/g
+	> wq
+	> EOF
+
+Note that the delivered application menu file does not contain
+the "any" keyword.
+	
+--------------------------------------------------------------------------
+Email comments to: ${EMA}
+${PKG} home: ${WWW}
+${SLG}

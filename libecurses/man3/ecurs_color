@@ -1,0 +1,163 @@
+Curses Library Functions ecurs_color
+
+
+
+NAME
+     ecurs_color - curses color manipulation routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int start_color(void);
+
+     int init_pair(short pair, short fg, short bg);
+
+     init_all_pairs(void);
+
+     int init_color(short color, short red, short green,
+         short blue);
+
+     int has_colors(void);
+
+     int can_change_color(void);
+
+     int color_content(short color, short *redp, short *greenp,
+         short *bluep);
+
+     int pair_content(short pair, short *fgp, short *bgp);
+
+     attr_t COLOR_PAIR(n);
+
+     int PAIR_NUMBER(attr_t a);
+
+DESCRIPTION
+  Overview
+     ecurses provides automatic color manipulation if the
+     terminal supports color. By setting color attributes in
+     a window, that color will be displayed if the terminal
+     can display it.
+
+     For compatability purposes, ecurses supports the standard
+     curses color mechanism, although it is not necessary to use.
+
+  Compatability Overview
+     ecurses provides routines that manipulate color on color
+     alphanumeric terminals. To use these routines start_color()
+     must be called, usually right after initscr(). See
+     curs_initscr. Colors are always used in pairs
+     (referred to as color-pairs). A color-pair consists of a
+     foreground color (for characters) and a background color
+     (for the field on which the characters are displayed). A
+     programmer initializes a color-pair with the routine
+     init_pair. After it has been initialized, COLOR_PAIR(n), a
+     macro defined by <curses.h>, can be used in the same ways
+     other video attributes can be used. If a terminal is capable
+     of redefining colors, the programmer can use the routine
+     init_color() to change the definition of a color. The
+     routines has_colors() and can_change_color() return TRUE or
+     FALSE, depending on whether the terminal has color
+     capabilities and whether the programmer can change the
+     colors. The routine color_content() allows a programmer to
+     identify the amounts of red, green, and blue components in
+     an initialized color. The routine pair_content() allows a
+     programmer to find out how a given color-pair is currently
+     defined.
+
+  Routine Descriptions
+     The start_color() routine requires no arguments. It must be
+     called if the programmer wants to use colors, and before any
+     other color manipulation routine is called. It is good
+     practice to call this routine right after initscr().
+     start_color() initializes eight basic colors (black, red,
+     green, yellow, blue, magenta, cyan, and white), and two
+     global variables, COLORS and COLOR_PAIRS (respectively
+     defining the maximum number of colors and color-pairs the
+     terminal can support).
+
+     The init_pair() routine changes the definition of a color-
+     pair. It takes three arguments: the number of the color-pair
+     to be changed, the foreground color number, and the
+     background color number. The value of the first argument
+     must be between 1 and COLOR_PAIRS-1. The value of the second
+     and third arguments must be between 0 and COLORS.  The
+     init_all_pairs() routine initializes all color pairs with
+     the default value of (fg << 4 | bg).
+
+     The init_color() routine changes the definition of a color.
+     It takes four arguments: the number of the color to be
+     changed followed by three RGB values (for the amounts of
+     red, green, and blue components). The value of the first
+     argument must be between 0 and COLORS. (See the section
+     Colors for the default color index.) Each of the last three
+     arguments must be a value between 0 and 1000. The ecurses
+     library does not support changing color definitions, so this
+     routine always returns ERR.
+
+     The has_colors() routine requires no arguments. It returns
+     TRUE if the terminal can manipulate colors; otherwise, it
+     returns FALSE. This routine facilitates writing terminal-
+     independent programs. For example, a programmer can use it
+     to decide whether to use color or some other video
+     attribute.
+
+     The can_change_color() routine requires no arguments. It
+     returns TRUE if the terminal supports colors and can change
+     their definitions; other, it returns FALSE. Since ecurses
+     does not support changing color definitions, this routine
+     always returns FALSE.
+
+     The color_content() routine gives users a way to find the
+     intensity of the red, green, and blue (RGB) components in a
+     color. It requires four arguments: the color number, and
+     three addresses of shorts for storing the information about
+     the amounts of red, green, and blue components in the given
+     color. The value of the first argument must be between 0 and
+     COLORS. The values that are stored at the addresses pointed
+     to by the last three arguments are between 0 (no component)
+     and 1000 (maximum amount of component).
+
+     The pair_content() routine allows users to find out what
+     colors a given color-pair consists of. It requires three
+     arguments: the color-pair number, and two addresses of
+     shorts for storing the foreground and the background color
+     numbers. The value of the first argument must be between 1
+     and COLOR_PAIRS-1. The values that are stored at the
+     addresses pointed to by the second and third arguments are
+     between 0 and COLORS.
+
+  Colors
+     <curses.h> defines the following color values. These are
+     the default colors. ecurses also assumes that COLOR_BLACK is
+     the default background color for all terminals if the
+     original screen attributes cannot be determined, or
+     COLOR_WHITE if in a window.
+
+         COLOR_BLACK         0
+         COLOR_RED           1
+         COLOR_GREEN         2
+         COLOR_YELLOW        3
+         COLOR_BLUE          4
+         COLOR_MAGENTA       5
+         COLOR_CYAN          6
+         COLOR_WHITE         7
+
+         COLOR_GREY          8
+         COLOR_LTRED         9
+         COLOR_LTGREEN       10
+         COLOR_LTYELLOW      11
+         COLOR_LTBLUE        12
+         COLOR_LTMAGENTA     13
+         COLOR_LTCYAN        14
+         COLOR_LTWHITE       15
+
+RETURN VALUES
+     All routines that return an integer return ERR upon failure
+     and OK upon successful completion.
+
+SEE ALSO
+     ecurs_attr, ecurs_initscr, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

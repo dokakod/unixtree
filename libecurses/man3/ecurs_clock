@@ -1,0 +1,64 @@
+Curses Library Functions ecurs_clock
+
+
+
+NAME
+     ecurs_clock - Display date & time in a window
+
+SYNOPSIS
+     #include <curses.h>
+
+     typedef void WIN_CLOCK_RTN
+                  (WINDOW * win, /* window           */
+                   void * data,  /* user data        */
+                   int  yr,      /* year:      yyyy  */
+                   int  mo,      /* month:     1-12  */
+                   int  da,      /* day:       1-31  */
+                   int  hh,      /* hour:      0-23  */
+                   int  mm,      /* minute:    0-59  */
+                   int  ss,      /* second:    0-59  */
+                   int  wday,    /* day of wk: 0-6   */
+                   int  yday);   /* day of yr: 0-365 */
+
+     int win_clock(WINDOW *win, WIN_CLOCK_RTN *rtn, void *data,
+         int interval);
+
+     void win_clock_set(int flag);
+
+     void win_clock_check(void);
+
+     void win_clock_active(int bf);
+
+DESCRIPTION
+     The win_clock() routine enables the user to specify a window
+     in which to display a real-time clock. It is called with the
+     window to display in, a void pointer to arbitrary user data,
+     the name of a call-back routine to call, and the clock
+     update interval. It is the responsibility of the call-back
+     routine to format the display. The window will be cleared
+     prior to the call and refreshed after it returns.
+
+     win_clock_set() specifies whether to turn on or off the
+     clock display. It is automatically set on when win_clock()
+     is called.
+
+     win_clock_check() will invoke a display call if the clock is
+     on. This can be used to "restart" the display after a
+     "shell-escape".
+
+     win_clock_active() will suspend/resume clock processing
+     without actually setting the clock on/off. This call can
+     be used in a signal routine to inhibit alarm signals.
+     It returns the previous state of the clock.
+
+RETURN VALUES
+     win_clock() will return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

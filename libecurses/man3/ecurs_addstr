@@ -1,0 +1,54 @@
+Curses Library Functions ecurs_addstr
+
+
+
+NAME
+     ecurs_addstr - add a string of characters to a curses window
+     and advance cursor
+
+SYNOPSIS
+     #include <curses.h>
+
+     int addstr(const char *str);
+
+     int addnstr(const char *str, int n);
+
+     int center(const char *str, int y);
+
+     int waddstr(WINDOW *win, const char *str);
+
+     int waddnstr(WINDOW *win, const char *str, int n);
+
+     int wcenter(WINDOW *win, const char *str, int y);
+
+     int mvaddstr(int y, int x, const char *str);
+
+     int mvaddnstr(int y, int x, const char *str, int n);
+
+     int mvwaddstr(WINDOW *win, int y, int x, const char *str);
+
+     int mvwaddnstr(WINDOW *win, int y, int x, const char *str,
+         int n);
+
+DESCRIPTION
+     All of these routines write all the characters of the null
+     terminated character string str on the given window. It is
+     similar to calling waddch() once for each character in the
+     string. The routines with n as the last argument write at
+     most n characters. If n is negative, then the entire string
+     will be added.
+
+     The routines center() and wcenter() will write the given
+     string on the specified line centered on that line.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_addch, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

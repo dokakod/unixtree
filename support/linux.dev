@@ -1,0 +1,9 @@
+#	archive device table
+#
+#	device     		block   size	tape	desc
+
+#	default device
+archive=/dev/fd0		18	1440	n	# drive 0  3.5   1.44M
+
+archive0=/dev/fd0		18	1440	n	# drive 0  3.5   1.44M
+archive1=/dev/st0		20	0	y	# cartridge tape

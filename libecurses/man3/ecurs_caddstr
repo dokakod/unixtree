@@ -1,0 +1,57 @@
+Curses Library Functions ecurs_caddstr
+
+
+
+NAME
+     ecurs_addstr - add a string of characters to a curses window
+     with a character-code and advance cursor
+
+SYNOPSIS
+     #include <curses.h>
+
+     int caddstr(const char *str, int code);
+
+     int caddnstr(const char *str, int n, int code);
+
+     int ccenter(const char *str, int y, int code);
+
+     int wcaddstr(WINDOW *win, const char *str, int code);
+
+     int wcaddnstr(WINDOW *win, const char *str, int n,
+         int code);
+
+     int wccenter(WINDOW *win, const char *str, int y,
+         int code);
+
+     int mvcaddstr(int y, int x, const char *str,
+         int code);
+
+     int mvcaddnstr(int y, int x, const char *str, int n,
+         int code);
+
+     int mvwcaddstr(WINDOW *win, int y, int x, const char *str,
+         int code);
+
+     int mvwcaddnstr(WINDOW *win, int y, int x, const char *str,
+         int n, int code);
+
+DESCRIPTION
+     These functions are functionally equivalent to the routines
+     described in ecurs_addstr, with the addition of specifying a
+     character-code to be associated with each character.
+
+     This character-code is used by the mouse display and input
+     routines.  It is ignored if mouse-processing is not enabled.
+     The default code added to the window with a character is 0.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_addch, ecurs_mouse, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

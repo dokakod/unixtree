@@ -1,0 +1,110 @@
+Curses Library Functions ecurs_alarm
+
+
+
+NAME
+     ecurs_alarm - Alarm processing routines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int win_alarm_set(int atype, int interval,
+         WIN_ALARM_RTN *funcptr, void *data, int on_heap,
+         int returns, int start);
+
+     int win_alarm_clr(int atype);
+
+     int win_alarm_on(int atype);
+
+     int win_alarm_off(int atype);
+
+     int win_alarm_check(int atype);
+
+     int win_alarm_trip(int atype, time_t t);
+
+     int win_alarm_active(int atype);
+
+     int win_alarm_stop(void);
+
+     int win_alarm_start(int value);
+
+DESCRIPTION
+     These routines are similar to the standard alarm()
+     routine, except that multiple alarms can be specified,
+     where the operating system only supports a single
+     alarm. The ecurses clock routines use these routines
+     to "multiplex" clock alarms with other user alarms.
+     More than one alarm may be triggered at the same time,
+     although the routines are called one at a time.
+
+     There are currently four alarm types defined:
+
+         WIN_ALARM_KEY     Used by the kbd input routine
+         WIN_ALARM_CLOCK   Used by the clock routines
+         WIN_ALARM_PING    Used for any ping needed
+         WIN_ALARM_USER    Reserved for user use
+
+     The alarm routine specified is called with the time
+     and the user data specified whenever the interval for
+     that alarm type occurs. It is also called with a time
+     value of 0 when that alarm type is stopped.
+
+     win_alarm_set() is called to specify the alarm type,
+     interval (in milliseconds) between calls, and a
+     pointer to user data to pass to the routine.  on_heap
+     is TRUE if the user data is on the heap and should be
+     freed by the alarm routines when that alarm type is
+     cleared.  This enables the user to allocate data on
+     the heap and not worry about it being freed when it
+     is no longer used. returns is TRUE if the routine
+     returns and FALSE if not.  There can only be one
+     type at a time which does not return. start is TRUE
+     if the specified alarm type is to be started at the
+     time of the call.
+
+     win_alarm_clr() clears the alarm type and frees the
+     user data if on_heap was TRUE.
+
+     win_alarm_on() and win_alarm_off() tuens on and off
+     the alarm type specified, but does not clear the
+     entry.
+
+     win_alarm_check() returns TRUE if the specified alarm
+     type has been set and win_alarm_active() returns TRUE
+     if the specified alarm type is currently active.
+
+     win_alarm_trip() acts as if the specified alarm type
+     was triggered and calls the alarm routine with the
+     time specified.
+
+     win_alarm_stop() and win_alarm_start() stop and start
+     all alarm processing.  They are automatically called
+     when endwin() is called and when curses processing is
+     restarted.
+
+RETURN VALUES
+     win_alarm_set(), win_alarm_clr(), win_alarm_on(),
+     win_alarm_off(), and win_alarm_trip() return OK if the
+     alarm type is valid, and ERR if not.
+
+     win_alarm_check() returns TRUE if the specified alarm
+     type is set and FALSE if not.
+
+     win_alarm_active() returns TRUE if the specified alarm
+     type is currently active and FALSE if not.
+
+     win_alarm_stop() returns the current interval until the
+     next alarm or 0 if no alarms are active.
+
+     win_alarm_start() should be called with the value
+     returned from win_alarm_stop() and returns the current
+     alarm interval (which is usually 0 since it is usually
+     called after win_alarm_stop() has been called).
+
+SEE ALSO
+     ecurs_clock, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,39 @@
+Curses Library Functions ecurs_insch
+
+
+
+NAME
+     ecurs_insch - insert a character before the character under
+     the cursor in a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int insch(chtype ch);
+
+     int winsch(WINDOW *win, chtype ch);
+
+     int mvinsch(int y, int x, chtype ch);
+
+     int mvwinsch(WINDOW *win, int y, int x, chtype ch);
+
+DESCRIPTION
+     With these routines, the character ch is inserted before the
+     character under the cursor. All characters to the right of
+     the cursor are moved one space to the right, with the
+     possibility of the rightmost character on the line being
+     lost. The cursor position does not change (after moving to
+     y, x, if specified). (This does not imply use of the
+     hardware insert character feature.)
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

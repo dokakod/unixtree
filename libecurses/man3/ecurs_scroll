@@ -1,0 +1,43 @@
+Curses Library Functions ecurs_scroll
+
+
+
+NAME
+     ecurs_scroll - scroll a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int scroll(WINDOW *win);
+
+     int scrl(int n);
+
+     int wscrl(WINDOW *win, int n);
+
+DESCRIPTION
+     With the scroll() routine, the window is scrolled up one
+     line. This involves moving the lines in the window data
+     structure. As an optimization, if the scrolling region of
+     the window is the entire screen, the physical screen is
+     scrolled at the same time.
+
+     With the scrl() and wscrl() routines, for positive n scroll
+     the window up n lines (line i+n becomes i); otherwise scroll
+     the window down n lines. This involves moving the lines in
+     the window character image structure. The current cursor
+     position is not changed.
+
+     For these functions to work, scrolling must be enabled via
+     scrollok().
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_outopts, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,88 @@
+# term info for "cygwin"
+
+# screen data
+
+cols                = 80
+lines               = 25
+max-colors          = 8
+auto-margin         = on
+move-cursor-ti      = "\e[%i%p1%d;%p2%dH"
+move-cursor-tc      = "\e[%i%d;%dH"
+map-fg-ti           = "\e[3%p1%dm"
+map-fg-tc           = "\e[3%dm"
+map-bg-ti           = "\e[4%p1%dm"
+map-bg-tc           = "\e[4%dm"
+add-line            = "\e[L"
+delete-line         = "\e[M"
+insert-char         = "\e[@"
+delete-char         = "\e[P"
+bell                = "^G"
+visible-bell        = "\e[?5h\e[?5l$<200/>"
+clear-screen        = "\e[H\e[J"
+clear-to-eol        = "\e[K"
+clear-to-eos        = "\e[J"
+cursor-on           = "\e[?25h"
+session-end         = "\ec\e]R"
+alt-chars-dis       = "\e[10m"
+reverse-on          = "\e[7m"
+reverse-off         = "\e[27m"
+underline-on        = "\e[4m"
+underline-off       = "\e[24m"
+bold-on             = "\e[1m"
+bold-off            = "\e[0;10m"
+blink-off           = "\e[0;10m"
+dim-on              = "\e[2m"
+dim-off             = "\e[0;10m"
+invisible-on        = "\e[8m"
+invisible-off       = "\e[0;10m"
+protected-off       = "\e[0;10m"
+alt-char-1-on       =
+alt-char-1-off      =
+description         = "ansi emulation for Cygwin"
+vt100-char-set      =
+
+# color data
+
+black               = "\e[30m"
+red                 = "\e[31m"
+green               = "\e[32m"
+yellow              = "\e[33m"
+blue                = "\e[34m"
+magenta             = "\e[35m"
+cyan                = "\e[36m"
+white               = "\e[37m"
+
+black-bgnd          = "\e[40m"
+red-bgnd            = "\e[41m"
+green-bgnd          = "\e[42m"
+yellow-bgnd         = "\e[43m"
+blue-bgnd           = "\e[44m"
+magenta-bgnd        = "\e[45m"
+cyan-bgnd           = "\e[46m"
+white-bgnd          = "\e[47m"
+
+# key definitions
+
+f1                  = "\e[[A"
+f2                  = "\e[[B"
+f3                  = "\e[[C"
+f4                  = "\e[[D"
+f5                  = "\e[[E"
+f6                  = "\e[17~"
+f7                  = "\e[18~"
+f8                  = "\e[19~"
+f9                  = "\e[20~"
+f10                 = "\e[21~"
+f11                 = "\e[23~"
+f12                 = "\e[24~"
+up                  = "\e[A"
+down                = "\e[B"
+left                = "\e[D"
+right               = "\e[C"
+home                = "\e[1~"
+end                 = "\e[4~"
+pgup                = "\e[5~"
+pgdn                = "\e[6~"
+bs                  = "\b"
+delete              = "\e[3~"
+insert              = "\e[2~"

@@ -1,0 +1,87 @@
+# trm file for linux
+
+# termcap data
+
+cols		= 80
+lines		= 25
+auto-margin	= 1
+move-cursor-ti	= "\e[%i%p1%d;%p2%dH"
+move-cursor-tc	= "\e[%i%d;%dH"
+add-line	= "\e[L"
+delete-line	= "\e[M"
+insert-char	= "\e[@"
+delete-char	= "\e[P"
+cursor-on	= "\e[?25h"
+cursor-off	= "\e[?25l"
+clear-screen	= "\e[H\e[J"
+clear-to-eol	= "\e[K"
+clear-to-eos	= "\e[J"
+reverse-on	= "\e[7m"
+reverse-off	= "\e[m"
+underline-on	= "\e[4m"
+underline-off	= "\e[m"
+bold-on		= "\e[1m"
+bold-off	= "\e[0m"
+blink-on	= "\e[5m"
+blink-off	= "\e[0m"
+alt-char-1-on	= "\e[11m"
+alt-char-1-off	= "\e[10m"
+
+# character sets
+
+reg-char-0-set	= "\x7f."
+reg-char-0-set	= "\x9b."
+
+# color data
+
+black		= "\e[0;30m"
+red		= "\e[0;31m"
+green		= "\e[0;32m"
+yellow		= "\e[0;33m"
+blue		= "\e[0;34m"
+magenta		= "\e[0;35m"
+cyan		= "\e[0;36m"
+white		= "\e[0;37m"
+
+grey		= "\e[1;30m"
+lt-red		= "\e[1;31m"
+lt-green	= "\e[1;32m"
+lt-yellow	= "\e[1;33m"
+lt-blue		= "\e[1;34m"
+lt-magenta	= "\e[1;35m"
+lt-cyan		= "\e[1;36m"
+lt-white	= "\e[1;37m"
+
+black-bgnd	= "\e[40m"
+red-bgnd	= "\e[41m"
+green-bgnd	= "\e[42m"
+yellow-bgnd	= "\e[43m"
+blue-bgnd	= "\e[44m"
+magenta-bgnd	= "\e[45m"
+cyan-bgnd	= "\e[46m"
+white-bgnd	= "\e[47m"
+
+# key definitions
+
+f1		= "\e[[A"
+f2		= "\e[[B"
+f3		= "\e[[C"
+f4		= "\e[[D"
+f5		= "\e[[E"
+f6		= "\e[17~"
+f7		= "\e[18~"
+f8		= "\e[19~"
+f9		= "\e[20~"
+f10		= "\e[21~"
+f11		= "\e[23~"
+f12		= "\e[24~"
+up		= "\e[A"
+down		= "\e[B"
+left		= "\e[D"
+right		= "\e[C"
+home		= "\e[1~"
+end		= "\e[4~"
+pgup		= "\e[5~"
+pgdn		= "\e[6~"
+insert		= "\e[2~"
+delete		= "\e[3~"

@@ -1,0 +1,2437 @@
+Changes file for UnixTree
+
+Note:	In the "Files changed" lists, we don't note the CHANGES file,
+	which is always changed, or the "bldinfo" script when the
+	only change is to version/release/build numbers.
+
+--------------------------------------------------------------------------
+Date:	29 Mar 2005
+Ver:	3.0.2
+Build:	1028
+
+Major changes:
+
+Too many to list here.  It's been too long...
+
+--------------------------------------------------------------------------
+Date:	17 Sep 2002
+Ver:	3.0.1
+Build:	1027
+
+Major changes:
+
+1.	ecurses library
+
+	Many changes to make more compatible with "standard" curses,
+	and to support our "screen mode" of running.
+
+2.	XVT library
+
+	Many changes to make more compatible with "standard" vt100 &
+	xterm emulators.  Added support for vt52 commands.
+
+3.	X11 window support
+
+	The UnixTree program is designed to be able to run in a separate
+	X11 window, which gives full PC-like functionality.  However,
+	many users complained that they didn't have X11 installed on
+	their machine (can you believe it?), so they couldn't run the
+	program.
+
+	Our solution is to provide two executables:
+
+		xt	No X11 support
+		xtx	Provide X11 support
+
+4.	64-bit support
+
+	We made minor changes throughout the code to insure that the
+	code was 64-bit clean.  It had already run on the alpha, which
+	is a 64-bit machine, but on the alpha a "time_t" variable, which
+	stores the Unix time, is an "unsigned int" (4 bytes), whereas on
+	other 64-bit platforms (such as Solaris), a "time_t" is a "long"
+	(8 bytes).
+
+--------------------------------------------------------------------------
+Date:	11 Jun 2002
+Ver:	3.0.1
+Build:	1026
+
+Major changes:
+
+1.	Many changes to ecurses library to make the library more
+	compatible with "standard" curses.  Here is a summary of
+	the outstanding changes:
+
+	1.	The "curses.h" file is now created by the make process,
+		so there is only the one header which needs to be included.
+
+	2.	We deliver the headers "term.h" and "termcap.h" for
+		access to the low-level terminfo & termcap calls.
+		These headers are not needed by normal curses users.
+
+	3.	When doing input in a window (via the wgetch() call),
+		that window is refreshed prior to doing the read.
+		The cursor position is not changed.
+
+	4.	Fixed/added the following macros:
+
+			addchnstr	fix
+			bkgdset()	fix
+			blk_chr()	fix
+			getnstr()	fix
+			mvinchnstr()	fix
+
+			mvwhline()	add
+			mvhline()	add
+			mvwvline()	add
+			mvvline()	add
+
+	5.	Changed the name of the man page for the scr_*() routines
+		from "ecurs_scr_dump" to "ecurs_scrdump" (for better
+		consistency in naming).
+
+	6.	Added defines for the following (obsolete) curses
+		calls for backwards compatability:
+
+			garbagedlines()
+			garbagedwin()
+
+			crmode()
+			nocrmode()
+
+			fixterm()
+			resetterm()
+			saveterm()
+
+	7.	The following were external variables, but are now macros:
+
+			LINES
+			COLS
+			TABSIZE
+
+			stdscr
+			curscr
+			trmscr
+
+	8.	Added defines for the following:
+
+			KEY_MIN		lowest  pseudo-key value defined
+			KEY_MAX		highest pseudo-key value defined
+
+	9.	Changed the WINDOW member "_keypad" to "_use_keypad" for
+		compatability with "standard" curses.
+		This also involved changing the macros keypad() &
+		getkeypad().
+
+	10.	Moved the declaration of setterm() function from the
+		curses.h header to the term.h & termcap.h header.
+
+		This call is used only in conjunction with the low-level
+		terminfo & termcap routines and is not used with the
+		higher-level curses calls.
+
+	11.	Added the following defines for compatability with
+		programs using "ncurses":
+
+			NCURSES_API		/* nada */
+			NCURSES_IMPEXP		/* nada */
+			NCURSES_CONST		const
+			NCURSES_EXPORT(x)	x
+			NCURSES_EXPORT_VAR(x)	x
+
+	12.	The wbkgset() call was fixed to correctly change the
+		background for all chars on the screen, not just the
+		blank chars.
+
+	13.	The following macros were changed to explicitly set
+		operator precedence:
+
+			clearok()
+			getbegyx()
+			getcuryx()
+			getmaxyx()
+			getparyx()
+			getyx()
+			idcok()
+			idlok()
+			immedok()
+			keypad()
+			leaveok()
+			nodelay()
+			notimeout()
+			scrollok()
+			setbegx()
+			setbegy()
+			setbegyx()
+			setcurx()
+			setcury()
+			setcuryx()
+			setdelay()
+			setmaxx()
+			setmaxy()
+			setmaxyx()
+			setparx()
+			setpary()
+			setparyx()
+			setyx()
+			syncok()
+			wattroff()
+			wattron()
+			wattrset()
+			woutch()
+			wstandend()
+			wstandout()
+			wstandset()
+
+	14.	Initialization routines
+
+		The routines setterm() & setupterm() now just create
+		the low-level TERMINAL struct, but do no higher-level
+		creation of SCREEN & WINDOW structs.  Note that,
+		unlike "standard" curses, the setterm() & setupterm()
+		calls can be used in conjunction with the termcap
+		calls as well as with the terminfo calls.
+
+		The routines initscr(), newterm(), & newscreen() also
+		create all higher-level SCREEN & WINDOW creations.
+
+		The windows stdscr, curscr, & trmscr are now specific to
+		a particular screen, and changing screens (via the
+		set_term() call) will change the global window pointers
+		to point to the windows for that screen.
+
+		Also, the SCREEN struct was changed to keep a linked-list
+		of all windows & sub-windows created for that screen, and
+		calling delscreen() will delete all the windows associated
+		with a given screen.  Note that delwin() will not delete
+		a window if that window currently has any sub-windows
+		associated with it.
+
+	15.	Changes in attribute macros
+
+		In keeping with the naming convention used in curses,
+		we originally had various w[gs]et*() macros and
+		[gs]et*() macros, where a particular [gs]et*() just
+		used the associated w[gs]et*(stdscr,...) macro.
+
+		Unfortunately, the attribute macros in "standard" curses
+		don't follow this naming convention, so we have bowed
+		to the "standard".
+
+		Thus, the following macros were deleted:
+
+			wgetattr(w)
+			wgetbkgd(w)
+			wgetcode(w)
+			wgetstmode(w)
+			wsetbkgd(w,a)
+			wsetcode(w,c)
+			wsetcolor(w,f,b)
+			wsetstmode(w,b)
+
+		and the following macros were changed:
+
+			getattr()	-> getattrs(w)
+			getbkgd()	-> getbkgd(w)
+			getcode()	-> getcode(w)
+			getstmode()	-> getstmode(w)
+			setbkgd(a)	-> setbkgd(w,a)
+			setcode(c)	-> setcode(w,c)
+			setcolor(f,b)	-> setcolor(w,f,b)
+			setstmode(b)	-> setstmode(w,b)
+
+		This provides compatability with "standard" curses,
+		with, of course, our extensions.
+
+	16.	"Official" define
+
+		Added the define ECURSES_PRESENT, which can be checked
+		to see if the ecurses library is being used.
+
+	17.	NOMACROS option
+
+		Added the ability to not use macros, but use external routines
+		for all calls (for easier debugging) by defining NOMACROS
+		prior to including curses.h.
+
+	18.	Added the call newscreen_defs(), which is the same as
+		the newscreen() call but also takes a list of strings
+		which can be used as a "term-file".
+
+	19.	By using the equivalent scr_<foo>(...) calls instead of
+		<foo>(...), the ecurses library can now be used in a
+		way that is thread-safe. No other curses implementation
+		can make this claim.
+
+	Files added/deleted/changed:	too many to list
+
+2.	FORM, MENU, and PANEL libraries
+
+	Added the following libraries (& headers):
+
+		libform  (form.h)	for FORM  processing
+		libmenu  (menu.h)	for MENU  processing
+		libpanel (panel.h)	for PANEL processing
+
+	These libraries are not used by UnixTree, but are included
+	in the source to provide a more complete curses implementation.
+	These libraries and headers are delivered in the libecurses
+	SKU package.
+
+	Files added:	libform/makefile
+			libform/*.[ch]
+
+			libmenu/makefile
+			libmenu/*.[ch]
+
+			libpanel/makefile
+			libpanel/*.[ch]
+
+	Note that these source files were extracted from the "ncurses"
+	source, with minor changes to use our memory package and to
+	fix minor compiler warnings.
+
+2.	Changed libsys/sysopt.[ch] to make its variables separate
+	variables, to make it more compatible with "standard" getopt().
+	The external variable names are different, but defines are provided
+	to make source files look the same.  The functions and defines
+	are:
+
+		name			defined-name
+		---------------		------------
+		sysopt_getopt()		getopt()
+		sysopt_getopt_ext()	getopt_ext()
+		voptarg			optarg
+		voptind			optind
+		voptopt			optopt
+
+	The names are different, since the "standard" names exist in
+	libc.* (and stdlib.h), and a user can get conflicting definitions
+	and/or duplicate linked names if we don't change the names.
+
+	Also, sysopt_getopt() now displays error messages the same as
+	the system getopt(), but getopt_ext() does not.
+
+	Also, it is very common for a user to have the lines:
+
+		extern int	optind;
+		extern char *	optarg;
+
+	in his code, and we don't want to break that (although he really
+	should be using the declarations in stdlib.h).  Unfortunately,
+	there are still some Unix platforms (such as Linux), which
+	do not correctly define these variables in stdlib.h.
+
+	Files changes:	libsys/sysopt.[ch]
+			libdiff/diffmain.c
+			libgzip/gzmain.c
+			libmagic/magmain.c
+			libres/rest-main.c
+			libxvt/xvtmain.c
+			termutils/*.c
+
+3.	dtterm termfile
+
+	Added the capability "insert-char", which comes from the
+	terminfo string "ich1", which is missing in the dtterm
+	terminfo definition.  (It does have the "ich" entry).
+
+	Files changed:	termfiles/dtterm.trm
+
+4.	freebsd env file
+
+	Changed X11_LIBS & X11_INCS to point correctly to /usr/X11R6.
+
+	These changes were suggested by Dave Walton (dwalton@acm.org).
+	Thanks for the feedback.
+
+	Files changed:	env/freebsd.env
+
+5.	dg88 env file
+
+	Set compiler to gcc & specified TARGET_BINARY_INTERFACE to
+	"m88kdguxelf" to correctly specify the target platform.
+
+	Also specified that pkgadd is available on that platform.
+
+	Files changed:	env/dg88.env
+
+6.	Changes in sysmem package
+
+	Changed/added the following calls to provide the ability
+	to add user messages to the sysmem log file:
+
+		sysmem_out()		-> sysmem_outstr()
+		added			   sysmem_outfmt()
+		added			   sysmem_outvar()
+
+	Also added the call sysmem_memchk() to check outstanding
+	mallocs, dump a usage msg, & optionally dump the chain if
+	any mallocs are outstanding.  This call is a combination
+	of calls to sysmem_stats(), sysmem_count(), & sysmem_mlist().
+
+	Files changed:	libsys/sysmem.[ch]
+
+7.	minor() & major() macro
+
+	Changed the defines for minor() & major() to only
+	define them if not already defined.  This avoids a compiler
+	warning message.
+
+	Files changed:	libos/osstatinfo.c
+
+8.	using libxvt & ecurses together
+
+	Added in the XVT_DATA struct a (returned) pointer to a
+	list of term-file strings, which can be used in a call
+	to newscreen_defs().  This results in being able to access
+	the advanced mouse/color/etc capabilities of xvt without
+	having a pcxterm-[cm].trm term-file available.
+
+	This results in the UnixTree executable being able to run
+	correctly in a window without having any term-files; i.e.,
+	the executable can be used "stand-alone".
+
+9.	scrollbars
+
+	Fixed the calls to reading the scrollbars to make "clicking"
+	on a scrollbar work correctly.
+
+10.	resizing windows
+
+	When the window is resized, we now invalidate the mouse
+	position.  This avoids core-dumps when the mouse was outside
+	of the new window area.
+
+	We also check for the min window size (24 x 80), and close out
+	with an error msg if the resize is too small.
+
+11.	libxvt changes
+
+	The libxvt package has been extensively rewritten to provide
+	a terminal emulator which is much closer to xterm.  This is still
+	a work-in-progress.  Note that now the xterm-type options are
+	now specified on the cmd-line like "standard" X options.  It will
+	also get resources from the "standard" resource locations
+	(~/.Xdefaults, /usr/X/lib/app-defaults/<pgm>, etc).
+
+	You can do a "xt -help toolkit" (or "xt -helpall toolkit") for
+	a full list of options available.
+
+Internal changes:
+
+1.	Changed logic for determining the PTY type in libxvt.
+	Instead of separate source files for BSD & SYSV versions,
+	we use a compile-time check with them combined into the
+	main xvtpty.c module. This reduces the required env
+	variables needed (we lose the required env var PTY_TYPE).
+
+	Files changed:	README
+			build
+			env/*.env
+			libxvt/makefile
+			libxvt/xvtpty.c
+
+	Files deleted:	libxvt/xvtpty-bsd.c
+			libxvt/xvtpty-sysv.c
+
+2.	We now check for the manifest define __sun to determine
+	if fork1() or fork() should be used to fork a process
+	running sub-threads.  This reduces the need for setting
+	values in SYS_OPTS.
+
+	Files changed:	env/solaris4.env
+			env/solaris.env
+			env/sunx86.env
+			libsys/systhread.c
+
+3.	Added the script "fsort", which sorts a list of files
+	with any sub-dirs listed after any files.  This makes for
+	a "cleaner" source list.
+
+	Files added:	bin/fsort
+
+	Files changed:	./makefile
+			bin/makefile
+
+4.	Changed the "build" script to look for the file "build.pre".
+	If found, it sources that file prior to sourcing any platform-
+	specific env file (env/<platform>.env).
+
+	Also, if the script "build.post" is found, it is sourced after
+	the build script finishes.
+
+	Files changed:	./build
+
+5.	libxvt variables
+
+	Made the color tables const, so as to reduce the number of
+	non-const external variables.
+
+	Files changed:	libxvt/xvttermwin.[ch]
+
+6.	libxvt
+
+	Re-organized the source to restrict any knowledge of X stuff
+	to the file xvttermwin.c.
+
+	Files added:	libxvt/xvtevent.h
+
+	Files changed:	libxvt/makefile
+			libxvt/xvtterm.c
+			libxvt/xvttermwin.[ch]
+
+7.	creating an ecurses source directory
+
+	Added the script "mkcurses.sh [dir]", which will create a
+	directory with all the ecurses source files (and a makefile).
+	This is for users who want to transplant this library into
+	another source tree.
+
+	Files added:	bin/mkcurses.sh
+
+8.	SCO OpenServer builds
+
+	Changed the platform name from "scov" to "os5" for consistency.
+
+--------------------------------------------------------------------------
+Date:	27 Aug 2001
+Ver:	3.0.1
+Build:	1025
+
+Additions:
+
+1.	Added a "help-box-bold-color" & "help-box-bold-attr" for
+	displaying bold words in help text.
+
+	Files changed:	libprd/cfgdata.c
+			libprd/dflttbl.c
+			libprd/gblvars.h
+			libprd/help.c
+			libprd/options.h
+			libprd/term.c
+			libres/*/dflt.txt
+
+2.	When getting the default program path, we now check if the
+	executable we were invoked with is a symlink and resolve it
+	if it is. Otherwise, we get the directory the symlink is in
+	rather than the directory the actual program is in.
+
+	Files changed:	libprd/loadenv.c
+
+Internal changes:
+
+1.	Changed the "file-diff" cmd from being a "reg-file-cmd" to
+	being a "common-cmd", since it appears in more places than just
+	reg-file cmds. This is in preparation to adding file-diff stuff
+	in the help text.
+
+	Files changed:	libprd/avcmds.c
+			libprd/dispcmds.c
+			libprd/pgmhelp.c
+			libprd/regfcmds.c
+			libres/*/cmds.txt
+
+--------------------------------------------------------------------------
+Date:	21 Aug 2001
+Ver:	3.0.1
+Build:	1024
+
+Changes:
+
+1.	In libterm/termprt.c, changed the call to term_prt_output()
+	to term__prt_output_str(), term_prt_output_fmt(), and
+	term_prt_output_var() to provide not only output of a string
+	but also of a formatted list and a variadic formatted list.
+
+	Also did a similar change to win_prt_output().
+
+	Files changed:	libprd/diffprt.c
+			libprd/print.c
+			libterm/termcommon.h
+			libterm/libterm.h
+			libterm/termprt.c
+			libterm/termprt.h
+			libwin/curses.h
+			libwin/wincommon.h
+			libwin/winprt.c
+			libwin/wprtscrn.c
+
+2.	The option "run-in-window" is now ON by default.  This should
+	have no effect if not running in an X environment, as it is
+	ignored in this case.
+
+	Files changed:	libres/*/dflt.txt
+
+3.	Added "toggle-highlight" capability in help text.  If the
+	text contains a "_" (m_pgm_hilite), the current attribute is
+	togggled with the defined hilite attribute.
+
+	Note that it is the responsibility of the person writing the
+	help text to toggle the attribute back.
+
+	Files changed:	libprd/externs.h
+			libprd/help.c
+			libprd/xaddstr.c
+
+Internal changes:
+
+1.	Changed defines of "V_xxxxx" to "X_xxxxx" (to avoid
+	collisions with some programs I wanted to add ecurses to).
+
+	Files changed:	libhelp/hlpbld.h
+			libhelp/hlppass2.c
+			libhelp/hlpsymbol.c
+			libos/osddecmd.c
+			libos/osdir.c
+			libos/osrdlink.c
+			libprd/arch.h
+			libprd/cpio.c
+			libprd/dflttbl.c
+			libprd/help.c
+			libprd/options.h
+			libsys/sys_defs.h
+			libtcap/tcintio.c
+			libtcap/tctrmtbls.c
+			libterm/termexec.c
+			libterm/termkbd.c
+			libterm/termmode.c
+
+2.	Changed "curses.h" to remove includes of "sysmem.h"
+	and "sysopts.h".  This made it easier to include it
+	into other programs.
+
+	Files changed:	libwin/curses.h
+
+3.	In libres, added include of "libsys.h", since it no longer got
+	sysmem stuff from just including "curses.h" (See # 2.)
+
+	Files changed:	libres/reslib-f.c
+			libres/reslib-r.c
+			libres/reslib-t.c
+			libres/reslib-w.c
+			libres/restool.h
+
+4.	In termutils, added include of "sysopts.h".  (See # 2.)
+
+	Files changed:	termutils/dispblks.c
+			termutils/dispbox.c
+			termutils/dispchrs.c
+			termutils/dispclrs.c
+			termutils/dispkeys.c
+			termutils/dispsnap.c
+			termutils/dispterm.c
+			termutils/dumpterm.c
+			termutils/playback.c
+			termutils/saveterm.c
+			termutils/termput.c
+
+5.	In libterm/termsys.h, changed includes to specifically
+	name include files needed, rather than use "libsys.h".
+	This made inclusion easier (See #2.)
+
+	Files changed:	libterm/termsys.h
+
+	The results of these changes are that now, if you want to include
+	the entire libecurses source into another package, (which I just did),
+	you can to the following:
+
+	1.	Copy all the *.[ch] files from libsys, libterm,
+		libtcap, and libwin into the appropriate library
+		directory.
+
+	2.	Create a makefile, with "libcurses.a" as the
+		target, with a dependency on all C files (actually on
+		the objects).
+
+	The (Unix) makefile would look something like this:
+
+	TARGET	= libcurses.a
+	CSRC	= (list of all C files)
+	OBJS	= $(CSRC:.c=.o)
+	$(TARGET) : $(OBJS)
+		ar rc $@ $?
+
+--------------------------------------------------------------------------
+Date:	01 Aug 2001
+Ver:	3.0.0
+Build:	1023
+
+Note: This is the FINAL (and official) build for 3.0.0!
+
+Changes:
+
+1.	Windows: we now deliver the text-based man pages as xt-doc.txt.
+
+	Files changed:	manpages/makefile
+
+2.	Made minor changes in various text files which are delivered.
+
+	Files changed:	support/install-unix.txt
+			support/install-windows.txt
+			support/license.txt
+			support/files-unix.txt
+			support/files-ecurs.txt
+			support/files-utils.txt
+
+3.	We no longer deliver the INSTALL file (support/install-unix.txt)
+	in the termutils SKU, since it is specific to the xt deliverable.
+	We also assume that anyone installing the termutils package has
+	some knowledge of what to do.
+
+	Files changed:	support/makefile
+
+4.	Made changes in the comments in various build scripts & files.
+
+	Files changed:	./README
+			./build
+			./makefile
+
+5.	Changed the location of the "rpm.root" directory when making an
+	rpm file to /tmp rather than the current directory, since there
+	seems to be some problem in find when running over an NFS directory.
+
+	Files changed:	package/rpm/makefile
+			package/rpm/make.list
+
+--------------------------------------------------------------------------
+Date:	29 Jul 2001
+Ver:	3.0.0
+Build:	1022
+
+Changes:
+
+1.	We now read a only a buffer at a time from the help file,
+	whereas before, to avoid keeping an open file descriptor during
+	the entire execution, we read the entire help file into memory.
+	This results in approximately 80K less memory usage.
+	(Remember when 640K was all you had?)
+
+	We can do this now, since the help file is opened when help is
+	requested and closed when it returns, so there is no persistent
+	file descriptor for it.
+
+	Files changed:	libprd/help.c
+			libprd/help.h
+
+2.	Changed the names of the color & attribute entries for help
+	config entries as follows:
+
+		"help help link color"	-> "help link color"
+		"help hlink attribute"	-> "help link attribute"
+		"help glink attribute"	-> "help glossary link attribute"
+
+	This was done for consistency between color & attribute entries,
+	and because "help help ..." was just too wierd.
+
+	Also reversed the glossary entries order in the config menu so
+	the glossary link entry came after the glossary entry.
+
+	Note: although the help system supports glossary entries, the
+	help files we currently deliver do not have any such entries in them.
+
+	Files changed:	libres/*/dflt.txt
+			libprd/cfgdata.c
+			libprd/dflttbl.c
+
+3.	Added comments in the xvt library header (libxvt.h) showing a sample
+	of how to use that library in conjunction with the ecurses library.
+	Also, we now deliver the xvt library & header to $WIN_DIR.  This is
+	with the assumption that anyone using the ecurses library may also
+	like to take advantage of the xvt capabilities.
+
+	Files changed:	libxvt/libxvt.h
+			libxvt/makefile
+			support/files-ecurs.txt
+
+4.	xvt_run_task() now checks the cmd specified before creating the
+	display window, so any errors such as "file not found" or "file
+	is not executable" don't flash the window, which is distracting.
+
+	Files changed:	libxvt/xvtprocs.c
+			libxvt/xvtutils.c
+			libxvt/xvtutils.h
+
+5.	We now always prompt for deleting a file for which we don't have
+	write permission, even if "prompt for delete" is turned off.
+
+	Files changed:	libprd/delete.c
+
+--------------------------------------------------------------------------
+Date:	26 Jul 2001
+Ver:	3.0.0
+Build:	1021
+
+Changes:
+
+1.	Added filename info to resource file, so we can query a resource
+	file for the filename it came from.  I also changed the resource
+	file load routines to create a list of resource-info structs,
+	rather than separate lists of names & pointers.
+
+	Note that the filename info can't be added to the resource struct
+	at load time, since then the "linked-in" structs would have no
+	name associated with it, since they are not "loaded".  Thus,
+	the "English-builtin" resource had no reference to "english",
+	which is needed to associate it with the proper help file,
+	"english.hlp".
+
+	This was needed for change #2 below.
+
+	Files changed:	libprd/dflttbl.c
+			libprd/gblvars.h
+			libprd/loadres.c
+			libprd/resource.h
+			libres/resmkch.c
+			libres/res.h
+			libres/reslib-r.c
+			libres/reslib-w.c
+			libres/rest-comp.c
+			libres/*/makefile
+
+2.	Added support for translated help files.  To do this,
+	the file "xt.hlp" is no longer delivered, and the files
+	"english.hlp" & "german.hlp" are delivered.
+
+	The help system was changed to load the help file when help
+	is requested, rather than at the start of the program.  At
+	this time, the help file for the currently-selected language
+	is used.
+
+	Note that right now, the german.txt file is the same as the
+	english.txt file.  It is currently just a "place holder" until
+	a translated help file becomes available.
+
+	Still looking for Klingon translators ...
+
+	Files added:	libhelp/english.txt
+			libhelp/german.txt
+
+	Files deleted:	libhelp/help.txt
+
+	Files changed:	libhelp/makefile
+			libprd/externs.h
+			libprd/help.c
+			libprd/pgm.c
+			libprd/quit.c
+			support/files-unix.txt
+			support/files-windows.txt
+
+--------------------------------------------------------------------------
+Date:	26 Jul 2001
+Ver:	3.0.0
+Build:	1020
+
+Changes:
+
+1.	Fixed restool program to properly remove an extension in a
+	resource name.  It used to erroneously zap part of the path
+	if a sub-directory name contained a dot.
+
+	Files changed:	libres/rest-main.c
+
+2.	Changed resfile.txt parsing logic to make the fields more free-form.
+	Now any non-alphanumeric char is treated as a field separator.
+
+	Files changed:	libres/reslib-t.c
+
+3.	Check for NULL id pointers in trees & lists before freeing them.
+	(Not that we would ever *need* this check ...)
+
+	Files changed:	libutils/utblist.c
+			libutils/utlist.c
+			libutils/uttree.c
+
+4.	When asking if it is OK to delete a file, we check if we have
+	permission to write the file and, if not, we indicate that fact.
+
+	Files changed:	libprd/delete.c
+
+5.	Added internationalization of color & attribute names, for display
+	in the config menu.
+
+	Files changed:	libprd/dflttbl.c
+			libres/*/dflt.txt
+			libtcap/tcapvals.c
+			libtcap/tcattrs.c
+			libtcap/tcattrs.h
+			libtcap/tctrmfile.c
+			libutils/utdefaults.c
+			libutils/utdefaults.h
+			libutils/utfileattr.c
+			libwin/curses.h
+			libwin/winutils.c
+			libecurses/man3/ecurs-funcs
+			libecurses/man3/ecurses
+			libecurses/man3/ecurs_attributes
+
+--------------------------------------------------------------------------
+Date:	25 Jul 2001
+Ver:	3.0.0
+Build:	1019
+
+Additions:
+
+1.	Added a top-level make target "srcsku", which packages up the
+	source as an SKU in $SKU_DIR.  It creates two SKU files:
+
+		$PROGRAM-source-$VERSION.$RELEASE.tar.Z
+		$PROGRAM-source-$VERSION.$RELEASE.tar.gz
+
+	Note that the source itself is tarred up as if it were in the
+	directory "$PROGRAM-$VERSION.$RELEASE".  This target is used to
+	deliver the source in preparation for posting it to the FTP site.
+
+	Files changed:	./makefile
+
+Changes:
+
+1.	Changed the wording of the legal BS lines (which appear in the
+	"about" box) for the German resource file.
+
+	Files changed:	libres/german/msgs.txt
+
+2.	Allowed for two different "yes" cmds and two different "no" cmds
+	in the resource files.  This is to allow for alternate responses in
+	foreign languages.
+
+	For example, a German user can now use "y" (yes) or "j" (ja)
+	to indicate "yes".
+	He can also use "n" (no) or "n" (nein) to indicate "no" ;-).
+
+	Files changed:	libres/*/cmds.txt
+			libprd/bang.c
+			libprd/putnode.c
+
+3.	Changed the "deliver" script to accept a "-d dir" option, for
+	delivering files into a specified directory.  This option
+	is used in support/makefile to deliver the text files to
+	the SKU directory.  (Used when creating the list of files to
+	post to the FTP site.)
+
+	Files changed:	bin/deliver
+			support/makefile
+
+--------------------------------------------------------------------------
+Date:	23 Jul 2001
+Ver:	3.0.0
+Build:	1018
+
+Additions:
+
+1.	Added Mac OS/X platform (platform=osx, arch=ppc).
+	Finally, a character-based application for the Mac! ;-)
+
+	Differences in this O/S are:
+
+	1.	No poll() library call or <poll.h> header.  We use select()
+		instead of poll to wait for a given number of ms.
+
+		The reason we don't use select() everywhere is that some
+		systems put the select() routine in the networking
+		library, which we don't want to force everyone to link
+		with when using the ecurses library.
+
+		Note that the man pages show that there is a <poll.h>
+		and a poll() library call, but it wasn't there.
+		(Actually, the poll() call may be there, but the header
+		is definitely not.)
+
+	2.	Apparently, there is a problem with a C file containing only
+		one data pointer in a library.  I had to add a function to
+		get the linker to find it.
+
+	3.	The OS/X machine I built on had no X11 headers or libraries.
+		I don't know if OS/X doesn't provide an X11 SDK or if it
+		just wasn't installed on this machine, but the result is
+		that the xvt library is dummied out.
+
+		Note that OS/X doesn't come with an X11 server, but there are
+		third-party ones available (See www.tenon.com/products/xtools).
+
+		If anyone out there knows where/how to get an X11 SDK for
+		Mac OS/X, please let me know.
+
+	4.	ranlib is needed for building libraries.  This is a real
+		step backward, IMHO.  Probably, this is for compatibility
+		with OS/X libraries, but who knows... (Think different?)
+
+	Basically, this O/S is the same as the FreeBsd O/S.
+
+	Files added:	env/osx.env
+
+	Files changed:	libterm/termnap.c
+			libprd/externs.h
+			libprd/gblvars.c
+			libprd/loadenv.c
+
+Changes:
+
+1.	Updated the Unix install instructions.
+
+	Files changed:	support/install-unix.txt
+
+2.	Added better sysmem (malloc interface) debugging.  Now the
+	debug messages contain the name of any routine using the
+	interface routines directly.
+
+	Also removed the option to compile out the sysmem interface
+	and call the malloc() routines directly.  We now ALWAYS use
+	the interface.  This results in fewer files referencing the
+	malloc() directly, which simplifies the build process.
+
+	Note that the run-time option of setting the environment
+	variable V_MALLOC_NODEBUG=<anything> will still bypass
+	most of the interface and only do a count of mallocs & frees.
+
+	Also removed the include of <malloc.h>, since, according to
+	ANSI C standard, malloc() & friends are also (officially)
+	defined in <stdlib.h>.  This turned out to be necessary,
+	since OS/X doesn't even have a <malloc.h> header.
+
+	Files changed:	libsys/sysmem.h
+			libsys/sysmem.c
+			libos/osmnt-bsd.c
+			libos/osmnt-osf.c
+			libutils/utblist.c
+			libutils/utlist.c
+			libutils/uttree.c
+
+3.	Changed the libhelp routines to use the sysmem interface, rather
+	than using malloc() directly.  This is to better isolate malloc
+	calls (see #2 above).  However, this results in helpbld requiring
+	the libsys library, which it didn't need before.
+
+	Files changed:	libhelp/hlpsymbol.c
+			libhelp/makefile
+
+4.	The TERMFILES files for the libecurses delivery are now built
+	and delivered in the support directory, rather than in the
+	libecurses directory.  This simplifies the builds, since the
+	source file was always in the support directory.  It also
+	removes the need in the libecurses directory for the use of
+	the textsub script (which can reference resource files which
+	are not built until later).
+
+	Note that the TERMFILES file delivered in the $DST_DIR directory
+	is different from the one delivered in the $UTL_DIR & $WIN_DIR
+	directories.  The former references xt-specific use of the term-files,
+	whereas the latter references the ecurses calls.
+
+	Files changed:	libecurses/makefile
+			support/makefile
+
+5.	The makelib script in the bin directory now creates the directory
+	the library is to be created in, if needed, thus removing the
+	requirement for all the library makefiles to make that check.
+
+	Files changed:	bin/makelib
+			lib*/makefile
+
+6.	We now build & deliver the xtx script in the support directory,
+	rather than in the libxvt directory.  This results in the
+	libxvt directory being more "stand-alone", with xt-specific
+	stuff being in a different directory.
+
+	Files changed:	libxvt/makefile
+			support/makefile
+
+	Files deleted:	libxvt/pgm
+
+	Files added:	support/pgm.sh
+
+7.	Changed the mechanism for generating resource files to make
+	it more generic, rather than hard-coding the lists of files.
+	The process is now much more dynamic, and it will be easier to
+	add/change/delete resource lists.
+
+	Note that now, when using restool to extract the text files
+	from a resource file, that the file "resfile.txt" is always
+	created, which contains the names of all the other files.
+	The compile function uses this file to know what files to
+	include in the resource file.
+
+	The unique feature of these resource files is that each language
+	has its own resource file and a library containing the compiled
+	structs which can be linked with as a default language (this
+	enables xt to run without the presence of any resource file).
+	This is why you see three languages in the config menu:
+
+		English-builtin		is the linked-in default language
+		English			is the english.res resurce file
+		Deutsch			is the german.res  resource file
+
+	Files added:	libres/*/resfile.txt
+			libres/reslib-t.c
+
+	Files renamed:	libprd/resfile.h -> libprd/resource.h
+
+	Files deleted:	libres/res_file.c
+
+	Files changed:	libprd/resource.h
+			libres/*/makefile
+			libres/libres.h
+			libres/makefile
+			libres/res.h
+			libres/resmkch.c
+			libres/rest-comp.c
+			libres/rest-extr.c
+			libres/rest-hdrs.c
+			libres/rest-main.c
+			libres/restool.h
+
+8.	Removed the env vars SLOGAN & COPYRTE from pgminfo, and added the
+	text into the resource files, so they could be internationalized
+	properly.  Removed the output of SLOGAN in the build script,
+	since it is not available there.
+
+	Also modified the textsub script to take a "-l lang" option,
+	which tells it to load all the variables from the named resource
+	file.
+
+	Files changed:	./build
+			./pgminfo
+			bin/textsub
+			libres/*/prog.txt
+			libprd/loadenv.c
+
+9.	Removed the copyright message from the opening credits display,
+	and moved the version & release info to that line.  This looks
+	a lot better, and it is dorky to flaunt copyrights in front of
+	everyone.  The copyright message is now displayed in the about
+	box (where it belongs).
+
+	Unfortunately, since we are limited to 17 lines of text in the
+	about box (due to the 24-line minimum), a line had to be deleted.
+	I deleted the credit line for Mike Elkins, since the beta testing
+	is long over.  He still gets credit here in the CHANGES file.
+
+	Files changed:	libres/*/msgs.txt
+			libprd/about.c
+			libprd/credits.c
+
+10.	Updated the list of files delivered to the $UTL_DIR directory.
+
+	Files changed:	support/files-utils.txt
+
+11.	Updated the list of files delivered to the $DST_DIR diretory
+	to include the restool program and the *.res resource files.
+
+	Files changed:	support/files-unix.txt
+			support/files-windows.txt
+
+12.	Fixed logic in compare-dirs where a selection in a new node
+	was not set properly, resulting in a "Can't compare current dir"
+	message.
+
+	Files changed:	libprd/dest.c
+
+--------------------------------------------------------------------------
+Date:	16 Jul 2001
+Ver:	3.0.0
+Build:	1017
+
+Note:	Version.release bumped to "3.0.0".
+
+Additions:
+
+1.	Added German language resource file (german.res). This also results
+	in delivering the english resource file (english.res) and the
+	program for manipulating resource files (restool), since they are
+	automatically delivered if any language other then English is
+	built.
+
+	Note that the German translation was done by Mathias Winkler.
+	Sehr gut, mein Herr!
+
+	We are looking for volunteers to do other languages, such as
+	Spanish, French, Klingon, etc.
+
+	Files added:	libres/german/makefile
+			libres/german/cmds.txt
+			libres/german/dflt.txt
+			libres/german/errs.txt
+			libres/german/msgs.txt
+			libres/german/prog.txt
+
+	Files changed:	libres/makefile
+
+2.	The xvt library now checks for the presence of the env variable
+	XVT_NO_DETACH, and, if found, does not detach, but stays in the
+	foreground.  This is for debugging purposes, where it is
+	sometimes difficult to chase down forked processes.
+
+	Files changed:	libxvt/xvtprocs.c
+
+3.	Added text about obtaining source code to license file.
+	This also resulted changing the build env variable URLADDR
+	to WWWADDR and adding a new build env variable FTPADDR.
+
+	Files changed:	support/license.txt
+			bin/textsub
+			./pgminfo
+
+Changes:
+
+1.	To accomodate multiple languages, the "any" keyword is now NOT
+	valid in the application file (xt.mnu). Use the keyword "*"
+	instead (which was always valid).
+
+	Note that there is still a problem with weekday names (Mo, Tu, etc.),
+	but I doubt that anyone is using that functionality.  (I never
+	wanted it in the product anyway ...)
+
+	Files changed:	libprd/menu.c
+			support/pgm.mnu
+
+2.	Changed the OS5 (SCO) build to not use vmin/vtime when reading
+	from the terminal, but to use alarms to control the reads.
+	This is because when reading from a PTY the vmin/vtime is
+	not honored.  This was done to support the running in a window.
+
+	Note that, in a streams environment, the vmin/vtime processing
+	is supposed to be done by the "ldterm" module.  But on OS5,
+	it doesn't work, even though "ldterm" is present on the stream.
+	It is interesting to note that OS5 apparently does not have
+	the "ttcompat" module, since it does not appear on the stream,
+	although the "ttcompat" module is just supposed to handle
+	flow control.
+
+	Files changed:	env/scov.env
+
+3.	Added version information in the about box.
+
+	For your information, the names listed in the about box are:
+
+		Rob Juergens:
+			Me. The author.
+
+		Mike Elkins:
+			Mike is a good friend and is a very enthusiastic
+			supporter of XTree/UnixTree.  He did the original
+			beta testing for "xtree for UNIX Systems"
+			(XFUS, as it was internally called at the XTree
+			Company), and has been an ardent supporter &
+			source of ideas ever since.
+
+		Rick Juergens:
+			Rick is my twin brother, who, at the time of XFUS,
+			was a VMS user (as well as a SunOS user) and provided
+			all the information necessary to do the FTP access
+			to VMS.  He is also a valuable source of ideas on
+			improving the UI and the functionality of the product.
+
+		Becky Juergens:
+			Becky is my wife, who supports me in this endeavor.
+			Her support and input is invaluable.
+
+		Ray Tayek:
+			Ray is my oldest friend (since the ninth grade).
+			He helped me in the original design of XFUS, and
+			provided the concept of containing the file-system/
+			directory information in a TREE structure (and
+			provided the code to do it). He also provided the idea
+			(and the code) for the linked-lists of file information
+			which the directory TREE entries point to.
+			Of special interest is his (very elegant) code
+			to convert a TREE structure to a list and vice-versa.
+
+		Mathias Winkler:
+			Mat is the "Keeper of the Flame".  Mat is the creator
+			of the Xtree Fan Page and the webmaster for UnixTree.
+			Without Mat, there would be no UnixTree available to
+			the world (or probably XTree either, anymore).
+			As noted above, Mat also did the German translation
+			of UnixTree.
+
+	Files changed:	libprd/about.c
+
+4.	Added some entries in the resource files for strings in the
+	about box, which were hard-coded as English strings.  Also moved
+	some entries from the "pgmi" res file to the "msgs" res file.
+	This will result in the about box being properly internationalized.
+
+	Files changed:	libres/*/prog.txt
+			libres/*/msgs.txt
+			libprd/about.c
+			libprd/credits.c
+
+5.	The "name" of the language for a resource file can now be
+	different from the filename.  Thus, "german.res" has the
+	language name "Deutsch".
+
+	Files changed:	libres/rest-main.c
+			libres/rest-comp.c
+			libres/*/makefile
+
+Fixes:
+
+1.	Changed logic in determining whether a file-descriptor
+	is set to blocking/nonblocking.  It was returning TRUE
+	when nonblocking, when it should have returned FALSE.
+	This affected correct setting of blocking/nonblocking mode.
+
+	Files changed:	libterm/termmode.c
+
+2.	Fixed the playback logic for looking-up a color name.  This
+	got broken when support for mapped/unmapped color strings
+	was added.  The fix is currently a kludge, and hopefully
+	it will become more elegant later.
+
+	Files changed:	libtcap/tcapvals.c
+
+3.	In libxvt, we no longer "fix" the fonts that are loaded to
+	force them to being mono-spaced, but instead we deal with the
+	character sizes when drawing them.  This avoided problems on
+	some X11 implementations which core-dumped when changing
+	loaded fonts.  We also changed the check of the bold font (to
+	check if it is the same size as the normal font) to only
+	check the max char width instead of the max left- & right-bearing
+	values.
+
+	Files changed:	libxvt/xvttermwin.c
+
+4.	When ignoring multiple resize events in libxvt, we now defer
+	the check for a duplicate resize from the top-level event routine
+	to the resize-event routine.  This is to enable logging that
+	the event happened (for debugging purposes).
+
+	Files changed:	libxvt/xvtterm.c
+
+5.	Added $NET_OPTS to the CFLAGS when compiling libxvt, since it
+	uses select() and FD_* macros, which are only defined on some
+	systems when certain compile-time options are set.
+
+	Files changed:	libxvt/makefile
+
+6.	Make search for termcap entries more robust.  It was core-dumping
+	when an invalid line was encountered (like when a continuation
+	line is encountered without a prior name line).  This problem
+	was encountered on DG/ux.
+
+	Files changed:	libtcap/tctermcap.c
+
+7.	We now clear stdscr before doing any other output.  Hopefully,
+	this will solve the problem on some systems where the pathline
+	window is not completely filled with color at initial startup.
+	(BTW: it did.)
+
+	Files changed:	libprd/pgm.c
+
+--------------------------------------------------------------------------
+Date:	05 Jul 2001
+Ver:	2.4.0
+Build:	1016
+
+Changes:
+
+1.	Fixed core dump in compact when error occurs.
+
+	Files changed:	libprd/compact.c
+
+2.	Changed "  " to the resource entry msgs(p_pgm_separate) for
+	easier translations of the command menu.
+
+	Files changed:	libres/english/msgs.txt
+			libprd/dispcmds.c
+
+4.	Node-relog now just does the current node (after asking if OK).
+
+	Files changed:	libprd/newnode.c
+
+--------------------------------------------------------------------------
+Date:	29 Jun 2001
+Ver:	2.4.0
+Build:	1015
+
+Changes:
+
+1.	Removed "F2 choose dir" from "compare-dir" & "graft" cmd menus,
+	since they were confusing (those cmds automatically start
+	in "choose-dir" mode).
+
+	Files changed:	libprd/cmp.c
+			libprd/dest.c
+			libprd/externs.h
+			libprd/graft.c
+			libprd/xgetstr.c
+
+2.	Fixed problem where the cmd menu was not redisplayed properly
+	when an error occurred in trying to print.
+
+	Files changed:	libprd/arcdcmds.c
+			libprd/arcfcmds.c
+			libprd/ftpdcmds.c
+			libprd/ftpfcmds.c
+			libprd/print.c
+			libprd/regdcmds.c
+			libprd/regfcmds.c
+
+--------------------------------------------------------------------------
+Date:	29 Jun 2001
+Ver:	2.4.0
+Build:	1014
+
+Additions:
+
+1.	Added cygwin.trm (term-file for cygwin-gcc).  Note that when
+	running under cygwin, the TERM env variable is set to "cygwin".
+
+	Files added:	termfiles/cygwin.trm
+
+Changes:
+
+1.	print_win() function in ecurses now converts all alternate
+	characters encountered to their ASCII equivalents.
+
+	Files changed:	libwin/wprtscrn.c
+
+2.	If the env variable XTPRINTER is in form "> name", then
+	"name" is assumed to be a file to write to.
+
+	Files changed:	libprd/diffprt.c
+			libprd/externs.h
+			libprd/print.c
+
+3.	The package name "WinTree" has been dropped, and is now "UnixTree"
+	even in Windows.  Hopefully, this will bug BillG to no end. :-)
+
+	Files changed:	./pgminfo
+			bin/textsub
+			libres/english/prog.txt
+			support/files-ecurs.txt
+			support/files-unix.txt
+			support/files-utils.txt
+			support/files-windows.txt
+			support/install-unix.txt
+			support/install-windows.txt
+			support/license.txt
+
+4.	Added configuration option "use mouse" to indicate whether
+	the mouse should be used.  Also rearranged config entries,
+	with all window-related entries in a "window" section and
+	the "printer" entries put at the end.
+
+	Files changed:	libprd/cfgdata.c
+			libprd/dflttbl.c
+			libprd/externs.h
+			libprd/options.h
+			libprd/term.c
+			libres/english/dflt.txt
+			libwin/curses.h
+			libwin/wcurses.h
+
+--------------------------------------------------------------------------
+Date:	27 Jun 2001
+Ver:	2.4.0
+Build:	1013
+
+Additions:
+
+1.	Added support for CYGWIN for building WinTree.
+	The CYGWIN package can be used in two different ways:
+
+	1.	Use it only for the shell and utility cmds, but still
+		use the Microsoft development package (MSVC) to do
+		the builds.
+
+	2.	Use the gcc system included to do the build.  In this
+		mode, there is no access to the low-level Windows
+		functionality such as mouse & full-color support and
+		file-system support (i.e. getting free-space and native
+		file-names).
+
+	To use CYGWIN, do the following:
+
+	1.	Using MSVC for building:
+
+		$ export MSVC_DIR=<DOS-style path to MSVC directory>
+		$ . build [options] cygwin
+		$ make ...
+
+	2.	Using gcc for building:
+
+		$ . build [options] cygwin-gcc
+		$ make ...
+
+	Files added:	env/cygwin.env
+			env/cygwin-gcc.env
+			libos/osmnt-cygwin.c
+
+	Files changed:	./build
+			./pgminfo
+			./guess
+			./makefile
+			bin/makesku
+			libos/makefile
+			libxvt/makefile
+			libres/makefile
+			product/makefile
+			termutils/makefile
+			package/makefile
+
+--------------------------------------------------------------------------
+Date:	24 Jun 2001
+Ver:	2.4.0
+Build:	1012
+
+Changes:
+
+1.	Changed rpm makefile to use `pwd` rather than $(PWD).  It appears
+	that BASH sets the PWD variable but does not export it, so it
+	doesn't get included in make's environment.
+
+	Files changed:	package/rpm/makefile
+
+--------------------------------------------------------------------------
+Date:	17 Jun 2001
+Ver:	2.4.0
+Build:	1011
+
+Changes:
+
+1.	Added $(PWD) to makefile to always use absolute paths in rpm creation.
+
+	Files changed:	package/rpm/makefile
+
+2.	In looking for a domain-name in "build", we now look for either
+	a "domain" line or a "search" line, using the first such line found.
+	(There may be multiple search lines).
+	We also default to "noname.foo" if no domain-name is found.
+
+	Files changed:	./build
+
+--------------------------------------------------------------------------
+Date:	06 Jun 2001
+Ver:	2.4.0
+Build:	1010
+
+Changes:
+
+1.	Updated the man pages to reflect the current cmd-line options.
+
+2.	Added missing ecurses functions to the ecurses man pages.
+	Also added -help to the "ecurs-funcs" script.
+
+3.	Added logic to enable continuing execution in the normal
+	window if possible when running in a separate window failed
+	(i.e. "xt +w").  It is not always possible, since at a certain
+	point the normal streams stdin/stdout/stderr are changed to
+	point to the pseudo-tty for the window, and after that point,
+	if the rest of the initialization fails, there is no input
+	or output stream to use.
+
+4.	Changed logic of creating rpm spec file to specify an absolute
+	path rather than ".".
+
+--------------------------------------------------------------------------
+Date:	31 May 2001
+Ver:	2.4.0
+Build:	1009
+
+Fixes:
+
+1.	Fixed coredump when getting an invalid xvt arg "-X...".
+
+2.	Changed wording in license from "freeware" to "Free Software"
+	(per GNU dictum about wording).
+
+3.	Fixed shell construct in libres/makefile, which works in
+	Korn shell but fails in BASH.
+
+--------------------------------------------------------------------------
+Date:	30 May 2001
+Ver:	2.4.0
+Build:	1008
+
+Additions:
+
+1.	Added the GPL (GNU General Public License) as the file "COPYING".
+	This program is now "officially" considered as an "Open Source"
+	program.
+
+Changes:
+
+1.	Changed advertised email-address to "info@unixtree.org".
+
+2.	The terminal-utility programs and the pcxterm program are now
+	delivered to a separate delivery directory, with the following
+	SKU packages being created:
+
+		xt-<arch>-<platform>.tar	The "normal" SKU package
+		termutils-<arch>-<platform>.tar	Terminal utilities
+
+	This will result in a much smaller SKU for normal users to download,
+	but will make available the terminal-utility programs for those
+	users who need them.
+
+3.	The following SKU names were changed:
+
+		xt-x86-sco-os5.tar	-> xt-x86-os5.tar
+		xt-x86-sco-unixware.tar	-> xt-x86-unixware.tar
+
+	This was to simplify SKU names as just <name>-<arch>-<platform>
+	with the "platform" part not having any dashes in it.
+
+--------------------------------------------------------------------------
+Date:	29 May 2001
+Ver:	2.4.0
+Build:	1007
+
+Fixes:
+
+1.	More fixes in Add-Line & Delete-Line cmds in xvt to behave properly
+	in a scrolling region.
+
+--------------------------------------------------------------------------
+Date:	29 May 2001
+Ver:	2.4.0
+Build:	1006
+
+Fixes:
+
+1.	Changed mechanism for getting major/minor numbers from a stat struct.
+
+2.	Fixed Add-Line & Delete-Line cmds in xvt to behave properly in a
+	scrolling region.
+
+--------------------------------------------------------------------------
+Date:	25 May 2001
+Ver:	2.4.0
+Build:	1005
+
+Fixes:
+
+1.	Next-node & Prev-node cmds now revert to dir display.
+
+2.	Fixed repaint logic in xvt to avoid "dropped" pixels.
+
+Additions:
+
+1.	Added more legal bs in about box (to avoid hassles):
+		"Unix is a registered TM of The Open Group."
+
+--------------------------------------------------------------------------
+Date:	24 May 2001
+Ver:	2.4.0
+Build:	1004
+
+Fixes:
+
+1.	The clone cmd now creates a new window the same size as the current
+	window, not the same size as the original window.
+
+2.	Fixed core dump in magic routines when processing text files.
+
+Changes:
+
+1.	xvt now sends the string "\e[3~" for a delete key instead of a "\177".
+	Hopefully, this will better enable apps to recognize a *real*
+	delete key.
+
+	Linux appears to be hopelessly confused between BS & DEL keys.  You
+	can see this by doing a "stty erase '^h'" cmd and a "stty erase '^?'"
+	cmd and note that, in either case, either a BS or a delete key will
+	behave the same (at least on the cmd line).
+
+	Also, you can note that the BS key when on the "console" generates
+	a "\177", but when in an xterm window generates a "\010".  Also,
+	when in an xterm window, the DEL on the keypad generates a "\e[3~",
+	but the DEL key in the "cursor-keys" section generates a "\177".
+	So, if your terminal is in the mode "stty erase '^?'" (the Linux
+	default), one key acts as an erase and the other doesn't.
+	So much for consistency.
+
+	There are keyboard-mapping capabilities in Linux (see the file
+	/etc/sysconfig/keyboard), but casual users should not be *required*
+	to know about this.
+
+	The bottom line:
+
+		1.	xvt always sends a 0x08 ("\010") for the BS key.
+
+		2.	xvt always sends a "\e[3~" for a DEL key, regardless
+			of whether it came from the keypad or elsewhere.
+
+		3.	xvt always sets the terminal mode as if the cmd
+			"stty erase '^h' intr '^c'" was issued.
+
+	This, of course, is the behavior when running "in a window".
+	When you are in a regular xterm window, or on the console, you
+	are subject to the vagaries of your system setup.
+
+--------------------------------------------------------------------------
+Date:	21 May 2001
+Ver:	2.4.0
+Build:	1003
+
+Fixes:
+
+1.	Fixed core dump in JFC with files with long lines.
+
+2.	Fixed core dump when the window is sized to wider than 108 chars.
+
+3.	Fixed "/" cmd when in "window" mode and on a German keyboard (i.e.
+	the "/" cmd is now available in tag & alt mode).
+
+4.	xvt now forces a BS key to be 0x08 and a DEL key to be 0x7f.
+
+--------------------------------------------------------------------------
+Date:	16 May 2001
+Ver:	2.4.0
+Build:	1002
+
+Changes:
+
+1.	"Expert" mode option removed, as it no longer serves any useful
+	purpose.  It was to support quicker displays over a slow tty line.
+
+2.	Some options were changed, in order to enforce a "standard" that
+	all "normal" options are lower case and all "helpall" options
+	are all upper case, as follows:
+
+		exclude directories	Changed from "helpall" option
+					"-E dir" to "normal" option "-e dir".
+
+		display version		Changed from "-V" to "-v" (although
+					"-V" is still recognized for backward
+					compatability).
+
+		checkpoint filename	Changed from "-f name" to "-F name".
+
+		FTP debugging		Dropped as cmd-line option.  It
+					is still available as a config option.
+
+		XVT options		Added as "-X ..." as a "helpall" option.
+
+--------------------------------------------------------------------------
+Date:	14 May 2001
+Ver:	2.4.0
+Build:	1001
+
+Note:
+	Starting with this build, we now have a concept of "build" number.
+	This number is monotonically increasing, and may be bumped several
+	times between "releases".  This is to aid in identifying specific
+	builds which have the same release number.
+
+	To summarize, we have:
+
+	info		cur-val		description
+	-------		-------		-----------------------------------
+	version		2.4		Major version number.
+						1.x	old "xtree for UNIX"
+						2.[01]	internal releases
+						2.2	1st UnixTree version
+						2.3	1st UnixTree change
+						2.4	2nd UnixTree change
+
+	release		0		Minor version number, resets to 0
+					at next "version" change.
+
+	build		1001		Monotonically increasing build number.
+					A particular "version.release" will
+					contain a range of build numbers.
+					Each "official" version & release
+					will have an official build number.
+
+Additions:
+
+1.	Added "-t term" option.  This can override the terminal type to
+	use, which is usually taken from $TERM (or $XTTERM).
+
+2.	Added the following terminal utility programs:
+
+		dispblks	display strings as block letters.
+		dumpterm	dump a term database entry.
+
+3.	Allow the use of "on/off", "yes/no", "true/false" as well as
+	numeric values to be used for boolean term-file entries.
+
+4.	Added the following "hidden-keys":
+
+		KFUNC-(		start logging key-strokes to keys.log
+		KFUNC-)		stop  logging key-strokes to keys.log
+
+		KFUNC-<		start logging key-strokes to keys.txt
+		KFUNC->		stop  logging key-strokes to keys.txt
+
+		KFUNC-[		start logging screen output to scrn.log
+		KFUNC-]		stop  logging screen output to scrn.log
+
+		KFUNC-{		start logging screen output to scrn.txt
+		KFUNC-}		stop  logging screen output to scrn.txt
+
+		The files "keys.log" and "scrn.log" are the raw key-strokes
+		and output (with escape-sequences).
+
+		The files "keys.txt" and "scrn.txt" are text files with
+		the key-strokes and escape-sequences converted to the
+		appropriate names.
+
+5.	If running on linux, do the following:
+
+	1.	Change the default compression-type from "compress" to "gzip".
+
+	We determine that we are on a linux system by checking for the
+	presence of the file "/etc/lilo.conf".  This check is done at run-time.
+
+6.	We now deliver the file "TERMFILES", which contains the
+	documentation for term files.
+
+7.	Added the "helpall" option "-T <database-type>", where the
+	<database-type> can be:
+		"auto"		auto-detect (Unix only)
+		"all"		use all databases (Unix only)
+		"terminfo"	use terminfo database (Unix only)
+		"termcap"	use termcap database (Unix only)
+		"termfiles"	use term-files only
+		"windows"	use Windows console (Windows only)
+	The default type is "windows" for Windows, and "auto" for Unix.
+
+	This specifies the terminal database-type to be queried at run-time
+	to set default terminal capabilities.  (See the TERMFILES file for
+	further documentation.)
+
+8.	Added the "helpall" option "-ZC" ("Save all config values").
+	This causes the config menu routines to save all config values
+	into the specified file, not just the ones which are different
+	from the default (the default behavior).
+
+9.	Added the following configuration entries:
+
+		ftp debug	ON to log all FTP communication to file
+				"ftp-<hostname>.dbg".
+				(Same as +F cmd-line option.)
+
+		ftp timeout	Timeout in seconds for FTP connections.
+				(Default is 10 seconds.)
+
+10.	Added the ALT-FILE-What command, which displays the type of the
+	current file, similar to the "file" command.
+
+11.	Input string processing now supports a "sliding-window" for
+	strings which are longer than the display size.
+
+12.	Added the config option "ignore search case" which sets the default
+	for case sensitivity in searches.
+
+	This option is changed to the current value whenever the case is
+	changed in the menu to specify a search string.
+
+13.	Changed the default environment variable for specifying the
+	path for term-files from $TRM_PATH to $TERMPATH.
+
+14.	Allow TERM entry (from $TERM, $XTTERM, or -t <term>) to be in
+	form "term-name:alt-name" to enable trying a term-type first
+	and dropping back to a different entry if not found.
+
+	Also, when processing a "term=name" entry in a term-file,
+	we load that name from the appropriate database first.
+
+15.	The program "pcxterm" (aka xttool) is now delivered on all
+	Unix platforms.  This is an xterm clone which provides full
+	color & mouse support.  We also deliver the script "xtx", which
+	runs "xt" under "pcxterm".
+
+16.	Added the option "+w", which will tell xt to run in a separate
+	X11 window (similar to the "xtx" mechanism, but without needing
+	a separate task).
+
+	The following config menu options were added to support this
+	option:
+
+		"run in window"		Set ON to run in a separate window
+					(default is OFF)
+
+		"norm font"		Normal font to use
+					(default is "7x14")
+
+		"bold font"		Bold font to use
+					(default is "7x14bold")
+
+	It is not needed that an O/S support threads to provide this
+	functionality, but if present will make it much more efficient.
+
+17.	Added the command CLONE (&) which is available from any command
+	window (just like EXEC (!), REFRESH (@), etc.).  This command
+	will, if running in a window, create a "clone" of the current
+	program running in a new window.
+
+Fixes:
+
+1.	When getting the "root-name" of a filesystem, prefix it with
+	the drive letter if in Windows (if applicable).
+
+2.	When getting the nth sub-dir of a DOS pathname, skip over
+	the drive letter.  (This fixes being able to view archive files
+	in Windows).
+
+3.	Disabled the key sequence "<ESC><ESC>" being recognized as a single
+	escape in Windows, since Windows uses ReadConsoleInput() for getting
+	keystrokes, which does not interpret "escape sequences" but processes
+	scan codes.
+
+4.	Fixed bug in looking for files in the user's "home" directory,
+	where, in Windows, the path could end up with a "//" in it, which
+	prompted a network search which took a lot of time.
+
+5.	When executing a sub-task, we catch (& ignore) any SIGINT signals
+	which may be received by the parent.
+
+Changes:
+
+1.	The following syntax changes were made to term-files:
+
+	1.	Changed the following color names (to be more
+		compatible with curses color names):
+
+			brown		->	yellow
+			yellow		->	lt-yellow
+
+	2.	Changed the following capability names:
+
+			session-init	->	session-beg
+
+2.	The term-files "test.trm" & "testc.trm" are no longer delivered.  They
+	were for testing only, and there is now better testing mechanisms
+	with the addition of text-based screen logging.
+
+3.	The term-files for use with the "xttool" program were
+	changed from "cons-m.trm" & "cons-c.trm" to "pcxterm-m.trm" &
+	"pcxterm-c.trm".  The "xttool" program was renamed to "pcxterm".
+
+4.	Max input length of a "shellscript" cmd not 255 chars, not 51.
+
+5.	CR from FTP directory menu now bahaves same as regular dir menu
+	(i.e. logs dir if not logged & moves into it if logged).
+
+6.	When saving the history list, the config entry "max saved entries"
+	tells how many "non-keep" entries to save. If "max saved entries"
+	is zero, all entries are saved, otherwise, the last "max saved entries"
+	"non-keep" entries are saved. Entries marked "keep" are always saved,
+	regardless of the max.
+
+7.	The following config items (in the "file compare" section)
+	changed names:
+
+		"ignore case"		->	"diff ignore case"
+		"ignore white space"	->	"diff ignore white space"
+		"show line numbers"	->	"diff show line numbers"
+		"show only diff lines"	->	"diff only show diffs"
+
+8.	Removed the "-s" cmd-line option and the "log special files"
+	config option. We always log all files in a directory.
+
+9.	We now deliver all the "terminal utilities" to the "trm"
+	directory to avoid clutter in the main directory.
+
+10.	We no longer strip symbols in a release build, so we can
+	debug user's problems easier.
+
+Internal changes:
+
+1.	We no longer use the "system" routines to query/use termcap/terminfo
+	database info, but use our own routines. This enables us to switch
+	at run-time between the two database types. This also removes the
+	requirement of knowing what system libraries to link with for various
+	platforms (i.e. it simplifies porting to new platforms).
+
+	This also involves changes to the term-file syntax.  See the file
+	TERMFILES for details.
+
+--------------------------------------------------------------------------
+Date:	06 Oct 2000
+Ver:	2.3.4
+
+Additions:
+
+1.	Added FreeBSD port to list of available ports.
+
+2.	Added config entry "ftp logging", which will display in the msg line
+	all communications between the program and the FTP server.
+	Note: these lines change very quickly as the logging proceeds.
+
+3.	Added the key sequence "<ESC><ESC>" to always be interpreted as an
+	"escape" key.  This can be used to avoid the 1 second wait for
+	a single "escape" to be recognized.
+
+4.	Added "directory" keyword to the file-attributes list in the
+	xt.fc file.
+
+5.	Added "hexedit" cmd to full-view & auto-view windows.  It also
+	exists as a "hidden" cmd in the reg-file window.
+
+Changes:
+
+1.	When using gzip compression, a file named "foo.tar" will be
+	compressed to "foo.tgz", not "foo.tar.gz".  Also, the file
+	"foo.tgz" will be recognized as equivalent to "foo.tar.gz".
+
+2.	Changed "ignore case" option in search-string input to toggle
+	off F9 rather than having a separate input query.
+
+3.	Windows: the delivered package has been renamed "xt-x86-windows.zip"
+	instead of "xt-windows.zip".  This is for filename consistency and
+	offers the possibility of other architectures for NT.
+
+4.	Entry-menu processing:
+
+	1.	If an entry is selected from the list, that entry is moved to
+		the end of the list (i.e. it becomes the "default" choice for
+		the next entry-menu call).
+
+	2.	The list is no longer "sorted" with "kept" entries floating
+		to the top.
+
+	3.	The hot-key "/" to insert the default filename has been changed
+		to F4.
+
+	4.	The hot-key F3 now automatically chooses the "default" (last)
+		entry in the history list.
+
+5.	FTP logging:
+
+	1.	User-name input: No default name is presented, but F4 will
+		enter the user's login name.
+
+	2.	If no user-name was entered, the name "anonymous" will be
+		assumed, and no password prompt will be issued.
+		The default "anonymous" password will be
+		"<user-name>@<computer-name>".
+
+	3.	Remote directory: no default is presented, and if no directory
+		is entered, you will be in the "default" directory the FTP
+		login put you in.
+
+6.	"Open" cmd: if the file to be opened is compressed and "expand
+	compressed files" is on, the file will be uncompressed into the temp
+	directory rather than the file's directory (since you may not have
+	permission to write in the original directory).
+
+7.	View/Autoview: the "masked" option now controls whether high-order
+	chars are displayed as is or as a ".".  Note that chars in the
+	range 0x00-0x1f and 0x80-0x9f are always displayed as a "."
+	(Since we have no control over how control chars will be handled
+	by the display and if a terminal is running in "stripped" mode
+	(7 bits only) it will interpret chars 0x80-0x9f as control chars).
+
+	The original use of "masked" was to just "mask" off the high-order
+	bit, because WordStar used to turn that bit to indicate something-
+	or-other, and there was no idea of "real" high-order chars.  But
+	nowadays, we have a true 256-byte charset, so I thought this was a
+	better use of "masking".
+
+	The mask status can now be controlled by the "mask display" option
+	in the config menu.  Note that this value is persistent, i.e., if
+	it is changed (via the "window-m" cmd) is stays set/unset until
+	changed again by the user.
+
+Fixes:
+
+1.	Fixed bug in gzip compression where it would fail after doing
+	a gzip uncompression.
+
+2.	FTP logging:
+
+	1.	Added logic to deal with multiple-line responses.
+
+	2.	Added logic to deal with non-standard responses to "NLST -ali"
+		where the inode is not reported.
+
+	3.	Changed all calls to send/recv to deal with interrupted calls
+		due to the clock ticking.
+
+	4.	Store proper sym-link info for file info display.
+
+Internal changes:
+
+1.	UNIX: use POSIX termio instead of native termio.  Note that
+	FreeBSD has only POSIX termio available.
+
+--------------------------------------------------------------------------
+Date:	27 Sep 2000
+Ver:	2.3.3
+
+Additions:
+
+1.	Added env variable $XTINIT to specify an alternate init file
+	to use instead of the standard configuration file.
+
+	Note that if this is specified, no TERM-specific file will be
+	looked for.
+
+	This can be used for testing a new configuration file.
+
+2.	The "Open" cmd will now uncompress the file before processing it
+	(if "expand compressed files" is on).
+
+3.	Allow "/" as (hidden) alias for Goto cmd in file windows.
+
+4.	In tag-move, copy other directory name as default if in split window.
+
+5.	Added "Paste" cmd (F3) in text-entry to paste last-entered entry.
+	This cmd will be ignored if the last-string is longer than the
+	max allowed for the current entry.
+
+6.	Added "ignore-case" option to searches.
+
+7.	Added "Open" cmd to archive-file window.  It will also automatically
+	uncompress files if "expand compressed files" is on.
+
+	Also added "Copy" as a hidden alias to "Extract".
+
+Changes:
+
+1.	Alt-node now only deletes the current node, not all nodes.
+
+2.	The "Quit" cmd in the full-view window now quits the view, NOT
+	the entire program.
+
+Fixes:
+
+1.	When printing to the print-spooler, check if "/usr/bin/lp" exists,
+	and use it if so (with a "-d dest" option), otherwise use "/usr/bin/lpr"
+	(with a "-P dest" option).  This supports the BSD-like print mechanism
+	used in Linux.
+
+2.	When returning from a shell-escape, force the cursor to (0,0).
+	This makes sure the entire window is redrawn correctly.
+
+--------------------------------------------------------------------------
+Date:	22 Sep 2000
+Ver:	2.3.2
+
+Additions:
+
+1.	Added "file-compare" command ("JFC").  The name "JFC" originally
+	stood for "Jeff's File Compare" (from the original XTree).
+	The name was kept for compatability reasons.
+
+	Note: the on-line help does not yet have help about this feature.
+
+2.	Allow node-select cmd to be used from the file-menu.
+
+Changes:
+
+1.	Alt-link now uses only one input to specify either a file
+	or a directory to point to.
+
+2.	The delivered text file "README" has been changed to "FILES".
+
+Fixes:
+
+1.	Fixed core-dump in alt-compact.
+
+2.	Quote all file/path names in cmd-lines.
+
+3.	Fixed problem with msg-line getting lost when cascading calls
+	to menu-history routine.
+
+4.	Now, any dialog which takes a pathname will be resolved.  This
+	means ~, ~name, $NAME, etc. will be processed correctly.
+
+5.	Filenames now are allowed to use "~" char.
+
+--------------------------------------------------------------------------
+Date:	18 Sep 2000
+Ver:	2.3.1
+
+Changes:
+
+1.	In text-entry, we now display either "INS" or "OVR" to
+	indicate whether we are in "insert" or "overlay" mode.
+
+Fixes:
+
+1.	Fixed core-dump in alt-relog dir.
+
+2.	Fixed empty list display when entry history had only one entry.
+
+3.	Fixed missing load of node names into history list.
+
+4.	Added abs/rel symlink stuff to linking directories.
+
+--------------------------------------------------------------------------
+Date:	15 Sep 2000
+Ver:	2.3.0
+
+Note: this is a new version & release, since the names of some
+files have changed.
+
+1.	Added menu-style history mechanism.
+	Added F10 as a "keep" cmd to flag entries to be kept.
+	The "delete" key will delete entries from the list.
+
+	Now setting "max saved entries" to 0 will save all entries.
+	Note: "max saved entries" only counts non-kept entries.
+
+2.	URL changed from .../unixtree to ../utho.
+
+3.	Linux build now linked with libncurses instead of libtermcap
+	to avoid core-dumps on Debian systems.
+
+4.	Fix in output-attribute routine to re-output any alt-char state
+	after changing colors or attributes to deal with bug in "eterm"
+	on Suse Linux.
+
+5.	Added the loading of a "user.trm" file (if found) after loading
+	any term-specific file to facilitate users storing their custom
+	definitions and keeping them across update installs.
+
+6.	Linux build now delivered as "*.gz" rather than "*.Z".
+
+7.	The "home" directory has been changed from "~" to "~/.xt" to facilitate
+	putting all xt-associated files in one place.  Also, the user's
+	configuration filenames are now changed to match the ones in
+	the system directory:
+
+		.xtrc	is now	xt.rc
+		.xtfc	is now	xt.fc
+		.xths	is now	xt.hst
+
+	The man pages were changed to reflect this change.
+
+	Also, added a new env var XTHOME, which will override the name of
+	the "home" directory.
+
+8.	Fixed pattern matching routine so "foo*" would match file "foo".
+
+9.	Added support for special-file type "door" (used in SVR4 systems).
+
+10.	Added support for recognizing "broken" symlinks, i.e., symlinks
+	which do not point to a valid file/dir.  Broken symlinks are displayed
+	with the char "?", rather than the char "@", which is used for valid
+	symlinks.
+
+	Support was also put in to the alt-tag-by-type to tag such files,
+	and in the file-color mechanism to recognize them.
+
+11.	Added alt-link to file menu (if file is a symlink) to enable
+	changing the value of the link.
+
+12.	In alt-file menu, only display the "F10 Resolve" cmd if current file
+	is a symlink.
+
+13.	Added ability in link & alt-link (for symbolic links) to create
+	either absolute or relative symlinks.
+
+	Note: you can create a symlink to a directory by specifying "."
+	as the filename.
+
+--------------------------------------------------------------------------
+Date:	12 Sep 2000
+Ver:	2.2.8
+
+1.	Fixed dest-dir logic to correctly display node/file info &
+	path-line when in split screen.
+
+2.	Added info cmd ("?") for normal dir/file displays.
+
+3.	Added cmd-line option "-h" as synonym for "-?".
+	Also added "-help" & "--help" as synonym for "-?" and
+	"-helpall" & "--helpall" as synonyms for "-??".
+
+4.	In full-view mode, a CR will return to previous menu
+	(just like an ESC or BS).
+
+5.	Input history will collapse duplicate entries.
+
+6.	Added config entry "insert mode" to set whether data input
+	begins with insert mode on or off.
+
+7.	Added config entry "ignore case" to ignore case when sorting
+	dir/file names by name.
+
+8.	Split-screen info window: now persistent until new info-cmd issued.
+
+--------------------------------------------------------------------------
+Date:	08 Sep 2000
+Ver:	2.2.7
+
+1.	FTP passwords are not saved in history list.
+
+2.	History file (~/.xths) is now set to mode 600 (rw-------).
+
+3.	Added support of file display in color.  File colors are defined
+	in either <xt-dir>/xt.fc or ~/.xt/xt.fc, with the latter taking
+	precedence if present.  Note that "show file colors" must be
+	turned on in the config screen (by default it is off).
+
+	Errors in the file-color file are silently ignored, unless the
+	"-ZF" option is specified, in which case errors are displayed
+	to stderr, and the program will terminate if any errors are found.
+
+4.	dir stats now updated properly when doing an alt-relog.
+
+5.	Fixed "CWD in path" message in graft/compact being erroneously issued.
+
+--------------------------------------------------------------------------
+Date:	06 Sep 2000
+Ver:	2.2.6
+
+1.	Enable cross-device moves.
+
+2.	Added multi-history capability on all input.
+	History is saved at exit into ~/.xths & is loaded at startup.
+	The max entries saved is configurable in the config screen
+	as "max saved entries".
+
+3.	Added secondary search-next key ('/') & search-prev key ('.').
+	Also added "search-back" in view cmd window.
+
+4.	When entering a filename (for copy/move/rename/etc) and not
+	in tag mode, a hotkey ('/') will fill in the current dir/file name.
+
+5.	Added percentage displayed in view windows.
+
+6.	Added the ability to log new nodes in the dest-dir window.
+
+7.	Added ability to log ('+') / log-recursive ('*') / unlog ('-') /
+	hide (F5) /show (F6) sub-dirs in the dest-dir window.  These cmds
+	work, but are not displayed in the prompt.
+
+6.	Changed filename of the system config file from "xt.cfg" to "xt.rc".
+	This is for consistence in naming.
+
+7.	Names of ancillary files (xt.hlp, xt.dev, ~/.xtrc, etc.) remain
+	the same if the "xt" executable is renamed.  It used to use the
+	basename of the executable for the basis for the names.
+
+8.	Added Dir GOTO cmd ('/').  This works in dir menu & dest-dir menu.
+
+--------------------------------------------------------------------------
+Date:	30 Aug 2000
+Ver:	2.2.5
+
+1.	Issue "xxx not allowed in read-only mode" msg only if invoked
+	with read-only option.
+
+2.	If "log archive node" cmd is issued from the file window, default
+	the filename to log to the current file.
+
+3.	"release-node" cmd now only releases the current-node.  It no longer
+	loops through all nodes, asking about them also.
+
+4.	In "tag-copy/link" cmd, if in split-screen mode default the dest
+	directory to the other window's dir.
+
+5.	Changed directory display so only the dir-name plus one space is
+	highlighted for the current directory.  This is to make it more
+	compatible with the mouse highlighting.
+
+--------------------------------------------------------------------------
+Date:	24 Aug 2000
+Ver:	2.2.4
+
+1.	Fixed bug in put/save node (used with alt-quit).
+
+2.	Added support for gzip files and logging gztar files.
+
+--------------------------------------------------------------------------
+Date:	21 Aug 2000
+Ver:	2.2.3
+
+1.	Changed from "verson 2.23" to "version 2.2 release 3".
+	This is to provide separate version & release strings which is
+	needed by rpm.
+
+2.	Added rpm file to deliverables.
+	This rpm is a streamlined install which is hard-coded to install
+	into /usr/local/xt with an xt script put into /usr/local/bin and
+	the xt.1 man page put into /usr/local/man/man1.
+	This removes any need to adjust PATH or MANPATH.
+	The /usr/local/bin/xt script also sets XTTERM if running in an xterm
+	window.
+
+3.	Fixed problem with Windows where it would exit with "~ does not exist"
+	message if no HOME env var was found (it now defaults to "c:\").
+
+--------------------------------------------------------------------------
+Date:	18 Aug 2000
+Ver:	2.22
+
+1.	Mouse movements now highlight the dir/file the mouse is on.
+	Also, default mouse-cmd color changed from black/white to black/cyan.
+
+2.	More changes to linux.trm file for various function keys.
+
+3.	Added xterm-c.trm file for linux users with color-xterm.
+
+4.	default exit-color is changed from white/black to black/white
+	if in a window.
+
+5.	Split up INSTALL file into README & INSTALL files.
+
+--------------------------------------------------------------------------
+Date:	16 Aug 2000
+Ver:	2.21
+
+1.	Changed xterm trm files.  Also changed way the ACS chars are handled
+	internally, so alt chars are displayed correctly.
+
+2.	Fixed bug in finding font path in xttool.
+
+3.	Changed credits window to show homepage.
+
+4.	dispterm now dumps out all character set changes.
+
+5.	Added INSTALL, LICENSE, and CHANGES to deliverable.
+
+--------------------------------------------------------------------------
+Date:	15 Aug 2000
+Ver:	2.20
+
+1.	Changed name from "XTree for Unix" to "UnixTree".
+	The Windows version is named "WinTree".
+	The executable name for all versions is still "xt".
+
+	This allows us to distribute the program as freeware, as
+	Symantec is still the registered owner of the trademark
+	name "XTree".
+
+2.	Added back in application-menu and "-a" (enter-app-menu)
+	cmd-line option.  "Enter application menu" also put back in
+	configuration screen (and in the configuration file) for automatically
+	entering the app-menu at startup.
+
+3.	Changed dir-menu cmds so a CR from the dir-menu will log
+	a non-logged directory but not enter it, and will enter
+	a directory if already logged.  This is to make it more
+	compatible with other XTree versions.
+
+4.	Added icon to Windows executable.
+
+5.	Added mouse scroll-wheel support for Windows.
+	The scroll-wheel doesn't work on Win9X (don't know why),
+	but it does work on Win2000.
+
+6.	Fixed bug with reading scroll-bar in file window when there
+	were no files.
+
+7.	Windows: removed annoying error box if no disks were present
+	in the floppy drive or the CD drive.
+
+8.	Windows: the "open" command will now launch any app associated
+	with a file extension if no "bat" or "cmd" file was found.
+
+9.	Posted builds for the following platforms:
+
+	deliverable			build platform
+	-------------------------	---------------
+	xt-alpha-osf.tar.Z		OSF 4.0
+	xt-parisc-hpux.tar.Z		HP/ux 10.20
+	xt-rs6000-aix.tar.Z		AIX 4.1
+	xt-sparc-solaris4.tar.Z		Solaris 5.4
+	xt-sparc-solaris8.tar.Z		Solaris 5.8
+	xt-x86-dgux.tar.Z		DG/ux 4.10
+	xt-x86-linux.tar.Z		RedHat 2.0.34
+	xt-x86-sco-os5.tar.Z		SCO OpenServer 5.0.5
+	xt-x86-sco-unixware.tar.Z	SCO UnixWare 7.1.1
+	xt-x86-solaris7.tar.Z		Solaris 5.7
+
+	xt-windows.zip			Win2000
+
+	This was the first official posting.
+

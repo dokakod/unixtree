@@ -1,0 +1,87 @@
+# term definition file for ANSI terminals
+
+# screen definitions
+
+lines		= 25
+cols		= 80
+auto-margin	= 1
+move-cursor-ti	= "\e[%i%p1%d;%p2%dH"
+move-cursor-tc	= "\e[%i%d;%dH"
+add-line	= "\e[L"
+delete-line	= "\e[M"
+insert-char	= "\e[@"
+delete-char	= "\e[P"
+clear-screen	= "\e[H\e[2J"
+clear-to-eol	= "\e[K"
+clear-to-eos	= "\e[J"
+
+reverse-on	= "\e[7m"
+reverse-off	= "\e[m"
+bold-on		= "\e[1m"
+bold-off	= "\e[m"
+underline-on	= "\e[4m"
+underline-off	= "\e[m"
+
+cursor-on	= "\e[=11;12C"
+cursor-off	= "\e[=99;99C"
+
+alt-char-1-on	= "\e[12m"
+alt-char-1-off	= "\e[10m"
+alt-char-2-on	= "\e[11m"
+alt-char-2-off	= "\e[10m"
+
+# key definitions
+
+kp0		= "\e[L"
+kp1		= "\e[F"
+kp2		= "\e[B"
+kp3		= "\e[G"
+kp4		= "\e[D"
+kp5		= "\e[E"
+kp6		= "\e[C"
+kp7		= "\e[H"
+kp8		= "\e[A"
+kp9		= "\e[I"
+kpperiod	= "\x7f"
+
+f1		= "\e[M"
+f2		= "\e[N"
+f3		= "\e[O"
+f4		= "\e[P"
+f5		= "\e[Q"
+f6		= "\e[R"
+f7		= "\e[S"
+f8		= "\e[T"
+f9		= "\e[U"
+f10		= "\e[V"
+f11		= "\e[W"
+f12		= "\e[X"
+
+# color definitions
+
+black		= "\e[30m"
+red		= "\e[31m"
+green		= "\e[32m"
+yellow		= "\e[33m"
+blue		= "\e[34m"
+magenta		= "\e[35m"
+cyan		= "\e[36m"
+white		= "\e[37m"
+
+grey		= "\e[30m\e[1m"
+lt-red		= "\e[31m\e[1m"
+lt-green	= "\e[32m\e[1m"
+lt-yellow	= "\e[33m\e[1m"
+lt-blue		= "\e[34m\e[1m"
+lt-magenta	= "\e[35m\e[1m"
+lt-cyan		= "\e[36m\e[1m"
+lt-white	= "\e[37m\e[1m"
+
+black-bgnd	= "\e[40m"
+red-bgnd	= "\e[41m"
+green-bgnd	= "\e[42m"
+yellow-bgnd	= "\e[43m"
+blue-bgnd	= "\e[44m"
+magenta-bgnd	= "\e[45m"
+cyan-bgnd	= "\e[46m"
+white-bgnd	= "\e[47m"

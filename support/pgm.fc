@@ -1,0 +1,165 @@
+# ------------------------------------------------------------------------
+# default file-color file
+#
+# syntax:
+#
+# 1.	Any text following a "#" is treated as a comment.
+#
+# 2.	All blank lines are ignored.
+#
+# 3.	Each entry consists of three entries separated by white-space.
+#
+# entries:
+# 	atime		{<=|<|=|!=|>|>=}nnn		{attr|+|-}
+# 	ctime		{<=|<|=|!=|>|>=}nnn		{attr|+|-}
+# 	mtime		{<=|<|=|!=|>|>=}nnn		{attr|+|-}
+# 	inode		{<=|<|=|!=|>|>=}nnn		{attr|+|-}
+# 	links		{<=|<|=|!=|>|>=}nnn		{attr|+|-}
+# 	size		{<=|<|=|!=|>|>=}nnn[k|m]	{attr|+|-}
+# 	perms		ugsrwxrwxrwx			{attr|+|-}
+# 	owner		[-]{nnn|aaa}			{attr|+|-}
+# 	group		[-]{nnn|aaa}			{attr|+|-}
+# 	type		[-]{reg|blk|chr|door|link|pipe|fifo|sock|unknown}
+#							{attr|+|-}
+# 	filename	[-]<file-spec>			{attr|+|-}
+#	directory	[-]<path-name>			{attr|+|-}
+#
+# attr:
+#	+		AND test with next entry
+#	-		ignore this entry
+#	n		color number (0-15)
+#	color		color name
+#
+#	Color numbers & names are as follows:
+#
+#		0	black
+#		1	red
+#		2	green
+#		3	yellow
+#		4	blue
+#		5	magenta
+#		6	cyan
+#		7	white
+#
+#		8	grey
+#		9	lt-red
+#		10	lt-green
+#		11	lt-yellow
+#		12	lt-blue
+#		13	lt-magenta
+#		14	lt-cyan
+#		15	lt-white
+#
+#	Colors 8-15 will map to colors 0-7 if only 8 colors are defined.
+#	Color names are case-insensitive, and the "-" is optional
+#	(e.g. "lt-red" & "LtRed" are equivalent).
+#
+# Notes:
+#
+# 1.	"atime" (access-time), "ctime" (create-time), and "mtime" (modify-time)
+#	values are specified in days.
+#
+# 2.	"size" may be appended with a "k" or "m" to indicate kilobytes
+#	or megabytes.
+#
+# 3.	"owner" & "group" can be either specified as a numeric ID or a name.
+#	A leading "-" indicates any value but that specified.
+#
+# 4.	"perms" is specified as bits as follows:
+#		0	must be off
+#		1	must be on
+#		-	don't care
+#	Any character other than "0" or "1" is treated as a "-".
+#	If the string of bits is less than 12 chars, the bits specified
+#	are assumed to be right-justified, and any non-specified bits
+#	are assumed to be "don't care".
+#
+# 5.	"type" may be any of the following:
+#		reg		regular file
+#		blk		block special
+#		chr		char special
+#		door		door
+#		fifo		FIFO
+#		pipe		named pipe
+#		link		symbolic link
+#		sock		socket
+#		unknown		unknown (broken) symlink
+#
+#	If "type" is preceded by a "-", this indicates to flag any file
+#	not of that type.
+#
+# 6.	"filename" may be any valid filename specification (e.g. *.txt).
+#	A leading "-" indicates any name that does not match the pattern
+#	specified. Note that filename-specifications are case sensitive.
+#
+# 7.	All keywords (entry-type and type-value) are case-insensitive &
+#	may be abbreviated as desired (only the first letter is checked).
+#
+# 8.	The first entry found which matches is the one used.  If the color
+#	specified matches the current background color, the entry is discarded.
+#
+# 9.	Any invalid entries are silently ignored.
+#
+# ------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------
+# special files
+#
+type	chr		yellow
+type	blk		yellow
+type	fifo		yellow
+type	pipe		yellow
+type	sock		yellow
+type	door		yellow
+
+type	unknown		magenta
+type	link		cyan
+
+# ------------------------------------------------------------------------
+# setuid-root files
+#
+perms	1----1------	+
+owner	root		red
+
+# ------------------------------------------------------------------------
+# read-only files
+#
+#perms	-0--0--0-	lt-green
+
+# ------------------------------------------------------------------------
+# executable files
+#
+perms	--1------	lt-red
+
+# ------------------------------------------------------------------------
+# DOS executables
+#
+file	*.exe		lt-red
+file	*.bat		lt-red
+file	*.cmd		lt-red
+file	*.com		lt-red
+
+# ------------------------------------------------------------------------
+# archive files
+#
+file	*.tar		green
+file	*.tgz		green
+file	*.rpm		green
+file	*.jar		green
+file	*.zip		green
+file	*.z		green
+file	*.Z		green
+file	*.gz		green
+file	*.bz2		green
+
+# ------------------------------------------------------------------------
+# image files
+#
+file	*.jpg		lt-magenta
+file	*.gif		lt-magenta
+file	*.bmp		lt-magenta
+file	*.xbm		lt-magenta
+file	*.xpm		lt-magenta
+file	*.ico		lt-magenta
+file	*.tif		lt-magenta
+file	*.png		lt-magenta

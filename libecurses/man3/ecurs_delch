@@ -1,0 +1,38 @@
+Curses Library Functions ecurs_delch
+
+
+
+NAME
+     ecurs_delch - delete character under cursor in a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int delch(void);
+
+     int wdelch(WINDOW *win);
+
+     int mvdelch(int y, int x);
+
+     int mvwdelch(WINDOW *win, int y, int x);
+
+DESCRIPTION
+     With these routines the character under the cursor in the
+     window is deleted; all characters to the right of the cursor
+     on the same line are moved to the left one position and the
+     last character on the line is filled with a blank. The
+     cursor position does not change (after moving to y, x, if
+     specified). This does not imply use of the hardware delete
+     character feature.
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

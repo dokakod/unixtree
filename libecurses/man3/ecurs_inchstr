@@ -1,0 +1,49 @@
+Curses Library Functions ecurs_inchstr
+
+
+
+NAME
+     ecurs_inchstr - get a string of characters (and attributes)
+     from a curses window
+
+SYNOPSIS
+     #include <curses.h>
+
+     int inchstr(chtype *chstr);
+
+     int inchnstr(chtype *chstr, int n);
+
+     int winchstr(WINDOW *win, chtype *chstr);
+
+     int winchnstr(WINDOW *win, chtype *chstr, int n);
+
+     int mvinchstr(int y, int x, chtype *chstr);
+
+     int mvinchnstr(int y, int x, chtype *chstr, int n);
+
+     int mvwinchstr(WINDOW *win, int y, int x, chtype *chstr);
+
+     int mvwinchnstr(WINDOW *win, int y, int x, chtype *chstr,
+         int n);
+
+DESCRIPTION
+     With these routines, a string of type chtype, starting at
+     the current cursor position in the named window and ending
+     at the right margin of the window, is returned. The four
+     functions with n as the last argument, return the string at
+     most n characters long. Constants defined in <curses.h> can
+     be used with the & (logical AND) operator to extract the
+     character or the attribute alone from any position in the
+     chstr (see ecurs_inch).
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and an
+     integer value other than ERR upon successful completion.
+
+SEE ALSO
+     ecurs_inch, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

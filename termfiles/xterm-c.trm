@@ -1,0 +1,32 @@
+# color xterm.trm for X11
+
+term		= "xterm"
+
+# color data
+
+black		= "\e[0;30m"
+red		= "\e[0;31m"
+green		= "\e[0;32m"
+yellow		= "\e[0;33m"
+blue		= "\e[0;34m"
+magenta		= "\e[0;35m"
+cyan		= "\e[0;36m"
+white		= "\e[0;37m"
+
+grey		= "\e[1;30m"
+lt-red		= "\e[1;31m"
+lt-green	= "\e[1;32m"
+lt-yellow	= "\e[1;33m"
+lt-blue		= "\e[1;34m"
+lt-magenta	= "\e[1;35m"
+lt-cyan		= "\e[1;36m"
+lt-white	= "\e[1;37m"
+
+black-bgnd	= "\e[40m"
+red-bgnd	= "\e[41m"
+green-bgnd	= "\e[42m"
+yellow-bgnd	= "\e[43m"
+blue-bgnd	= "\e[44m"
+magenta-bgnd	= "\e[45m"
+cyan-bgnd	= "\e[46m"
+white-bgnd	= "\e[47m"

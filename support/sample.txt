@@ -1,0 +1,15 @@
+# ------------------------------------------------------------------------
+# Sample ${PKG} configuration file
+#
+# The ${PGM} program will look for the following configuration files:
+#	${PGM}.rc
+#	${PGM}.rc.$TERM
+# using the search path in ${PRF}PATH (if defined) or
+# the default path of ".:~/.${PGM}:<${PGM}-system-directory>".
+#
+# Note that outside of quotes case, white space, "-", and "_" are ignored.
+#
+# This file duplicates all the defaults and follows the layout
+# in the configuration screen.
+# ------------------------------------------------------------------------
+

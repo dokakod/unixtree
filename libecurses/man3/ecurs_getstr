@@ -1,0 +1,43 @@
+Curses Library Functions ecurs_getstr
+
+
+
+NAME
+     ecurs_getstr - get character strings from curses terminal keyboard
+
+SYNOPSIS
+     #include <curses.h>
+
+     int getstr(char *str);
+
+     int wgetstr(WINDOW *win, char *str);
+
+     int mvgetstr(int y, int x, char *str);
+
+     int mvwgetstr(WINDOW *win, int y, int x, char *str);
+
+     int getnstr(char *str, int n);
+
+     int wgetnstr(WINDOW *win, char *str, int n);
+
+DESCRIPTION
+     The effect of getstr() is as though a series of calls to
+     getch() were made, until a newline or carriage return is
+     received. The resulting value is placed in the area pointed
+     to by the character pointer str. wgetnstr() reads at most n
+     characters, thus preventing a possible overflow of the input
+     buffer. The user's erase and kill characters are
+     interpreted, as well as any special keys (such as function
+     keys, HOME key, and ARROW keys.)
+
+RETURN VALUES
+     All routines return the integer ERR upon failure and the
+     number of characters read (not including the cr) upon success.
+
+SEE ALSO
+     ecurs_getch, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

@@ -1,0 +1,167 @@
+Curses Library Functions ecurs_border
+
+
+
+NAME
+     ecurs_border - create curses borders, horizontal and vertical lines
+
+SYNOPSIS
+     #include <curses.h>
+
+     int border(chtype ls, chtype rs, chtype ts, chtype bs,
+         chtype tl, chtype tr, chtype bl, chtype br);
+
+     int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts,
+         chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
+
+     int box(WINDOW *win, chtype verch, chtype horch);
+
+     int hline(chtype ch, int n);
+
+     int whline(WINDOW *win, chtype ch, int n);
+
+     int mvhline(int y, int x, chtype ch, int n);
+
+     int mvwhline(int y, int x, chtype ch, int n);
+
+     int vline(chtype ch, int n);
+
+     int wvline(WINDOW *win, chtype ch, int n);
+
+     int mvvline(int y, int x, chtype ch, int n);
+
+     int mvwvline(int y, int x, chtype ch, int n);
+
+     int wbox(WINDOW *win, int type);
+
+     int wbox_around(WINDOW *win, WINDOW *brdr_win, int type);
+
+     int smart_box_chr(WINDOW *win, int y, int x, int c,
+         int type);
+
+     int smart_box(WINDOW *win, int y_start, int x_start,
+         int rows, int cols, int type);
+
+DESCRIPTION
+     With the border(), wborder(), and box() routines, a border
+     is drawn around the edges of the window. The arguments and
+     attributes are:
+             ls    left side of the border
+             rs    right side of the border
+             ts    top side of the border
+             bs    bottom side of the border
+             tl    top left-hand corner
+             tr    top right-hand corner
+             bl    bottom left-hand corner
+             br    bottom right-hand corner
+
+     If any of these arguments is zero, then the following
+     default values (defined by <curses.h>) are used respectively
+     instead: ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE,
+     ACS_ULCORNER, ACS_URCORNER, ACS_BLCORNER, ACS_BRCORNER.
+
+     box(win, verch, horch) is a shorthand for the following
+     call:
+
+          wborder(win, verch, verch, horch, horch , 0, 0, 0, 0)
+
+
+     hline() and whline() draw a horizontal (left to right) line
+     using ch starting at the current cursor position in the
+     window. The current cursor position is not changed. The line
+     is at most n characters long, or as many as fit into the
+     window.
+
+     vline() and wvline() draw a vertical (top to bottom) line
+     using ch starting at the current cursor position in the
+     window. The current cursor position is not changed. The line
+     is at most n characters long, or as many as fit into the
+     window.
+
+     wbox() will draw a box around the edge of a window, using
+     the line-drawing character-types as requested:
+
+         ASCII    0    ascii characters
+         SHSV     1    single horz single vert lines
+         DHDV     2    double horz double vert lines
+         DHSV     3    double horz single vert lines
+         SHDV     4    single horz double vert lines
+         BLOCK    5    block characters
+
+     If the requested line type is not available, the ascii set
+     will be used.
+
+     box_around() will draw a box of the requested type around a
+     window using a border-window to display in.
+
+     smart_box_chr() will display a box character of the
+     requested type at the specified position, converting the
+     character to be displayed to match any previous box
+     character displayed. The character to be displayed is one
+     of the following:
+
+         B_BL     0    bottom left
+         B_BC     1    bottom center
+         B_BR     2    bottom right
+         B_ML     3    middle left
+         B_MC     4    middle center
+         B_MR     5    middle right
+         B_TL     6    top left
+         B_TC     7    top center
+         B_TR     8    top right
+         B_VE     9    vertical line
+         B_HO    10    horizontal line
+
+     smart_wbox() will draw a box of the specified type in the
+     window starting at (y_start,x_start) for a size of
+     (rows,cols). It will adjust the box characters drawn for
+     pre-existing box characters in the window.
+
+  Line Graphics
+     The following variables may be used to add line drawing
+     characters to the screen with routines of the addch()
+     family.  When variables are defined for the terminal, the
+     A_ALTCHARSET bit is turned on (see ecurs_attr). Otherwise,
+     the default character listed below is stored in the
+     variable. The names chosen are consistent with the VT100
+     nomenclature.
+
+      Name                 Default      Glyph Description
+     ------------------------------------------------------------
+      ACS_ULCORNER         +            upper left-hand corner
+      ACS_LLCORNER         +            lower left-hand corner
+      ACS_URCORNER         +            upper right-hand corner
+      ACS_LRCORNER         +            lower right-hand corner
+      ACS_RTEE             +            right tee
+      ACS_LTEE             +            left tee
+      ACS_BTEE             +            bottom tee
+      ACS_TTEE             +            top tee
+      ACS_HLINE            -            horizontal line
+      ACS_VLINE            |            vertical line
+      ACS_PLUS             +            plus
+      ACS_S1               -            scan line 1
+      ACS_S9               _            scan line 9
+      ACS_DIAMOND          +            diamond
+      ACS_CKBOARD          :            checker board (stipple)
+      ACS_DEGREE           '            degree symbol
+      ACS_PLMINUS          #            plus/minus
+      ACS_BULLET           o            bullet
+      ACS_LARROW           <            arrow pointing left
+      ACS_RARROW           >            arrow pointing right
+      ACS_DARROW           v            arrow pointing down
+      ACS_UARROW           ^            arrow pointing up
+      ACS_BOARD            #            board of squares
+      ACS_LANTERN          #            lantern symbol
+      ACS_BLOCK            #            solid square block
+
+RETURN VALUES
+     All routines return the integer OK, or a non-negative
+     integer if immedok() is set. See ecurs_outopts.
+
+SEE ALSO
+     ecurs_outopts, ecurses
+
+NOTES
+     The header <curses.h> automatically includes the system
+     headers <stdio.h>, <stdarg.h>, and <sys/types.h>.
+

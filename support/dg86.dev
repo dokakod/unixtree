@@ -1,0 +1,19 @@
+#	archive device table
+#
+#	 device     		block   size	tape	desc
+
+#	default device
+archive=/dev/rdsk/f0t		18	1440	n	# drive 0  3.5   1.44M
+
+archive0=/dev/rdsk/f05d9t	9	360	n	# drive 0  5.25  360K
+archive1=/dev/rdsk/f15d9t	9	360	n	# drive 1  5.25  360K
+archive2=/dev/rdsk/f05ht	15	1200	n	# drive 0  5.25  1.2M
+archive3=/dev/rdsk/f15ht	15	1200	n	# drive 1  5.25  1.2M
+archive4=/dev/rdsk/f03dt	9	720	n	# drive 0  3.5   720K
+archive5=/dev/rdsk/f13dt	9	720	n	# drive 1  3.5   720K
+archive6=/dev/rdsk/f03ht	18	1440	n	# drive 0  3.5   1.44M
+archive7=/dev/rdsk/f13ht	18	1440	n	# drive 1  3.5   1.44M
+archive8=./archive		20	0	n	# archive file
+archive9=/dev/rmt/c0s0		20	14000	y	# 150' cartridge tape
+archive10=/dev/rmt/c0s0		20	29000	y	# 300' cartridge tape
+archive11=/dev/rmt/c0s0		20	59000	y	# 600' cartridge tape

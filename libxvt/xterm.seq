@@ -1,0 +1,782 @@
+Xterm & VTxxx control sequences
+
+	This is intended to be a composite list of control sequences supported by
+	various VTxxx terminals and various xterm implementations.
+
+	Where the function is specified by DEC or ISO 6429, the code assigned to
+	it is given in parentheses. The escape codes to designate and invoke
+	character sets are specified by ISO 2022; see that document for a
+	discussion of character sets.
+
+	In the far left column is noted the VT level for this command, which
+	roughly corresponds to the ANSI conformance level, as follows:
+
+		1	Used by VT100 series terminals
+			Note that the VT102 is more capable than the VT100, and level 1
+			entries which are VT102-specific are marked as "1*".
+		2	Used by VT200 series terminals
+		3	Used by VT300 series terminals
+		4	Used by VT400 series terminals
+		5	Used by VT500 series terminals
+		x	Xterm-specific (which should include all VT entries)
+		?	Various options have different conformance levels, as noted
+
+Definitions
+
+	c	The literal character c.
+
+	C	A single (required) character.
+
+	Ps	A single (optional) numeric parameter, composed of one of more digits.
+		If not supplied, it is assumed to be 0.
+
+	Pm	Multiple numeric parameters composed of any number of single numeric
+		parameters, separated by ; character(s).
+
+	Pt	A text parameter composed of printable characters.
+
+Control sequences
+
+	The following are the control sequences recognized, for both 7-bit
+	and 8-bit controls:
+
+	Name		7-bit seq		8-bit seq		Description
+	----		---------		---------		-----------
+	IND			ESC D			0x84			Index down
+	NEL			ESC E			0x85			Next Line
+	HTS			ESC H			0x88			Horizontal Tab Set
+	RI			ESC M			0x8d			Reverse Index
+	SS2			ESC N			0x8e			Single Shift G2
+	SS3			ESC O			0x8f			Single Shift G3
+	DCS			ESC P			0x90			Device Control String
+	SPA			ESC V			0x96			Start Protected Area
+	EPA			ESC W			0x97			End   Protected Area
+	SOS			ESC X			0x98			Start Of String
+	DECID		ESC Z			0x9a			DEC ID
+	CSI			ESC [			0x9b			Control Sequence Introducer
+	ST			ESC \			0x9c			String Terminator
+	OSC			ESC ]			0x9d			Operating System Command
+	PM			ESC ^			0x9e			Privacy Message
+	APC			ESC _			0x9f			Application Program Command
+
+Control characters	(These apply to all terminals except where noted.)
+
+	NUL			0x00 ^@	Ignored
+	ENQ			0x05 ^E	Report terminal status (same as ESC [ c) (DA)
+	BEL			0x07 ^G	Bell
+	BS			0x08 ^H	Backspace
+	HT			0x09 ^I	Horizontal Tab
+	LF			0x0a ^J	Line Feed or New Line (NL)
+	VT			0x0b ^K	Vertical Tab (same as LF)
+	FF			0x0c ^L	Form Feed or New Page (NP) (same as LF)
+	CR			0x0d ^M	Carriage Return
+	SO			0x0e ^N	Invoke the G1 char set (ignored in VT52 mode)
+	SI			0x0f ^O	Invoke the G0 char set (ignored in VT52 mode)
+	DC1			0x11 ^Q Resume  transmission (XON)
+	DC3			0x13 ^S Suspend transmission (XOFF)
+	CAN			0x18 ^X Cancel any control sequence
+	SUB			0x1a ^Z Same as CAN
+	ESC			0x1d ^[ Invoke an escape sequence
+	DEL			0x1f ^?	Ignored on input
+
+	SP			0x20    space
+
+VT52 escape sequences (non-ANSI compatible, 7-bit controls only)
+
+	ESC A				Cursor up (CUU)
+	ESC B				Cursor down (CUD)
+	ESC C				Cursor right (CUF)
+	ESC D				Cursor left (CUB)
+	ESC F				Enter graphics mode (SGM)
+	ESC G				Exit  graphics mode (EGM)
+	ESC H				Cursor to home (CUH)
+	ESC I				Reverse line feed (RI)
+	ESC J				Erase to end-of-screen (ED)
+	ESC K				Erase to end-of-line (EL)
+	ESC V				Print cursor line (DECPCL)
+	ESC W				Enable  printer pass-through (DECSPC)
+	ESC X				Disable printer pass-through (DECEPC)
+	ESC Y <line> <col>	Direct cursor address (value + ' ') (CUP)
+	ESC Z				Identify (sends "ESC / Z") (DA)
+	ESC =				Enter alternate keypad mode (DECKPAM)
+	ESC >				Exit  alternate keypad mode (DECKPNM)
+	ESC <				Enter ANSI mode (DECANM)
+	ESC ^				Enable  autoprint (DECSAP)
+	ESC _				Disable autoprint (DECEAP)
+	ESC ]				Print screen (DECPSC)
+
+VTxxx escape sequences (ANSI compatible, 7-bit or 8-bit controls)
+
+4	ESC 6				Forward index (DECFI)
+1	ESC 7				Save Cursor (DECSC)
+1	ESC 8				Restore Cursor (DECRC)
+4	ESC 9				Backward index (DECBI)
+1	ESC =				Application Keypad (DECKPAM)
+1	ESC >				Normal Keypad (DECKPNM)
+x	ESC F				Cursor to lower left corner of screen
+1	ESC c				Full Reset (RIS)
+	ESC l				Memory Lock   (per HP terminals)
+	ESC m				Memory Unlock (per HP terminals)
+2	ESC n				Invoke the G2 Character Set (LS2)
+2	ESC o				Invoke the G3 Character Set (LS3)
+2	ESC |				Invoke the G3 Character Set as GR (LS3R).
+2	ESC }				Invoke the G2 Character Set as GR (LS2R).
+2	ESC ~				Invoke the G1 Character Set as GR (LS1R).
+
+1	ESC D (IND)			Index (IND)
+1	ESC E (NEL)			Next Line (NEL)
+1	ESC H (HTS)			Tab Set (HTS)
+1	ESC M (RI)			Reverse Index (RI)
+1*	ESC N (SS2)			Single Shift Select of G2 Char Set (SS2)
+1*	ESC O (SS3)			Single Shift Select of G3 Char Set (SS3)
+	ESC V (SPA)			Start of protected area (SPA)
+	ESC W (EPA)			End   of protected area (EPA)
+4	ESC X (SOS)			Start of string	(SOS)
+1	ESC Z (DECID)		Return Terminal ID (DECID).  (Deprecated form of DA).
+
+2	ESC SP F			7-bit controls (S7C1T)
+2	ESC SP G			8-bit controls (S8C1T)
+2	ESC SP L			Set ANSI conformance level 1 (vt100, 7-bit controls)
+2	ESC SP M			Set ANSI conformance level 2 (vt200)
+3	ESC SP N			Set ANSI conformance level 3 (vt300)
+
+x	ESC % @				Select ISO 8859-1 character set (ISO 2022) (default)
+x	ESC % G				Select UTF-8      character set (ISO 2022)
+
+1	ESC # 3				DEC double height line, top half (DECDHL)
+1	ESC # 4				DEC double height line, bot half (DECDHL)
+1	ESC # 5				DEC single-width line (DECSWL)
+1	ESC # 6				DEC double-width line (DECDWL)
+1	ESC # 8				DEC Screen Alignment Test (DECALN)
+
+1	ESC ( C				Designate G0 94-Character Set (ISO 2022)
+1	ESC ) C				Designate G1 94-Character Set (ISO 2022)
+2	ESC * C				Designate G2 94-Character Set (ISO 2022)
+2	ESC + C				Designate G3 94-Character Set (ISO 2022)
+3	ESC - C				Designate G1 96-Character Set (ISO 2022)
+3	ESC . C				Designate G2 96-Character Set (ISO 2022)
+3	ESC / C				Designate G3 96-Character Set (ISO 2022)
+1							C = A		United Kingdom (UK)
+1							C = B		United States (USASCII)
+1							C = 0		DEC Line Drawing Set
+1							C = 1		Alt ROM standard character set
+1							C = 2		Alt ROM graphic  character set
+2							C = <		User preferred supplemental
+2							C = 4		Dutch
+2							C = C		Finnish
+2							C = 5		Finnish
+2							C = R		French
+2							C = Q		French Canadian
+2							C = K		German
+2							C = Y		Italian
+2							C = E		Norwegian/Danish
+2							C = 6		Norwegian/Danish
+2							C = Z		Spanish
+2							C = H		Swedish
+2							C = 7		Swedish
+2							C = =		Swiss
+
+3	DCS Pt ST			Device Control String (DCS)
+3	PM  Pt ST			Privacy Message (PM)
+3	APC Pt ST			Application Program Command (APC)
+
+3	DCS 0 !u %5 ST		Assign DEC Supplemental graphic set as preferred
+3	DCS 1 !u A  ST		Assign ISO Latin-1 Supplemental set as preferred
+
+3	DCS 1 $p Pt ST		Restore terminal state (DECRSTS)
+						Pt = D...D	restored data bytes
+
+3	DCS $ q Pt ST		Report control settings (DECRQSS)
+							Pt = D...D	final chars of control to query
+								$}	DECDSASD	Select active status display
+4								*x	DECSACE		Select attribute change extent
+								"q	DECSCA		Set character attribute
+								"p	DECSCL		Set conformance level
+4								$|	DECSCPP		Set columns per page
+4								t	DECSLPP		Set lines per page
+4								*|	DECSNLS		Set lines per screen
+								$~	DECSSDT		Set status line type
+4								s	DECSLRM		Set left/right margins
+								r	DECSTBM		Set top/bottom margins
+								m	SGR			Select graphic rendition
+4								+q	DECELF		Enable local functions
+4								*}	DECLFKC		Local function key control
+4								+r	DECSMKR		Select modifier key reporting
+						Reply is: "DCS Ps $ r Pt ST" (DECRPSS)
+							Ps = 0	valid   request
+							Ps = 1	invalid request
+							Pt = D...D	final chars queried
+
+3	DCS Ps $t Pt ST		Restore Presentation Report (DECRSPS)
+						Ps = 1		Cursor information report
+						Ps = 2		Tab stop report
+						Pt = D...D	data string
+
+4	DCS pid; pdt; Pen ! z Pt ST
+						Define macro (DECDMAC)
+						Pid			Macro number (0-63)
+						Pdt			Macro to delete first
+									0		delete all current macros
+									1		delete all current macros
+									<n>		ignore macro
+						Pen			Encoding format
+									0		standard ASCII
+									1		hex pairs
+									<n>		ignore macro
+						Pt			D...D	encoded data
+
+x	OSC Ps ; Pt BEL		Operating System Command (OSC)
+							If Pt is a "?", then output the cmd to set it.
+							Ps = 0		Change Icon Name and Window Title to Pt
+							Ps = 1		Change Icon Name to Pt
+							Ps = 2		Change Window Title to Pt
+							Ps = 4		Change color name
+										Pt is in form "c;name", where
+										<c> is (0-15) and <name> is a standard
+										X11 color name.
+							Ps = 10		Change foreground color to Pt
+							Ps = 11		Change background color to Pt
+							Ps = 12		Change pointer    color to Pt
+							Ps = 13		Change border     color to Pt
+							Ps = 14		Change cursor     color to Pt
+							Ps = 46		Change Log File to Pt
+							Ps = 50		Set Font to Pt
+										If Pt begins with a "#", then Pt is
+										a font index, relative if the next char
+										is a "+" or "-", absolute otherwise.
+										Relative moves skip over undefined
+										font entries.
+
+4	CSI Ps * |			Set Ps lines per screen (DECSNLS)
+
+3	CSI Ps $ }			Select active status display (DECSASD)
+							Ps = 0		main display
+							Ps = 1		status line
+
+4	CSI Ps ' }			Insert Ps columns (DECIC)
+
+4	CSI Pk, ...; Pc * }	Local function key control (DECLFKC)
+							Pk			function key (multiple)
+								0		all function keys
+								n		Function key <n>
+							Pc			function performed
+								0		default
+								1		local function
+								2		send key sequence
+								3		disable
+
+3	CSI Ps $ ~			Select status line type (DECSSDT)
+							Ps = 0		none
+							Ps = 1		indicator
+							Ps = 2		host-writable
+
+4	CSI Ps ' ~			Delete Ps columns (DECDC)
+
+2	CSI Ps @			Insert Chars    Ps times (default = 1) (ICH)
+1	CSI Ps A			Cursor Up       Ps Times (default = 1) (CUU)
+1	CSI Ps B			Cursor Down     Ps Times (default = 1) (CUD)
+1	CSI Ps C			Cursor Forward  Ps Times (default = 1) (CUF)
+1	CSI Ps D			Cursor Backward Ps Times (default = 1) (CUB)
+	CSI Ps E			Down Ps lines & to 1st column (CNL)
+	CSI Ps F			Up   Ps lines & to 1st column (CPL)
+	CSI Ps G			Move to col Ps (CHA)
+1	CSI Ps ; Ps H		Cursor Position  [row;column] (default = [1,1]) (CUP)
+	CSI Ps I			Move right Ps tabs (CHT)
+
+1	CSI Ps J			Erase in Display (ED)
+							Ps = 0		Clear Below (default)
+							Ps = 1		Clear Above
+							Ps = 2		Clear All
+
+1	CSI Ps K			Erase in Line (EL)
+							Ps = 0		Clear to Right (default)
+							Ps = 1		Clear to Left
+							Ps = 2		Clear All
+
+1*	CSI Ps L			Insert Ps Lines (default = 1) (IL)
+1*	CSI Ps M			Delete Ps Lines (default = 1) (DL)
+1*	CSI Ps P			Delete Ps Chars (default = 1) (DCH)
+
+4	CSI Ps SP P			Move to page Ps        (cursor unchanged) (PPA)
+4	CSI Ps SP R			Move Ps pages backward (cursor unchanged) (PPB)
+4	CSI Ps SP Q			Move Ps pages forward  (cursor unchanged) (PPR)
+
+4	CSI Ps S			Scroll text down Ps lines (SU)
+4	CSI Ps T			Scroll text up   Ps lines (SD)
+
+4	CSI Ps U			Move Ps pages forward  (cursor home) (NP)
+4	CSI Ps V			Move Ps pages backward (cursor home) (PP)
+
+	CSI Ps W			Set/Reset tab aliases
+							Ps = 0		Same as ESC H
+							Ps = 2		Same as ESC [ 0 g
+							Ps = 5		Same as ESC [ 3 g
+
+2	CSI Ps X			Erase  Ps Chars (default = 1) (ECH)
+	CSI Ps Z			Move left Ps tabs (CBT)
+	CSI Ps ^			Scroll text down Ps lines (SU)
+	CSI Ps `			Move to row Ps (HPA)
+	CSI Ps a			Cursor Forward Ps Times (default = 1) (CUF)
+	CSI Ps b			Repeat the preceding graphic char Ps times (REP)
+
+?	CSI Ps c			Send Primary Device Attributes (DA) (Ps ignored)
+1						VT100 responses:
+						"CSI ? 1;0 c"	No options
+						"CSI ? 1;1 c"	Processor option (STP)
+						"CSI ? 1;2 c"	Advanced video option (AVO)
+						"CSI ? 1;3 c"	AVO & STP
+						"CSI ? 1;4 c"	Graphics processor option (GPO)
+						"CSI ? 1;5 c"	GPO & STP
+						"CSI ? 1;6 c"	GPO & AVO
+						"CSI ? 1;7 c"	GPO, STP & AVO
+1*						VT102 responses:
+						"CSI ? 6 c"		VT102
+2						VT200 responses:
+						"CSI ? 62; <opt>[;<opt>] c"
+							1	132 columns
+							2	Printer
+							6	Selective erase
+							7	Downloadable char sets
+							8	User-defined keys
+							9	National replacement character sets
+3						VT300 responses:
+						"CSI ? 63; <opt>[;<opt>] c"
+							1	132 columns
+							2	Printer
+							6	Selective erase
+							7	Downloadable char sets
+							8	User-defined keys
+							9	National replacement character sets
+4						VT400 responses:
+						"CSI ? 64; <opt>[;<opt>] c"
+							1	132 columns
+							2	Printer
+							6	Selective erase
+							7	Downloadable char sets
+							8	User-defined keys
+							9	National replacement character sets
+							15	Technical character set
+							18	Two windows
+							19	Two sessions
+							21	Horizontal scrolling
+
+?	CSI > Ps c		Send Secondary Device Attributes (DA) (Ps ignored)
+2						VT200 responses:
+						"CSI > 1; <Pv>; <Po> c"
+							Pv	firmware version
+							Po	hardware options (0 = no options)
+
+3						VT300 responses:
+						"CSI > 24; <Pv>; <Po> c"
+							Pv	firmware version
+							Po	hardware options (0 = no options)
+
+4						VT400 responses:
+						"CSI > 41; <Pv>; 0 c"
+							Pv	firmware version
+
+4	CSI = Ps c			Send Tertiary Device Attributes (DA) (Ps ignored)
+						"DCS ! | D...D ST"
+							D...D	unit ID
+
+	CSI Ps d			Move to row Ps (VPA)
+
+	CSI Ps e			Cursor Up Ps Times (default = 1) (CUU)
+
+1	CSI Ps ; Ps f		Horiz & Vert Pos [row;column] (default = [1,1]) (HVP)
+
+1	CSI Ps g			Tab Clear (TBC)
+							Ps = 0		Clear Current Column (default)
+							Ps = 3		Clear All
+
+1	CSI Pm h			Set Mode (SM)
+1*							Ps = 2		Keyboard lock (KAM)
+1*							Ps = 4		Insert Mode (IRM)
+1*							Ps = 12		Local echo off (SRM)
+1							Ps = 20		Automatic Newline (CR -> CR/LF) (LNM)
+
+1*	CSI Ps i			Media Copy (MC)
+							Ps = 0		Print screen
+							Ps = 4		stop  print pass-thru
+							Ps = 5		start print pass-thru
+
+1	CSI Pm l			Reset Mode (RM)
+1*							Ps = 2		Keyboard unlock (KAM)
+1*							Ps = 4		Replace Mode (IRM)
+1*							Ps = 12		Local echo on (SRM)
+1							Ps = 20		Normal Linefeed (CR -> CR) (LNM)
+
+?	CSI Pm m			Character Attributes (SGR)
+1							Ps = 0		All mono attributes off
+
+1							Ps = 1		Bold on  (changes FG 0-7 to 8-15)
+1							Ps = 4		Underscore on
+1							Ps = 5		Blink on (changes BG 0-7 to 8-15)
+1							Ps = 7		Inverse on
+x							Ps = 8		Hidden on (invisible)
+
+2							Ps = 22		Bold off
+2							Ps = 24		Underscore off
+2							Ps = 25		Blink off
+2							Ps = 27		Reverse off
+x							Ps = 28		Hidden off (visible)
+
+x							Ps = 30-37	FG color 0-7 (may be modified by BOLD)
+x							Ps = 39		Set FG to default
+
+x							Ps = 40-47	BG color 0-7 (may be modified by BLINK)
+x							Ps = 49		Set BG to default
+
+x							Ps = 90-97	 FG color 8-15 (AIXTERM)
+x							Ps = 100-107 BG color 8-15 (AIXTERM)
+
+?	CSI Ps n			Device Status Report (DSR)
+1							Ps = 5		Status Report
+										"CSI 0 n"	OK
+										"CSI 3 n"	not OK
+1							Ps = 6		Report Cursor Position (CPR)
+										"CSI <row>;<col> R"
+x							Ps = 7		Report display name
+x							Ps = 8		Report version
+
+3	CSI Ps $ p			Request mode (DECRQM)
+							Ps = 2		Keyboard unlock (KAM)
+							Ps = 4		Replace Mode (IRM)
+							Ps = 12		Local echo on (SRM)
+							Ps = 20		Linefeed (LNM)
+							"CSI <Ps>;<mode> $ y"	(DECRPM)
+								mode = 0	unknown
+								mode = 1	set
+								mode = 2	reset
+
+	CSI ! p				Soft reset (DECSTR)
+
+2	CSI Pm " p			Set Compatability level (DECSCL)
+							First parameter:
+							Ps = 61		VT100 mode
+							Ps = 62		VT200 mode
+							Ps = 63		VT300 mode
+							Ps = 64		VT400 mode
+							Second parameter:
+							Ps = 0		8-bit controls
+							Ps = 1		7-bit controls (always set for VT100)
+							Ps = 2		8-bit controls
+
+1	CSI Pm q			Set programmable LEDs (DECLL)
+							Ps = 0		Turn all LEDs off
+							Ps = 1		L1 on
+							Ps = 2		L2 on
+							Ps = 3		L3 on
+							Ps = 4		L4 on
+
+2	CSI Ps " q			Set character protection attribute (DECSCA)
+							Ps = 0		DECSED & DECSEL can erase (default)
+							Ps = 1		DECSED & DECSEL cannot erase
+							Ps = 2		DECSED & DECSEL can erase
+
+4	CSI pf; ...; Pc + q	Enable local functions (DECELF)
+							Pf			function number (multiple)
+								0		all local functions
+								1		local copy/paste
+								2		local panning
+								3		local window resize
+							Pc			control performed
+								0		default
+								1		enable
+								2		disable
+
+1	CSI Ps ; Ps r		Set Top and Bottom Margins [top;bottom] (DECSTBM)
+							(default = full window)
+
+4	CSI Pk, ...; Pc + r	Select key modifier reporting (DECSMKR)
+							Pk			function key number
+								0		all keys below
+								1		left shift
+								2		right shift
+								3		shift-lock
+								4		control
+								5		left alt
+								6		right alt
+								7		left compose
+								8		right compose
+							Pc			control performed
+								0		default
+								1		normal modifier function
+								2		extended keyboard report
+										"APC : <key> <state> ST"
+										state = 0	released
+										state = 1	pressed
+								3		disable
+
+4	CSI Ps ; Ps s		Set Left and Right Margins [left;right] (DECSLRM)
+							(default = full window)
+
+x	CSI Pm t			Terminal actions
+							Ps = 1		Un-iconify window
+							Ps = 2		Iconify window
+							Ps = 3		Set win position to Ps[1], Ps[2]
+							Ps = 4		Set width/height to Ps[2], Ps[1] pixels
+							Ps = 5		Raise window
+							Ps = 6		Lower window
+							Ps = 7		Refresh window
+							Ps = 8		Set width/height to Ps[2], Ps[1] chars
+							Pm = 9;0	Restore maximized window
+							Pm = 9;1	Maximize window (resize to screen size)
+							Pm = 10		(pcxterm) Set cursor to Ps[1]
+							Ps = 11		Report window state
+										"CSI 1 t"	viewable
+										"CSI 2 t"	not viewable
+							Ps = 13		Report window position
+										"CSI 3;<x>;<y> t"
+							Ps = 14		Report window size (pixels)
+										"CSI 4;<h>;<w> t"
+							Ps = 18		Report text area size (chars)
+										"CSI 8;<r>;<c> t"
+							Ps = 19		Report window size (chars)
+										"CSI 9;<r>;<c> t"
+							Ps = 20		Report icon label
+										"OSC L... ST"
+							Ps = 21		Report window label
+										"OSC l... ST"
+							Ps>= 24		Set window height to Ps rows
+
+3	CSI Ps $ u			Terminal State Report (DECRQTSR)
+							Ps = 0		ignored
+							Ps = 1		request state report
+										"DCS 1 $s D...D ST"
+
+3	CSI Ps $ w			Request Presentation Report (DECRQPSR)
+							Ps = 1		Cursor info report (DECCIR)
+										"DCS 1$u D...D ST"
+							Ps = 2		Tab stop report (DECTABSR)
+										"DCS 2$u D...D ST"
+
+1	CSI Ps x			Request Terminal Parameters (DECREQTPARM)
+							Ps = 0		User req (unrequested reports OK)
+							Ps = 1		User req (unrequested reports not OK)
+						Response is "CSI <sol>; <par>; <nbits>; <xspeed>;
+						<rspeed>; <clkmul>; <flags> x"
+							sol			Solicit value
+										2	response to Ps=0
+										3	response to Ps=1
+							par			Parity
+										1	no parity
+										4	odd parity
+										5	even parity
+							nbits		Number of bits/char
+										1	8 bits per char
+										2	7 bits per char
+							xspeed		Xmit speed
+							rspeed		Recv speed
+										0	50 baud
+										8	75 baud
+										16	110 baud
+										24	134.5 baud
+										32	150 baud
+										40	200 baud
+										48	300 baud
+										56	600 baud
+										64	1200 baud
+										72	1800 baud
+										80	2000 baud
+										88	2400 baud
+										96	3600 baud
+										104	4800 baud
+										112	9600 baud
+										120	19200 baud
+										128	38400 baud
+							clkmul		Clock multiplier
+										1	bit rate multiplier = 16
+							flags		STP flags
+
+1	CSI 2; Ps y			Confidence test (DECTST)
+							Ps is a mask of any of:
+							Ps = 0		No test, but do a hard reset
+							Ps = 1		Power-up self test
+							Ps = 2		Data loop back
+							Ps = 4		EIA modem control test
+							Ps = 8		Repeat selected test repeatedly
+							Ps = 16		Printer loopback test
+
+4	CSI Pid z			Invoke macro (DECINVM)
+							Pid			Macro number
+
+2	CSI ? Ps J			Selective Erase in Display (DEC-specific) (DECSED)
+							Ps = 0		Clear Below (default)
+							Ps = 1		Clear Above
+							Ps = 2		Clear All
+
+2	CSI ? Ps K			Selective Erase in Line (DEC-specific) (DECSEL)
+							Ps = 0		Clear to Right (default)
+							Ps = 1		Clear to Left
+							Ps = 2		Clear All
+
+?	CSI ? 6  c			Device attributes (DA)
+1*							"VT102"
+
+?	CSI ? Pm h			DEC Private Mode Set (DEC-specific) (DECSET)
+1							Ps = 1		Application Cursor Keys (DECCKM)
+							Ps = 2		Designate USASCII for char sets G0-G3.
+										(DECANM)
+1							Ps = 3		132 Column Mode (DECCOLM)
+1							Ps = 4		Smooth (Slow) Scroll (DECSCLM)
+1							Ps = 5		Reverse Video (DECSCNM)
+1							Ps = 6		Origin Mode (DECOM)
+1							Ps = 7		Wraparound Mode (DECAWM)
+1							Ps = 8		Auto-repeat Keys (DECARM)
+x							Ps = 9		X10 mouse reporting on
+1*							Ps = 18		Print form feed after print-scr (DECPFF)
+1*							Ps = 19		Set print extent to full screen (DECPEX)
+2							Ps = 25		Cursor on (DECTCEM)
+x							Ps = 30		(rxvt) Show scrollbar
+x							Ps = 35		(rxvt) Special shift keys
+x							Ps = 38		Enter Tektronix Mode (DECTEK)
+x							Ps = 40		Allow 80 <--> 132 Mode
+x							Ps = 41		more(1) fix (see curses resource)
+2							Ps = 42		Enable National Char Sets (DECNRCM)
+x							Ps = 44		Turn On Margin Bell
+x							Ps = 45		Reverse-wraparound Mode
+x							Ps = 46		Start Logging
+x							Ps = 47		Use Alternate Screen Buffer
+4							Ps = 61		Vertical cursor coupling mode (DECVCCM)
+4							Ps = 64		Page cursor coupling mode (DECPCCM)
+x							Ps = 66		Application key pad
+4							Ps = 67		Backarrow sends backapace (DECBKM)
+3							Ps = 68		Kbd usage (data processing) (DECKBUM)
+4							Ps = 69		Allow setting L/R margins (DECVSSM)
+x							Ps = 100	(pcxterm) keyboard mapping off
+x							Ps = 101	(pcxterm) keyboard mapping on
+x							Ps = 102	(pcxterm) keyboard mapping on+
+x							Ps = 103	(pcxterm) add debug into to label
+x							Ps = 104	(pcxterm) Set events logging on
+x							Ps = 105	(pcxterm) Set action logging on
+x							Ps = 106	(pcxterm) Set output logging on
+x							Ps = 107	(pcxterm) Set screen logging on
+x							Ps = 108	(pcxterm) Set inpkbd logging on
+x							Ps = 109	(pcxterm) Set keybrd logging on
+x							Ps = 1000	X11 mouse reporting on
+x							Ps = 1001	Hilite mouse tracking on
+x							Ps = 1010	(rxvt) Scroll to bottom on output
+x							Ps = 1011	(rxvt) Scroll to bottom on key press
+
+?	CSI ? Pm i			Media Copy (MC)
+1*							Ps = 1		Print line containing cursor
+1*							Ps = 4		Turn off autoprint mode
+1*							Ps = 5		Turn on  autoprint mode
+4							Ps = 10		Print composed display (ignore DECPEX)
+4							Ps = 11		Print all pages
+4							Ps = 18		Assign printer to active session
+4							Ps = 19		Release printer
+
+?	CSI ? Pm l			DEC Private Mode Reset (DEC-specific) (DECRST)
+1							Ps = 1		Normal Cursor Keys (DECCKM)
+1							Ps = 2		Switch to VT52 mode (DECANM)
+1							Ps = 3		80 Column Mode (DECCOLM)
+1							Ps = 4		Jump (Fast) Scroll (DECSCLM)
+1							Ps = 5		Normal Video (DECSCNM)
+1							Ps = 6		Normal Cursor Mode (DECOM)
+1							Ps = 7		No Wraparound Mode (DECAWM)
+1							Ps = 8		No Auto-repeat Keys (DECARM)
+x							Ps = 9		X10 mouse reporting off
+1*							Ps = 18		No form feed after print-scr (DECPFF)
+1*							Ps = 19		Set print ext to scroll region (DECPEX)
+2							Ps = 25		Cursor off (DECTCEM)
+x							Ps = 30		(rxvt) Don't show scrollbar
+x							Ps = 35		(rxvt) No Special shift keys
+x							Ps = 40		Disallow 80 <--> 132 Mode
+x							Ps = 41		No more(1) fix (see curses resource)
+2							Ps = 42		Disable National Char Sets (DECNRCM)
+x							Ps = 44		Turn Off Margin Bell
+x							Ps = 45		No Reverse-wraparound Mode
+x							Ps = 46		Stop Logging
+x							Ps = 47		Use Normal Screen Buffer
+4							Ps = 61		Vertical cursor coupling mode (DECVCCM)
+4							Ps = 64		Page cursor coupling mode (DECPCCM)
+x							Ps = 66		Normal key pad
+4							Ps = 67		Backarrow sends delete (DECBKM)
+3							Ps = 68		Kbd usage (typewriter) (DECKBUM)
+4							Ps = 69		No setting L/R margins (DECVSSM)
+x							Ps = 100	(pcxterm) keyboard mapping off
+x							Ps = 101	(pcxterm) keyboard mapping on
+x							Ps = 102	(pcxterm) keyboard mapping on+
+x							Ps = 103	(pcxterm) remove debug from to label
+x							Ps = 104	(pcxterm) Set events logging off
+x							Ps = 105	(pcxterm) Set action logging off
+x							Ps = 106	(pcxterm) Set output logging off
+x							Ps = 107	(pcxterm) Set screen logging off
+x							Ps = 108	(pcxterm) Set inpkbd logging off
+x							Ps = 109	(pcxterm) Set keybrd logging off
+x							Ps = 1000	X11 mouse reporting off
+x							Ps = 1001	Hilite mouse tracking off
+x							Ps = 1010	(rxvt) No scroll to bottom on output
+x							Ps = 1011	(rxvt) No scroll to bottom on key press
+
+?	CSI ? Ps n			Device Status Report (DEC-specific) (DSR)
+4							Ps = 6		Extended cursor pos report (DECXCPR)
+										"CSI ? <line>; <col>; <page> R"
+1*							Ps = 15		Report Printer Status
+										"CSI ? 10 n"	ready
+										"CSI ? 11 n"	not ready
+										"CSI ? 13 n"	no printer defined
+4										"CSI ? 18 n"	printer busy
+4										"CSI ? 19 n"	printer assigned to
+														other session
+2							Ps = 25		Report UDK Status
+										"CSI ? 20 n"	unlocked
+										"CSI ? 21 n"	locked
+2							Ps = 26		Report Keyboard Language
+										"CSI ? 27; 0  n"	Unknown
+										"CSI ? 27; 1  n"	North American
+										"CSI ? 27; 2  n"	British
+										"CSI ? 27; 3  n"	Flemish
+										"CSI ? 27; 4  n"	French Canadian
+										"CSI ? 27; 5  n"	Danish
+										"CSI ? 27; 6  n"	Finnish
+										"CSI ? 27; 7  n"	German
+										"CSI ? 27; 8  n"	Dutch
+										"CSI ? 27; 9  n"	Italian
+										"CSI ? 27; 10 n"	Swiss (French)
+										"CSI ? 27; 11 n"	Swiss (German)
+										"CSI ? 27; 12 n"	Swedish
+										"CSI ? 27; 13 n"	Norwegian
+										"CSI ? 27; 14 n"	French/Belgian
+										"CSI ? 27; 15 n"	Spanish
+										"CSI ? 27; 16 n"	Portuguese
+4										"CSI ? 27; 28 n"	Canadian (English)
+x							Ps = 53		Report locator status
+										"CSI ? 50 n"	No locator available
+										"CSI ? 53 n"	Locator available
+4							Ps = 62		Report macro space (DECMSR)
+										"CSI ? Pn * {"
+											Pn			Number of bytes / 16
+4							Ps = 63		Report memory checksum (DECCKSR)
+										"DCS Pid ! ~ D...D ST"
+											Pid			request label
+											D...D		checksum
+4							Ps = 70		Report data integrity
+										"CSI ? 70 n"	No errors
+										"CSI ? 71 n"	Errors
+										"CSI ? 73 n"	None reported since RIS
+4							Ps = 85		Report multiple session status
+										"CSI ? 80; Ps n"	Ps sessions enabled
+										"CSI ? 81; Ps n"	Ps sessions pending
+										"CSI ? 83 n"	No sessions avail
+										"CSI ? 87 n"	Sessions on sep lines
+
+	CSI ? Pm t			DEC Private Mode Toggle.
+	CSI ? Pm r			DEC Private Mode Resore.
+	CSI ? Pm s			DEC Private Mode Save.
+3	CSI ? Ps $ p		DEC Private Mode report (DECRQM)
+						"CSI Ps; <mode> $ y"	(DECRPM)
+							mode = 0	unknown
+							mode = 1	set
+							mode = 2	reset
+
+4	CSI " v				Window report (DECRQDE)
+						"CSI ph; Pw; Pml; Pmt; Pmp " w"	(DECRPDE)
+							Ph		number of lines
+							Pw		number of columns
+							Pml		first column on left
+							Pmt		top line
+							Pmp		page number
+
