@@ -58,11 +58,11 @@
  * Max lengths for pathnames & filenames
  */
 #ifndef MAX_PATHLEN
-#define MAX_PATHLEN				256
+#define MAX_PATHLEN				1024
 #endif
 
 #ifndef MAX_FILELEN
-#define MAX_FILELEN				256
+#define MAX_FILELEN				1024
 #endif
 
 /*------------------------------------------------------------------------
