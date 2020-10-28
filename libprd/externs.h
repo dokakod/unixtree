@@ -794,6 +794,7 @@ extern void		zap_dir (BLIST *b);
 extern void		check_invalid_dir (void);
 extern int		do_new_log (char *input_str);
 extern TREE *	sort_dirs (TREE *t);
+extern BLIST *  log_dir (NBLK *n, BLIST *dptr);
 
 /*------------------------------------------------------------------------
  * nodutils.c

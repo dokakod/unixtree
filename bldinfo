@@ -16,5 +16,5 @@
 # version & release
 #
 VERSION="3.0"
-RELEASE="2"
-BUILD="1028"
+RELEASE="2-doka1-SNAPSHOT"
+BUILD="1029"

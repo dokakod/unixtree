@@ -205,7 +205,7 @@ static int new_log (void)
 	return (0);
 }
 
-static BLIST *log_dir (NBLK *n, BLIST *dptr)
+BLIST *log_dir (NBLK *n, BLIST *dptr)
 {
 	BLIST *b;
 	BLIST *bn;
