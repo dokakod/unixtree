@@ -58,7 +58,7 @@ static char * format_size (FBLK *f, char *buf)
 
 void disp_file_line (FBLK *f)
 {
-	char file_line[256];
+	char file_line[MAX_FILELEN];
 	char *l = file_line;
 	int ftype;
 	char *p;
