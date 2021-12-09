@@ -44,7 +44,7 @@ static TREE *log_path(const char *path)
 	for (b = gbl(nodes_list); b; b = bnext(b))
 	{
 		n = (NBLK *)bid(b);
-		if (n->node_type != N_FS || !fn_is_dir_in_dirname(n->root_name, path))
+		if (n->node_type != N_FS || !fn_is_dir_in_dirname(n->root_name, path) && !(strlen(n->root_name) == 1 && n->root_name[0] == '/'))
 			continue;
 		if (bsel == (0) || strlen(n->root_name) > strlen(((NBLK *)bid(bsel))->root_name))
 			bsel = b;
@@ -125,8 +125,8 @@ void treespec(void)
 
 	// TODO try direct "jump" if node is already logged
 	t = log_path(input_str);
-	if (!t)
-		return;
-
-	update_display(t);
+	if (t)
+		update_display(t);
+	else
+		errmsg(ER_CFCLN, "", ERR_ANY);
 }
