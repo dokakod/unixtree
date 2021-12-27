@@ -12,8 +12,8 @@ static const int split_max_file_col_no[]	= { 0,  1,  0,  0,  0 };
 /*------------------------------------------------------------------------
  * tables of length of display line needed after filename part
  */
-static const int file_line_width[]			= { 3,  3, 14, 42, 42 };
-static const int split_file_line_width[]	= { 3,  3, 14, 21, 21 };
+static const int file_line_width[]			= { 3,  3, 14, 32, 42 };
+static const int split_file_line_width[]	= { 3,  3, 14, 31, 21 };
 
 static const int dir_line_width[]			= { 0, 35, 32, 38 };
 static const int split_dir_line_width[]		= { 0, 22, 22, 22 };

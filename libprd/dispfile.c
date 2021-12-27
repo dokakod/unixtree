@@ -125,22 +125,26 @@ void disp_file_line (FBLK *f)
 
 		if (gbl(scr_is_split))
 		{
-			l += istrcpy(l, xform2(nbuf, f->stbuf.st_nlink, 3));
+			l += istrcpy(l, format_size(f, nbuf));
 			*l++ = ' ';
-			l += istrcpy(l, xform2(nbuf, f->stbuf.st_ino, 5));
-			*l++ = ' ';
+			// TODO make displaying of file node information configurable
+			// l += istrcpy(l, xform2(nbuf, f->stbuf.st_nlink, 3));
+			// *l++ = ' ';
+			// l += istrcpy(l, xform2(nbuf, f->stbuf.st_ino, 5));
+			// *l++ = ' ';
 			p = date_to_str(dl, tt);
-			p[8] = 0;				/* date only, no time */
+			// p[8] = 0;				/* date only, no time */
 			l += istrcpy(l, p);
 		}
 		else
 		{
 			l += istrcpy(l, format_size(f, nbuf));
 			*l++ = ' ';
-			l += istrcpy(l, xform2(nbuf, f->stbuf.st_nlink, 3));
-			*l++ = ' ';
-			l += istrcpy(l, xform2(nbuf, f->stbuf.st_ino, 5));
-			*l++ = ' ';
+			// TODO make displaying of file node information configurable
+			// l += istrcpy(l, xform2(nbuf, f->stbuf.st_nlink, 3));
+			// *l++ = ' ';
+			// l += istrcpy(l, xform2(nbuf, f->stbuf.st_ino, 5));
+			// *l++ = ' ';
 			l += istrcpy(l, date_to_str(dl, tt));
 		}
 		break;
