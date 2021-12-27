@@ -4,7 +4,7 @@
 Summary:	${PKG} File Management Utility
 Name:		${PKG}
 Group:		Applications/Productivity
-Copyright:	${CPY}
+License:    GPL 2.0
 URL:		${WWW}
 Vendor:		${VND}
 Version:	${VER}

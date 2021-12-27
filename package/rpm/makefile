@@ -5,7 +5,7 @@
 # ------------------------------------------------------------------------
 # rpm file & actual target to be built
 #
-RPMFILE	= $(PACKAGE)-$(VERSION)-$(RELEASE).i386.rpm
+RPMFILE	= $(PACKAGE)-$(VERSION).$(RELEASE).$(ARCH).rpm
 
 TARGET	= $(SKU_DIR)/$(PROGRAM)-$(SKU).rpm
 
