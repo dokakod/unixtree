@@ -119,6 +119,7 @@ sed \
 	-e "s|\${BEM}|$BUILDER_EMA|g" \
 	-e "s|\${BNV}|$BUILDER_ENV|g" \
 	-e "s|\${INS}|$INS_DIR|g" \
+	-e "s|\${ARC}|$ARCH|g" \
 	-e "s|\${CWD}|$CWD|g" \
 	-e "/^+++${NAME}+++/,/^---${NAME}---/d" \
 	-e "/^[+-][+-][+-][A-Z]/d" \
