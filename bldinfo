@@ -7,8 +7,8 @@
 #
 # Please update the first two fields here!
 #
-[ "$BUILDER_NAM" = "" ] && BUILDER_NAM=""	# your name  goes here
-[ "$BUILDER_EMA" = "" ] && BUILDER_EMA=""	# your email goes here
+[ "$BUILDER_NAM" = "" ] && BUILDER_NAM="dokakod"	# your name  goes here
+[ "$BUILDER_EMA" = "" ] && BUILDER_EMA="91032176+dokakod@users.noreply.github.com"	# your email goes here
 
 [ "$BUILDER_ENV" = "" ] && BUILDER_ENV=`uname -a`
 
@@ -16,5 +16,5 @@
 # version & release
 #
 VERSION="3.0"
-RELEASE="2-doka1-SNAPSHOT"
+RELEASE="3"
 BUILD="1029"

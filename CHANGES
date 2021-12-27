@@ -5,6 +5,24 @@ Note:	In the "Files changed" lists, we don't note the CHANGES file,
 	only change is to version/release/build numbers.
 
 --------------------------------------------------------------------------
+Date:	27 Dec 2021
+Ver:	3.0.3
+Build:	1029
+
+Added
+  * Implement Treespec command.
+  * Implement DEB bundling.
+Changed
+  * Improve file display:
+    - Hide file node information.
+    - In split mode display file size and time.
+  * Improve RPM bundling:
+    - Correct package naming.
+    - Replace deprected Copyright tag with License tag.
+Fixed
+  * Improve support of wide displays and long path names.
+
+--------------------------------------------------------------------------
 Date:	29 Mar 2005
 Ver:	3.0.2
 Build:	1028
