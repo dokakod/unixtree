@@ -1,0 +1,6 @@
+Package:	${PKG}
+Architecture:	${ARC}
+Depends:	libc6 (>= 2.5-0ubuntu1), libx11-6
+Maintainer:	${BNM} <${BEM}>
+Version:	${VER}.${REL}
+Description:	${PKG} is a powerful and versatile console-mode filemanager for Unix-style systems.
