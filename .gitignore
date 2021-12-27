@@ -54,3 +54,7 @@ termutils/dumpterm
 termutils/playback
 termutils/saveterm
 termutils/termput
+libxvt/textify
+libxvt/xvttermdefs.c
+package/rpm/rpm.files
+package/rpm/rpm.spec
