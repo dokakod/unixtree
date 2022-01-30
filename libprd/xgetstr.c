@@ -357,7 +357,7 @@ static int xgetstr_all (WINDOW *window, char *string, int history,
 
 			xi->xg_count--;
 			xi->xg_spos--;
-			strcpy(string + xi->xg_spos, string + xi->xg_spos + 1);
+			memmove(string + xi->xg_spos, string + xi->xg_spos + 1, xi->xg_count - xi->xg_spos + 1);
 
 			if (xi->xg_dpos == 0)
 			{
@@ -382,7 +382,7 @@ static int xgetstr_all (WINDOW *window, char *string, int history,
 				continue;
 
 			xi->xg_count--;
-			strcpy(string + xi->xg_spos, string + xi->xg_spos + 1);
+			memmove(string + xi->xg_spos, string + xi->xg_spos + 1, xi->xg_count - xi->xg_spos + 1);
 			if (xi->xg_count == 0)
 			{
 				xi->xg_spos = 0;
