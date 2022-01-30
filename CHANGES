@@ -18,7 +18,7 @@ Changed
     - In split mode display file size and time.
   * Improve RPM bundling:
     - Correct package naming.
-    - Replace deprected Copyright tag with License tag.
+    - Replace deprecated Copyright tag with License tag.
 Fixed
   * Improve support of wide displays and long path names.
 
