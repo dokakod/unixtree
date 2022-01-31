@@ -354,6 +354,8 @@ void setup_file_display (int n)
 	else
 	{
 		gbl(scr_cur)->cur_file_win = gbl(scr_cur)->large_file_win;
+		wattrset (gbl(scr_cur)->cur_file_win, gbl(scr_reg_hilite_attr));
+		wstandset(gbl(scr_cur)->cur_file_win, gbl(scr_reg_cursor_attr));
 		gbl(scr_cur)->max_file_line = getmaxy(gbl(scr_cur)->cur_file_win)-1;
 		gbl(scr_cur)->in_small_window = 0;
 		small_border(OFF);
