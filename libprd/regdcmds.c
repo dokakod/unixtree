@@ -16,13 +16,17 @@ int do_reg_dir_cmd (int c)
 			c = KEY_RETURN;
 	}
 
-	if (c == KEY_RETURN)
+	// KEY_RIGHT handled here for lynx-like motion
+	if (c == KEY_RETURN || c == KEY_RIGHT || c == '6')
 	{
 		int not_logged = ((gbl(scr_cur)->cur_dir)->flags & D_NOT_LOGGED) != 0;
-
+		
 		check_invalid_dir();
 		if (! not_logged)
-			setup_file_display(0);
+			if (c == KEY_RETURN)
+				setup_file_display(0);
+			else 
+				do_dir_cmd(KEY_DOWN);
 		return (0);
 	}
 

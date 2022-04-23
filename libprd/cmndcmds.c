@@ -90,11 +90,12 @@ static int do_dir_cmdf (int c)
 		disp_dir_tree();
 		goto final;
 
-	case '6':
-	case KEY_RIGHT:
-		if (tright(gbl(scr_cur)->cur_dir_tree) != 0)
-			goto down_one;
-		return (0);
+	// Let KEY_RIGHT to be handled as a regular command (needed for lynx-like motion)
+	// case '6':
+	// case KEY_RIGHT:
+	// 	if (tright(gbl(scr_cur)->cur_dir_tree) != 0)
+	// 		goto down_one;
+	// 	return (0);
 
 	case KEY_TAB:
 		if (tright(gbl(scr_cur)->cur_dir_tree) == 0)
