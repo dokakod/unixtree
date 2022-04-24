@@ -121,6 +121,7 @@ Directory menu:\
     \lHELP_REG_DIR_SHOWALL   :Showall\l       Display all files in the current node\
     \lHELP_REG_DIR_TAG       :Tag\l           Tag all files in the current directory\
     \lHELP_REG_DIR_UNTAG     :Untag\l         Untag all files in the current directory\
+    \lHELP_REG_DIR_TREESPEC  :Treespec\l      Navigate to a pathname\
     \lHELP_REG_DIR_AVAILABLE :aVailable\l     Display available space on all\
     \i                        \i              mounted filesystems\
     \lHELP_REG_DIR_EXEC      :eXec\l          Execute a shell escape\
@@ -652,6 +653,17 @@ Available from: Directory Commands menu\
 This command removes any tags from the files in the current\
 directory.  Files that were not already tagged are\
 unaffected.\
+\e
+
+HELP_REG_DIR_TREESPEC
+Treespec directory command
+Available from: Directory Commands menu\
+\
+This command navigates to a pathname automatically logging\
+directories on its way.\
+Beginning of the pathname should match to at least\
+one logged node (node with the longest match is selected).\
+Use history of this command for pathname bookmarking.\
 \e
 
 HELP_REG_DIR_AVAILABLE
