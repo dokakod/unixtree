@@ -5,6 +5,18 @@ Note:	In the "Files changed" lists, we don't note the CHANGES file,
 	only change is to version/release/build numbers.
 
 --------------------------------------------------------------------------
+Date:	24 Apr 2022
+Ver:	3.0.4
+Build:	2064
+
+Changed
+  * Implement lynx-like motion on pressing right arrow key.
+  * Help updated to include Treespec command.
+Fixed
+  * Fix corrupted keyboard input #1.
+  * File window colors are not properly restored after return from ShowAll / Global modes #3.
+
+--------------------------------------------------------------------------
 Date:	27 Dec 2021
 Ver:	3.0.3
 Build:	1029
